@@ -1,0 +1,38 @@
+PODS:
+  - Firebase (2.3.3)
+  - MCSwipeTableViewCell (2.1.4)
+  - Realm (0.94.1):
+    - Realm/Headers (= 0.94.1)
+  - Realm/Headers (0.94.1)
+  - RealmSwift (0.94.1):
+    - Realm (= 0.94.1)
+
+DEPENDENCIES:
+  - Firebase (>= 2.3.2)
+  - MCSwipeTableViewCell (~> 2.1.4)
+  - Realm (from `https://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
+  - RealmSwift (from `https://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
+
+EXTERNAL SOURCES:
+  Realm:
+    :branch: swift-2.0
+    :git: https://github.com/realm/realm-cocoa.git
+  RealmSwift:
+    :branch: swift-2.0
+    :git: https://github.com/realm/realm-cocoa.git
+
+CHECKOUT OPTIONS:
+  Realm:
+    :commit: d279158062d7c1f61103671fa6452422440570be
+    :git: https://github.com/realm/realm-cocoa.git
+  RealmSwift:
+    :commit: d279158062d7c1f61103671fa6452422440570be
+    :git: https://github.com/realm/realm-cocoa.git
+
+SPEC CHECKSUMS:
+  Firebase: 2db60272f68ce40c7d47e5ae6eddc16977c65d4c
+  MCSwipeTableViewCell: 1b303e16c3a26b1982f3a68386e9b8c5fc8344c3
+  Realm: b0ab15ed2a9665e8f0954c1c80b688f73ee7ff60
+  RealmSwift: 1cfcf6f9bd4de8674797d000de346d9588ca2028
+
+COCOAPODS: 0.38.2

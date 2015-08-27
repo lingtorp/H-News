@@ -1,0 +1,19 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, '8.0'
+use_frameworks!
+
+target 'H-News' do
+  pod 'Firebase', '>= 2.3.2'
+  pod 'MCSwipeTableViewCell', '~> 2.1.4'
+  # pod 'SnapKit', '~> 0.12.0'
+  # pod 'Siren'
+  # pod 'SCLAlertView'
+
+  # You need to add both “Realm” & “RealmSwift”
+	pod 'Realm', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'swift-2.0'
+  pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'swift-2.0'
+end
+
+target 'H-NewsTests' do
+
+end
