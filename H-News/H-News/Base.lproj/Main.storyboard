@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8187.4" systemVersion="15A262e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A278b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8151.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <scenes>
         <!--Feed-->
         <scene sceneID="pY4-Hu-kfo">
             <objects>
-                <navigationController title="TOP STORIES" id="RMx-3f-FxP" userLabel="Feed" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Pmd-2v-anx">
+                <navigationController title="H-News" id="RMx-3f-FxP" userLabel="Feed" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" barStyle="black" id="Pmd-2v-anx">
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" red="1" green="0.49803921569999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="0.49803921569999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="7bK-jq-Zjz" kind="relationship" relationship="rootViewController" id="tsl-Nk-0bq"/>
@@ -29,14 +34,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexTrackingBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
                             <outlet property="dataSource" destination="JEX-9P-axG" id="EnG-Ho-deg"/>
                             <outlet property="delegate" destination="JEX-9P-axG" id="oDR-M6-mXe"/>
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Reading Pile" id="mOI-FS-AaM"/>
+                    <navigationItem key="navigationItem" title="Pile" id="xwl-Ga-sbi">
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="Zbm-RZ-uIJ">
+                            <connections>
+                                <action selector="didPressTrashAll:" destination="JEX-9P-axG" id="xhF-jU-que"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="rHC-h7-ekw" kind="show" identifier="webview" id="ckC-z2-pkV"/>
                     </connections>
@@ -49,7 +62,7 @@
         <scene sceneID="UEa-s1-nWn">
             <objects>
                 <navigationController hidesBarsOnSwipe="YES" id="rHC-h7-ekw" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fwy-C2-usc">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="Fwy-C2-usc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
@@ -62,7 +75,7 @@
             </objects>
             <point key="canvasLocation" x="1457" y="129"/>
         </scene>
-        <!--URL-->
+        <!--News Web View Controller-->
         <scene sceneID="mLa-VA-isv">
             <objects>
                 <viewController id="OTY-Qn-nwm" customClass="HNewsWebViewController" customModule="H_News" customModuleProvider="target" sceneMemberID="viewController">
@@ -74,30 +87,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="URL" id="9Lr-5L-73X">
+                    <navigationItem key="navigationItem" id="9Lr-5L-73X">
                         <barButtonItem key="rightBarButtonItem" title="Item" systemItem="action" id="ehF-RN-Y2w">
                             <connections>
                                 <action selector="onShare:" destination="OTY-Qn-nwm" id="o7q-jb-Kgn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="activityIndicator" destination="So7-qx-B3y" id="LFZ-JW-96s"/>
-                        <outlet property="toolbar" destination="orZ-1c-uBB" id="p9m-L0-3S2"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bev-ox-knG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="So7-qx-B3y">
-                    <rect key="frame" x="0.0" y="0.0" width="37" height="37"/>
-                    <animations/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="37" id="ADk-zf-Jw9"/>
-                        <constraint firstAttribute="height" constant="37" id="egX-AG-JPq"/>
-                    </constraints>
-                    <color key="color" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                </activityIndicatorView>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="orZ-1c-uBB">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -134,15 +134,48 @@
             </objects>
             <point key="canvasLocation" x="-856" y="-330"/>
         </scene>
-        <!--Feed-->
-        <scene sceneID="smW-Zh-WAh">
+        <!--Settings View Controller-->
+        <scene sceneID="m1a-ns-jB7">
             <objects>
-                <tableViewController title="TOP STORIES" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" userLabel="Feed" customClass="MasterViewController" customModule="H_News" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="90" sectionHeaderHeight="22" sectionFooterHeight="22" id="r7i-6Z-zg0">
+                <tableViewController id="Wlk-Mi-xBQ" customClass="SettingsViewController" customModule="H_News" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hot-Sp-Fvd">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="GpJ-AE-TnN">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GpJ-AE-TnN" id="Qbh-Le-gaK">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
+                                </tableViewCellContentView>
+                                <animations/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Wlk-Mi-xBQ" id="e4z-Tl-24T"/>
+                            <outlet property="delegate" destination="Wlk-Mi-xBQ" id="sEf-Tt-yhS"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t05-4N-nxc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1457" y="-630"/>
+        </scene>
+        <!--Feed-->
+        <scene sceneID="smW-Zh-WAh">
+            <objects>
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" userLabel="Feed" customClass="MasterViewController" customModule="H_News" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="90" sectionHeaderHeight="22" sectionFooterHeight="22" id="r7i-6Z-zg0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <sections/>
                         <connections>
                             <outlet property="dataSource" destination="7bK-jq-Zjz" id="Gho-Na-rnu"/>
@@ -150,12 +183,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="TOP STORIES" id="Zdf-7t-Un8">
-                        <barButtonItem key="leftBarButtonItem" title="Settings" id="T6r-Nn-yvn">
-                            <connections>
-                                <action selector="settingsButtonPressed:" destination="7bK-jq-Zjz" id="FUI-Xp-bV8"/>
-                            </connections>
-                        </barButtonItem>
+                    <navigationItem key="navigationItem" title="H-News" id="Zdf-7t-Un8">
                         <barButtonItem key="rightBarButtonItem" image="reading_list_icon" id="Qcn-qt-WSN">
                             <connections>
                                 <segue destination="vC3-pB-5Vb" kind="showDetail" id="bd0-bi-4gO"/>
@@ -163,6 +191,16 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="2Ga-ez-mnp">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <attributedString key="attributedTitle"/>
+                        <color key="tintColor" red="0.95294117647058818" green="0.64313725490196072" blue="0.027450980392156862" alpha="1" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <action selector="didRefreshFeed:" destination="7bK-jq-Zjz" eventType="valueChanged" id="JHU-AT-i17"/>
+                        </connections>
+                    </refreshControl>
                     <connections>
                         <segue destination="rHC-h7-ekw" kind="show" identifier="webview" id="o1z-4H-own"/>
                     </connections>
@@ -174,10 +212,15 @@
         <!--Reading List-->
         <scene sceneID="r7l-gg-dq7">
             <objects>
-                <navigationController title="Reading List" id="vC3-pB-5Vb" userLabel="Reading List" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="DjV-YW-jjY">
+                <navigationController title="Pile" id="vC3-pB-5Vb" userLabel="Reading List" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" barStyle="black" id="DjV-YW-jjY">
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="0.49803921569999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="JEX-9P-axG" kind="relationship" relationship="rootViewController" id="GKi-kA-LjT"/>
@@ -192,8 +235,8 @@
         <image name="reading_list_icon" width="29" height="29"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ckC-z2-pkV"/>
-        <segue reference="bd0-bi-4gO"/>
+        <segue reference="Tll-UG-LXB"/>
+        <segue reference="o1z-4H-own"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="0.49803921569999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
 </document>

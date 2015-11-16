@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Lingtorp. All rights reserved.
 //
 
-import Foundation
-
 /// Takes a block/closure and executes it on the main queue after a delay in seconds
 func delay(delay: Double, closure: () -> ()) {
     dispatch_after(

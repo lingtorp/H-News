@@ -9,8 +9,6 @@
 //  Copyright (c) 2015 Lingtorp. All rights reserved.
 //
 
-import Foundation
-
 protocol Story {
     var id    : Int    { get }
     var title : String { get }
@@ -56,6 +54,8 @@ protocol AsyncGeneratorType {
     typealias Element
     typealias FetchNextBatch
     mutating func next(batchSize: Int, _ fetchNextBatch: FetchNextBatch, onFinish: ([Element] -> Void)?)
+    /// Resets the Generators' position in the dataset. Starts from the beginning again.
+    func reset()
 }
 
 class AsyncGenerator<T>: AsyncGeneratorType {
@@ -77,11 +77,17 @@ class AsyncGenerator<T>: AsyncGeneratorType {
             main { onFinish?(items) }
         }
     }
+    
+    func reset() {
+        offset = 0
+    }
 }
 
 protocol AsyncDownloaderType {
     typealias Element
     func fetchNextBatch(offset: Int, batchSize: Int, onCompletion: (result: [Element]) -> Void)
+    /// Resets the Downloaders' internal state, clears buffers, et cetera.
+    func reset()
 }
 
 class AsyncDownloader: AsyncDownloaderType {
@@ -112,7 +118,7 @@ class AsyncDownloader: AsyncDownloaderType {
                 let itemRef = self.firebase.childByAppendingPath("item/\(itemID)")
                 itemRef.observeSingleEventOfType(.Value, withBlock: { (snapshot: FDataSnapshot!) -> Void in
                     if let json = snapshot.value as? JSONDictionary {
-                        if let parsedStory = self.parseJSONDictionary(json) {
+                        if let parsedStory = AsyncDownloader.parseJSONDictionary(json) {
                             self.buffer.append(parsedStory)
                         }
                     }
@@ -121,7 +127,11 @@ class AsyncDownloader: AsyncDownloaderType {
         }
     }
     
-    private func parseJSONDictionary(json: JSONDictionary) -> Story? {
+    func reset() {
+        buffer.removeAll(keepCapacity: true)
+    }
+    
+    private static func parseJSONDictionary(json: JSONDictionary) -> Story? {
         guard let title  = json["title"]  as? String else { return nil }
         guard let id     = json["id"]     as? Int    else { return nil }
         guard let author = json["by"]     as? String else { return nil }
@@ -129,7 +139,7 @@ class AsyncDownloader: AsyncDownloaderType {
         guard let kids   = json["kids"]   as? [Int]  else { return nil }
         guard let type   = json["type"]   as? String else { return nil }
         
-        let date   = NSDate(timeIntervalSince1970: NSTimeInterval(time))
+        let date = NSDate(timeIntervalSince1970: NSTimeInterval(time))
         
         switch type {
             case "comment":

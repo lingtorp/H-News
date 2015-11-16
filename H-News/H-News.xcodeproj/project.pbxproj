@@ -12,18 +12,15 @@
 		9406EE6D1B66A37B005A814F /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE6C1B66A37B005A814F /* MasterViewController.swift */; };
 		9406EE6F1B66A37B005A814F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE6E1B66A37B005A814F /* DetailViewController.swift */; };
 		9406EE721B66A37B005A814F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9406EE701B66A37B005A814F /* Main.storyboard */; };
-		9406EE741B66A37B005A814F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9406EE731B66A37B005A814F /* Images.xcassets */; };
 		9406EE771B66A37B005A814F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9406EE751B66A37B005A814F /* LaunchScreen.xib */; };
 		9406EE831B66A37B005A814F /* H_NewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE821B66A37B005A814F /* H_NewsTests.swift */; };
 		9406EE8E1B66A772005A814F /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE8D1B66A772005A814F /* Utilities.swift */; };
 		9406EE951B66D17A005A814F /* NewsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE941B66D17A005A814F /* NewsGenerator.swift */; };
 		9406EE981B68DCC0005A814F /* HNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE971B68DCC0005A814F /* HNewsTableViewCell.swift */; };
-		9406EE9C1B692D0E005A814F /* ArticleTextExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE9B1B692D0E005A814F /* ArticleTextExtractor.swift */; };
-		943B972A1B8F246700207227 /* ActivityIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943B97291B8F246700207227 /* ActivityIndicatorView.xib */; settings = {ASSET_TAGS = (); }; };
-		949661FD1B6A30A700B8882E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949661FC1B6A30A700B8882E /* SettingsViewController.swift */; };
 		949661FF1B6BCDD900B8882E /* HNewsReadingPile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949661FE1B6BCDD900B8882E /* HNewsReadingPile.swift */; };
 		94AFE4701B89CDBF0087B8A4 /* HNewsWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AFE46F1B89CDBF0087B8A4 /* HNewsWebViewController.swift */; };
 		94B885C51B7A851A00A488F7 /* HNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94B885C41B7A851A00A488F7 /* HNewsTableViewCell.xib */; };
+		94BEC0811BFA4C0200668D2E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94BEC0801BFA4C0200668D2E /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +43,6 @@
 		9406EE6C1B66A37B005A814F /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		9406EE6E1B66A37B005A814F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9406EE711B66A37B005A814F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		9406EE731B66A37B005A814F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9406EE761B66A37B005A814F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		9406EE7C1B66A37B005A814F /* H-NewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "H-NewsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9406EE811B66A37B005A814F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,12 +51,10 @@
 		9406EE911B66CFF1005A814F /* H-News-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "H-News-Bridging-Header.h"; sourceTree = "<group>"; };
 		9406EE941B66D17A005A814F /* NewsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsGenerator.swift; sourceTree = "<group>"; };
 		9406EE971B68DCC0005A814F /* HNewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNewsTableViewCell.swift; sourceTree = "<group>"; };
-		9406EE9B1B692D0E005A814F /* ArticleTextExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleTextExtractor.swift; sourceTree = "<group>"; };
-		943B97291B8F246700207227 /* ActivityIndicatorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityIndicatorView.xib; sourceTree = "<group>"; };
-		949661FC1B6A30A700B8882E /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		949661FE1B6BCDD900B8882E /* HNewsReadingPile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNewsReadingPile.swift; sourceTree = "<group>"; };
 		94AFE46F1B89CDBF0087B8A4 /* HNewsWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNewsWebViewController.swift; sourceTree = "<group>"; };
 		94B885C41B7A851A00A488F7 /* HNewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HNewsTableViewCell.xib; sourceTree = "<group>"; };
+		94BEC0801BFA4C0200668D2E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				9406EE8C1B66A761005A814F /* Util */,
-				949661F91B6A308300B8882E /* Settings */,
 				94AFE4711B89CE9C0087B8A4 /* Hacker News Webview */,
 				9406EE901B66A7AC005A814F /* Hacker News Feed */,
 				9406EE9D1B692D54005A814F /* Reading Pile */,
@@ -120,8 +113,8 @@
 		9406EE681B66A37B005A814F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				94BEC0801BFA4C0200668D2E /* Images.xcassets */,
 				9406EE911B66CFF1005A814F /* H-News-Bridging-Header.h */,
-				9406EE731B66A37B005A814F /* Images.xcassets */,
 				9406EE751B66A37B005A814F /* LaunchScreen.xib */,
 				9406EE691B66A37B005A814F /* Info.plist */,
 			);
@@ -158,7 +151,6 @@
 			children = (
 				9406EE6C1B66A37B005A814F /* MasterViewController.swift */,
 				9406EE941B66D17A005A814F /* NewsGenerator.swift */,
-				9406EE9B1B692D0E005A814F /* ArticleTextExtractor.swift */,
 				9406EE961B68DCA7005A814F /* Table View Cell */,
 			);
 			name = "Hacker News Feed";
@@ -182,26 +174,9 @@
 			name = "Reading Pile";
 			sourceTree = "<group>";
 		};
-		943B97281B8F245300207227 /* Nibs */ = {
-			isa = PBXGroup;
-			children = (
-				943B97291B8F246700207227 /* ActivityIndicatorView.xib */,
-			);
-			name = Nibs;
-			sourceTree = "<group>";
-		};
-		949661F91B6A308300B8882E /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				949661FC1B6A30A700B8882E /* SettingsViewController.swift */,
-			);
-			name = Settings;
-			sourceTree = "<group>";
-		};
 		94AFE4711B89CE9C0087B8A4 /* Hacker News Webview */ = {
 			isa = PBXGroup;
 			children = (
-				943B97281B8F245300207227 /* Nibs */,
 				94AFE46F1B89CDBF0087B8A4 /* HNewsWebViewController.swift */,
 			);
 			name = "Hacker News Webview";
@@ -278,6 +253,7 @@
 				TargetAttributes = {
 					9406EE641B66A37B005A814F = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = A54BC22R86;
 					};
 					9406EE7B1B66A37B005A814F = {
 						CreatedOnToolsVersion = 6.4;
@@ -309,10 +285,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				943B972A1B8F246700207227 /* ActivityIndicatorView.xib in Resources */,
 				9406EE721B66A37B005A814F /* Main.storyboard in Resources */,
+				94BEC0811BFA4C0200668D2E /* Images.xcassets in Resources */,
 				9406EE771B66A37B005A814F /* LaunchScreen.xib in Resources */,
-				9406EE741B66A37B005A814F /* Images.xcassets in Resources */,
 				94B885C51B7A851A00A488F7 /* HNewsTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -384,9 +359,7 @@
 				9406EE6D1B66A37B005A814F /* MasterViewController.swift in Sources */,
 				9406EE981B68DCC0005A814F /* HNewsTableViewCell.swift in Sources */,
 				9406EE8E1B66A772005A814F /* Utilities.swift in Sources */,
-				9406EE9C1B692D0E005A814F /* ArticleTextExtractor.swift in Sources */,
 				9406EE6B1B66A37B005A814F /* AppDelegate.swift in Sources */,
-				949661FD1B6A30A700B8882E /* SettingsViewController.swift in Sources */,
 				949661FF1B6BCDD900B8882E /* HNewsReadingPile.swift in Sources */,
 				94AFE4701B89CDBF0087B8A4 /* HNewsWebViewController.swift in Sources */,
 			);
@@ -522,11 +495,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "H-News/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "lingtorp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "H-News/H-News-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -538,12 +515,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "H-News/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "lingtorp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "H-News/H-News-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};

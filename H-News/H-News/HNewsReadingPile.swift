@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Lingtorp. All rights reserved.
 //
 
-import UIKit
 import RealmSwift
 
 class HNewsReadingPile {
@@ -16,26 +15,42 @@ class HNewsReadingPile {
     init?() {
         do {
             realm = try Realm()
-        } catch let err {
-            print(err)
+        } catch _ {
             return nil
         }
+    }
+    
+    /// Checks if a Story with id exists
+    func existsStory(id: Int) -> Bool {
+        var flag = false
+        realm?.objects(NewsClass).forEach {
+            if $0.id == id { flag = true; return }
+        }
+        return flag
     }
     
     /// Removed the NewsClass in Realm with the passed id
     func removeNews(id: Int) {
         if let newsToBeRemoved = realm?.objects(NewsClass).filter("id = %@", id) {
             realm?.write {
-                realm?.delete(newsToBeRemoved)
+                self.realm?.delete(newsToBeRemoved)
             }
+        }
+    }
+    
+    /// Removes all the saved News from the Reading Pile
+    func removeAllNews() {
+        realm?.write {
+            self.realm?.deleteAll()
         }
     }
     
     /// Add a News to the pile
     func addNews(news: News) {
+        guard !existsStory(news.id) else { return }
         let newsClass = NewsClass(news: news)
         realm?.write {
-            realm?.add(newsClass)
+            self.realm?.add(newsClass)
         }
     }
 
@@ -63,10 +78,12 @@ class HNewsReadingPile {
         return realm?.objects(NewsClass).filter("id = %@", news.id).first?.html
     }
     
+    /// Returns the number of News objects in the Realm
     func newsCount() -> Int? {
         return realm?.objects(NewsClass).count
     }
     
+    /// Marks a specific News as read.
     func markNewsAsRead(news: News) -> Bool {
         guard let news = realm?.objects(NewsClass).filter("id = %@", news.id) else { return false }
         realm?.write {
@@ -83,7 +100,7 @@ class NewsClass: Object {
     dynamic var author: String = ""
     dynamic var score : Int    = 0
     dynamic var date  : NSDate = NSDate()
-    let kids  : List<RLMInt> = List<RLMInt>()
+    let kids: List<RLMInt>     = List<RLMInt>()
     
      /// Indicates whether the item is read/viewed
     dynamic var read  : Bool   = false

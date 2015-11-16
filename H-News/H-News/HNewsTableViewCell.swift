@@ -11,6 +11,8 @@ import MCSwipeTableViewCell
 
 class HNewsTableViewCell: MCSwipeTableViewCell {
     
+    static let cellID = "Cell"
+    
     static let readingPileImage = UIImageView(image: UIImage(named: "reading_list_icon"))
     static let upvoteImage      = UIImageView(image: UIImage(named: "upvote_arrow"))
     static let commentImage     = UIImageView(image: UIImage(named: "comment_bubble_orange"))
@@ -27,6 +29,12 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     var story: Story? {
         didSet {
             guard story != nil else { return }
+    
+            // Set selection color theme
+            defaultColor = UIColor.darkGrayColor()
+            let view = UIView()
+            view.backgroundColor = UIColor.orangeColor()
+            selectedBackgroundView = view
             
             // Setup NSDateFormatter
             HNewsTableViewCell.dateCompsFormatter.unitsStyle = .Short
