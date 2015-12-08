@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A278b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15A278b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
     </dependencies>
     <scenes>
         <!--Feed-->
@@ -43,7 +44,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Pile" id="xwl-Ga-sbi">
+                    <navigationItem key="navigationItem" title="List" id="xwl-Ga-sbi">
                         <barButtonItem key="rightBarButtonItem" systemItem="trash" id="Zbm-RZ-uIJ">
                             <connections>
                                 <action selector="didPressTrashAll:" destination="JEX-9P-axG" id="xhF-jU-que"/>
@@ -134,38 +135,6 @@
             </objects>
             <point key="canvasLocation" x="-856" y="-330"/>
         </scene>
-        <!--Settings View Controller-->
-        <scene sceneID="m1a-ns-jB7">
-            <objects>
-                <tableViewController id="Wlk-Mi-xBQ" customClass="SettingsViewController" customModule="H_News" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hot-Sp-Fvd">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="GpJ-AE-TnN">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GpJ-AE-TnN" id="Qbh-Le-gaK">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <animations/>
-                                </tableViewCellContentView>
-                                <animations/>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="Wlk-Mi-xBQ" id="e4z-Tl-24T"/>
-                            <outlet property="delegate" destination="Wlk-Mi-xBQ" id="sEf-Tt-yhS"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="t05-4N-nxc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1457" y="-630"/>
-        </scene>
         <!--Feed-->
         <scene sceneID="smW-Zh-WAh">
             <objects>
@@ -184,6 +153,11 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="H-News" id="Zdf-7t-Un8">
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="AoC-se-RPH">
+                            <connections>
+                                <segue destination="6Sw-b8-ZpL" kind="presentation" id="s72-Lg-XdD"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="reading_list_icon" id="Qcn-qt-WSN">
                             <connections>
                                 <segue destination="vC3-pB-5Vb" kind="showDetail" id="bd0-bi-4gO"/>
@@ -208,6 +182,57 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="709" y="-630"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="XQ0-Py-zZb">
+            <objects>
+                <tableViewController id="sTT-6F-5ct" customClass="HNewsSettingsViewController" customModule="H_News" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="vCc-68-7Jj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexTrackingBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="sTT-6F-5ct" id="aYW-kK-hDR"/>
+                            <outlet property="delegate" destination="sTT-6F-5ct" id="rwW-fR-BCj"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="oWg-sm-VVd">
+                        <barButtonItem key="leftBarButtonItem" title="Close" id="iCV-ir-cfI">
+                            <connections>
+                                <action selector="onClose:" destination="sTT-6F-5ct" id="niH-gw-FRw"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bbr-Q9-COs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2166" y="-630"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Qh3-2x-z0j">
+            <objects>
+                <navigationController id="6Sw-b8-ZpL" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MwA-oT-cxz">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="1" green="0.49803921569999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="0.49803921569999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="sTT-6F-5ct" kind="relationship" relationship="rootViewController" id="uzT-uO-HH6"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="20z-2B-yi4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1434" y="-630"/>
         </scene>
         <!--Reading List-->
         <scene sceneID="r7l-gg-dq7">
@@ -235,8 +260,8 @@
         <image name="reading_list_icon" width="29" height="29"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Tll-UG-LXB"/>
-        <segue reference="o1z-4H-own"/>
+        <segue reference="bd0-bi-4gO"/>
+        <segue reference="ckC-z2-pkV"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="0.49803921569999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
 </document>
