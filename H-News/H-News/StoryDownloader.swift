@@ -9,88 +9,15 @@
 //  Copyright (c) 2015 Lingtorp. All rights reserved.
 //
 
-protocol Story {
-    var id    : Int    { get }
-    var title : String { get }
-    var author: String { get }
-    var date  : NSDate { get }
-    var kids  : [Int]  { get }
-}
-
-struct News: Story {
-    let id    : Int
-    let title : String
-    let author: String
-    let date  : NSDate
-    let kids  : [Int]
-    
-    let url   : NSURL
-    let isRead: Bool = false
-    let score : Int
-}
-
-struct Comment: Story {
-    let id    : Int
-    let title : String
-    let author: String
-    let date  : NSDate
-    let kids  : [Int]
-    
-    let text  : String
-}
-
-struct Ask: Story {
-    let id    : Int
-    let title : String
-    let author: String
-    let date  : NSDate
-    let kids  : [Int]
-
-    let text  : String
-    let score : Int
-}
-
-protocol AsyncGeneratorType {
-    typealias Element
-    typealias FetchNextBatch
-    mutating func next(batchSize: Int, _ fetchNextBatch: FetchNextBatch, onFinish: ([Element] -> Void)?)
-    /// Resets the Generators' position in the dataset. Starts from the beginning again.
-    func reset()
-}
-
-class AsyncGenerator<T>: AsyncGeneratorType {
-
-    typealias Element = T
-    typealias FetchNextBatch = (offset: Int, batchSize: Int, onCompletion: (result: [Element]) -> Void) -> Void
-    
-    private var batchSize: Int
-    private var offset   : Int
-    
-    init(offset: Int = 0, batchSize: Int = 25) {
-        self.offset = offset
-        self.batchSize = batchSize
-    }
-    
-    func next(batchSize: Int, _ fetchNextBatch: FetchNextBatch, onFinish: ([Element] -> Void)?) {
-        fetchNextBatch(offset: offset, batchSize: batchSize) { [unowned self] (items) in
-            self.offset += items.count
-            main { onFinish?(items) }
-        }
-    }
-    
-    func reset() {
-        offset = 0
-    }
-}
-
-protocol AsyncDownloaderType {
+/// Downloader provides a interface to download something in batches async possibly combined with a Generator.
+protocol Downloader {
     typealias Element
     func fetchNextBatch(offset: Int, batchSize: Int, onCompletion: (result: [Element]) -> Void)
     /// Resets the Downloaders' internal state, clears buffers, et cetera.
     func reset()
 }
 
-class AsyncDownloader: AsyncDownloaderType {
+class StoryDownloader: Downloader {
     private let firebase = Firebase(url: "https://hacker-news.firebaseio.com/v0/")
 
     typealias JSONDictionary = [String:AnyObject]
@@ -118,7 +45,7 @@ class AsyncDownloader: AsyncDownloaderType {
                 let itemRef = self.firebase.childByAppendingPath("item/\(itemID)")
                 itemRef.observeSingleEventOfType(.Value, withBlock: { (snapshot: FDataSnapshot!) -> Void in
                     if let json = snapshot.value as? JSONDictionary {
-                        if let parsedStory = AsyncDownloader.parseJSONDictionary(json) {
+                        if let parsedStory = StoryDownloader.parseJSONDictionary(json) {
                             self.buffer.append(parsedStory)
                         }
                     }
