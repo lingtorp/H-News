@@ -13,9 +13,9 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     
     static let cellID = "Cell"
     
+    static let trashImage       = UIImageView(image: UIImage(named: "UIButtonBarTrash"))
     static let readingPileImage = UIImageView(image: UIImage(named: "reading_list_icon"))
     static let upvoteImage      = UIImageView(image: UIImage(named: "upvote_arrow"))
-    static let commentImage     = UIImageView(image: UIImage(named: "comment_bubble_orange"))
     
     private static let dateCompsFormatter = NSDateComponentsFormatter()
     
