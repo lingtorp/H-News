@@ -18,8 +18,8 @@ class MasterViewController: UITableViewController {
         }
     }
     
-    private let newsGenerator  = AsyncGenerator<Story>()
-    private let newsDownloader = AsyncDownloader()
+    private let newsGenerator  = Generator<Story>()
+    private let newsDownloader = StoryDownloader()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,6 +42,12 @@ class MasterViewController: UITableViewController {
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let indexPathForSelectedRow = tableView.indexPathForSelectedRow else { return }
+        tableView.deselectRowAtIndexPath(indexPathForSelectedRow, animated: true)
+    }
+    
     @IBAction func didRefreshFeed(sender: UIRefreshControl) {
         newsGenerator.reset()
         newsDownloader.reset()
@@ -59,7 +65,7 @@ extension MasterViewController {
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == tableView.dataSource!.tableView(tableView, numberOfRowsInSection: 1) - 1 {
-            async { self.newsGenerator.next(15, self.newsDownloader.fetchNextBatch, onFinish: self.updateDatasource) }
+            Dispatcher.async { self.newsGenerator.next(15, self.newsDownloader.fetchNextBatch, onFinish: self.updateDatasource) }
         }
     }
 }
@@ -83,7 +89,7 @@ extension MasterViewController {
                 guard let cell = cell as? HNewsTableViewCell else { return }
                 guard let news = cell.story as? News         else { return }
                 HNewsReadingPile()?.addNews(news)
-                async { self.downloadArticle(news.url, newsID: news.id) }
+                Dispatcher.async { self.downloadArticle(news.url, newsID: news.id) }
                 self.stories = self.stories.filter { $0.id == news.id ? false : true }
                 self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
         })
