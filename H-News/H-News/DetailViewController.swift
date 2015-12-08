@@ -24,6 +24,12 @@ class DetailViewController: UITableViewController {
         tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let indexPathForSelectedRow = tableView.indexPathForSelectedRow else { return }
+        tableView.deselectRowAtIndexPath(indexPathForSelectedRow, animated: true)
+    }
+    
     @IBAction func didPressTrashAll(sender: UIBarButtonItem) {
         HNewsReadingPile()?.removeAllNews()
     }
@@ -37,7 +43,7 @@ extension DetailViewController {
         cell.secondTrigger = 0.5
         
         // Remove from Reading Pile gesture
-        cell.setSwipeGestureWithView(HNewsTableViewCell.readingPileImage, color: UIColor.redColor(), mode: .Exit, state: .State1,
+        cell.setSwipeGestureWithView(HNewsTableViewCell.trashImage, color: UIColor.darkGrayColor(), mode: .Exit, state: .State1,
             completionBlock: { (cell, state, mode) -> Void in
                 guard let cell = cell as? HNewsTableViewCell else { return }
                 guard let news = cell.story as? News         else { return }
