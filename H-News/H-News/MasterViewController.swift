@@ -14,7 +14,7 @@ class MasterViewController: UITableViewController {
     
     private var stories: [Story] = [] {
         didSet {
-            tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
+            tableView.reloadData()
         }
     }
     
@@ -64,7 +64,7 @@ extension MasterViewController {
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == tableView.dataSource!.tableView(tableView, numberOfRowsInSection: 1) - 1 {
+        if indexPath.row == tableView.dataSource!.tableView(tableView, numberOfRowsInSection: 1) - 5 {
             Dispatcher.async { self.newsGenerator.next(15, self.newsDownloader.fetchNextBatch, onFinish: self.updateDatasource) }
         }
     }
