@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Alamofire.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MCSwipeTableViewCell.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,22 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>10845198053E6B4C1CB0DB2377D456CA</key>
+		<key>0003E8B0DE7EAF0A1E3C9404F7137022</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3AA97036C37F64F8969EAA3E6086B40E</key>
+		<key>0DC4CB3383FBDF2DC77FB01A12B411ED</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7B9AF510E189C851F9760622F6EACD16</key>
+		<key>432ECC54282C84882B482CCB4CF227FC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>941092951CEA937E372F056B7884B99E</key>
+		<key>8CCEAFC924AAC82FAB15110956F07725</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B061B5FCE734E244EFB6B5EC224A2D9F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

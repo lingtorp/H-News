@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Wrapper around Grand Central Dispatch (GCD) to make it more Swift-like.
 class Dispatcher {
     /// Takes a block/closure and executes it on the main queue after a delay in seconds
     class func delay(delay: Double, closure: () -> ()) {

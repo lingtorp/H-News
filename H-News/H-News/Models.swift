@@ -7,11 +7,11 @@
 //
 
 protocol Story {
-    var id    : Int    { get }
+    var id    : Int    { get } // A unique id of the Story
     var title : String { get }
     var author: String { get }
     var date  : NSDate { get }
-    var kids  : [Int]  { get }
+    var kids  : [Int]  { get } // Contains the ids of its descendents
 }
 
 struct News: Story {
@@ -19,7 +19,7 @@ struct News: Story {
     let title : String
     let author: String
     let date  : NSDate
-    let kids  : [Int]
+    let kids  : [Int]       // These are the ids of the comments
     
     let url   : NSURL
     let isRead: Bool = false

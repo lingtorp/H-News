@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (3.1.4)
   - Firebase (2.3.3)
   - MCSwipeTableViewCell (2.1.4)
   - Realm (0.94.1):
@@ -8,6 +9,7 @@ PODS:
     - Realm (= 0.94.1)
 
 DEPENDENCIES:
+  - Alamofire (~> 3.0)
   - Firebase (>= 2.3.2)
   - MCSwipeTableViewCell (~> 2.1.4)
   - Realm (from `https://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
@@ -30,9 +32,10 @@ CHECKOUT OPTIONS:
     :git: https://github.com/realm/realm-cocoa.git
 
 SPEC CHECKSUMS:
+  Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   Firebase: 2db60272f68ce40c7d47e5ae6eddc16977c65d4c
   MCSwipeTableViewCell: 1b303e16c3a26b1982f3a68386e9b8c5fc8344c3
   Realm: b0ab15ed2a9665e8f0954c1c80b688f73ee7ff60
   RealmSwift: 1cfcf6f9bd4de8674797d000de346d9588ca2028
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0
