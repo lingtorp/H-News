@@ -93,18 +93,22 @@ class HNewsReadingPile {
     }
 }
 
-class NewsClass: Object {
+class StoryClass: Object {
     dynamic var id    : Int    = 0
     dynamic var title : String = ""
     dynamic var url   : String = ""
     dynamic var author: String = ""
     dynamic var score : Int    = 0
     dynamic var date  : NSDate = NSDate()
-    let kids: List<RLMInt>     = List<RLMInt>()
+    dynamic var comments : Int = 0
     
-     /// Indicates whether the item is read/viewed
+     /// Indicates whether the Story has been read/viewed
     dynamic var read  : Bool   = false
     
+    override class func primaryKey() -> String { return "id" }
+}
+
+class NewsClass: StoryClass {
     /// The downloaded html for the news story, length 0 == nil
     dynamic var html  : NSData = NSData()
     
@@ -116,21 +120,10 @@ class NewsClass: Object {
         author = news.author
         score  = news.score
         date   = news.date
-        for i in news.kids {
-            let rlmInt = RLMInt()
-            rlmInt.int = i
-            kids.append(rlmInt)
-        }
+        comments = news.comments
     }
     
     func convertToNews() -> News {
-        return News(id: id, title: title, author: author, date: date, kids: kids.map { Int($0.int) }, url: NSURL(string: url)!, score: score)
+        return News(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, url: NSURL(string: url)!)
     }
-    
-    override class func primaryKey() -> String { return "id" }
-}
-
-/// Class to support Arrays with primitive integers in Realm
-class RLMInt: Object {
-    dynamic var int: NSInteger = 0
 }
