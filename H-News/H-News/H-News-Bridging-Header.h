@@ -5,5 +5,4 @@
 /**
  *  Import CocoaPods written in Obj-C
  */
-#import <Firebase/Firebase.h>
 #import <MCSwipeTableViewCell/MCSwipeTableViewCell.h>
