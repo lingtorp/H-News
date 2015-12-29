@@ -91,6 +91,11 @@ class HNewsReadingPile {
         }
         return true
     }
+    
+    func isStoryRead(id: Int) -> Bool {
+        guard let story = realm?.objects(StoryClass).filter("id = %@", id).first else { return false }
+        return story.read
+    }
 }
 
 class StoryClass: Object {
