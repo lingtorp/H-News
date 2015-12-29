@@ -6,43 +6,47 @@
 //  Copyright © 2015 Lingtorp. All rights reserved.
 //
 
+/// A Story is something that comes up as a post on HN.
 protocol Story {
-    var id    : Int    { get } // A unique id of the Story
-    var title : String { get }
-    var author: String { get }
-    var date  : NSDate { get }
-    var kids  : [Int]  { get } // Contains the ids of its descendents
+    var id       : Int    { get } // A unique id of the Story
+    var title    : String { get }
+    var author   : String { get }
+    var date     : NSDate { get }
+    var read     : Bool   { get } // Has the user read this story
+    var score    : Int    { get } // Number of upvotes
+    var comments : Int    { get }
 }
 
 struct News: Story {
-    let id    : Int
-    let title : String
-    let author: String
-    let date  : NSDate
-    let kids  : [Int]       // These are the ids of the comments
+    let id       : Int
+    let title    : String
+    let author   : String
+    let date     : NSDate
+    let read     : Bool
+    let score    : Int
+    let comments : Int
     
     let url   : NSURL
-    let isRead: Bool = false
-    let score : Int
-}
-
-struct Comment: Story {
-    let id    : Int
-    let title : String
-    let author: String
-    let date  : NSDate
-    let kids  : [Int]
-    
-    let text  : String
 }
 
 struct Ask: Story {
+    let id       : Int
+    let title    : String
+    let author   : String
+    let date     : NSDate
+    let read     : Bool
+    let score    : Int
+    let comments : Int
+    
+    let text  : String
+}
+
+struct Comment {
     let id    : Int
     let title : String
     let author: String
     let date  : NSDate
-    let kids  : [Int]
-    
     let text  : String
-    let score : Int
+    let offset: Int
 }
+
