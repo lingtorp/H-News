@@ -73,7 +73,7 @@ class HNewsReadingPile {
         }
     }
     
-    /// Returns the data for the News
+    /// Returns the HTML data for the News
     func html(news: News) -> NSData? {
         return realm?.objects(NewsClass).filter("id = %@", news.id).first?.html
     }
