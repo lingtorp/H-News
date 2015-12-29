@@ -111,6 +111,7 @@ extension MasterViewController {
 extension MasterViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         guard let news = stories[indexPath.row] as? News else { return }
+        HNewsReadingPile()?.markNewsAsRead(news)
         performSegueWithIdentifier("webview", sender: news.url)
     }
     
