@@ -28,7 +28,7 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     
     var story: Story? {
         didSet {
-            guard story != nil else { return }
+            guard let story = story else { return }
     
             // Set selection color theme
             defaultColor = UIColor.darkGrayColor()
@@ -41,10 +41,11 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             HNewsTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .DropAll
             HNewsTableViewCell.dateCompsFormatter.maximumUnitCount = 1
 
-            title.text         = story!.title
-            commentsCount.text = "\(story!.kids.count)"
-            author.text        = story!.author
-            time.text          = HNewsTableViewCell.dateCompsFormatter.stringFromTimeInterval(-story!.date.timeIntervalSinceNow)
+            title.text         = story.title
+            commentsCount.text = "\(story.comments)"
+            author.text        = story.author
+            time.text          = HNewsTableViewCell.dateCompsFormatter.stringFromTimeInterval(-story.date.timeIntervalSinceNow)
+            
             
             if let news = story as? News {
                 url.text   = news.url.host
