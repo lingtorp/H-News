@@ -31,7 +31,6 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             guard let story = story else { return }
     
             // Set selection color theme
-            defaultColor = UIColor.darkGrayColor()
             let view = UIView()
             view.backgroundColor = UIColor.orangeColor()
             selectedBackgroundView = view
@@ -46,6 +45,10 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             author.text        = story.author
             time.text          = HNewsTableViewCell.dateCompsFormatter.stringFromTimeInterval(-story.date.timeIntervalSinceNow)
             
+            if story.read {
+                title.font = UIFont.italicSystemFontOfSize(18)
+                title.textColor = UIColor.grayColor()
+            }
             
             if let news = story as? News {
                 url.text   = news.url.host
