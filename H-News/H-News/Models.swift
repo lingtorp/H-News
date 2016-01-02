@@ -29,24 +29,10 @@ struct News: Story {
     let url   : NSURL
 }
 
-struct Ask: Story {
-    let id       : Int
-    let title    : String
-    let author   : String
-    let date     : NSDate
-    let read     : Bool
-    let score    : Int
-    let comments : Int
-    
-    let text  : String
-}
-
 struct Comment {
     let id    : Int
-    let title : String
     let author: String
     let date  : NSDate
     let text  : String
     let offset: Int
 }
-
