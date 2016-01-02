@@ -53,8 +53,6 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             if let news = story as? News {
                 url.text   = news.url.host
                 score.text = "\(news.score)"
-            } else if let ask = story as? Ask {
-                score.text = "\(ask.score)"
             }
             
             setNeedsDisplay()
