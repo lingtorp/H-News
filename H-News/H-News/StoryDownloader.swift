@@ -69,28 +69,16 @@ class StoryDownloader: Downloader {
         guard let id     = json["id"]     as? Int    else { return nil }
         guard let title  = json["title"]  as? String else { return nil }
         guard let author = json["author"] as? String else { return nil }
-        guard let type   = json["type"]   as? String else { return nil }
         guard let time   = json["time"]   as? String else { return nil }
         guard let score  = json["points"] as? Int    else { return nil }
         guard let comments = json["comments"] as? Int else { return nil }
-        guard let read = HNewsReadingPile()?.isStoryRead(id) else { return nil }
-        
+        guard let read  = HNewsReadingPile()?.isStoryRead(id) else { return nil }
+        guard let tem   = json["link"]    as? String else { return nil }
+        guard let url   = NSURL(string: tem)         else { return nil }
+
         let df = NSDateFormatter()
         df.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
         guard let date = df.dateFromString(time) else { return nil }
-        
-        switch type {
-        case "news":
-            guard let tem   = json["link"]    as? String else { return nil }
-            guard let url   = NSURL(string: tem)         else { return nil }
-            return News(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, url: url)
-            
-        case "ask":
-            guard let text  = json["text"]  as? String else { return nil }
-            return Ask(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, text: text)
-            
-        default:
-            return nil
-        }
+        return News(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, url: url)
     }
 }
