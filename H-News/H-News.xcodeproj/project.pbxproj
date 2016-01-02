@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F71B4C0501846CA709CD0F3 /* Pods_H_News.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 672D160C3DAE25F81F709718 /* Pods_H_News.framework */; };
+		940226A01C37D5EF00EAC701 /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9402269F1C37D5EF00EAC701 /* RealmModels.swift */; };
 		9406EE6B1B66A37B005A814F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE6A1B66A37B005A814F /* AppDelegate.swift */; };
 		9406EE6D1B66A37B005A814F /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE6C1B66A37B005A814F /* MasterViewController.swift */; };
 		9406EE6F1B66A37B005A814F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE6E1B66A37B005A814F /* DetailViewController.swift */; };
@@ -40,6 +41,7 @@
 		2216EA8B65121DF8F2AE26D0 /* Pods-H-News.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-H-News.release.xcconfig"; path = "Pods/Target Support Files/Pods-H-News/Pods-H-News.release.xcconfig"; sourceTree = "<group>"; };
 		672D160C3DAE25F81F709718 /* Pods_H_News.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_H_News.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C81014C0C773A921675CCC0 /* Pods-H-News.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-H-News.debug.xcconfig"; path = "Pods/Target Support Files/Pods-H-News/Pods-H-News.debug.xcconfig"; sourceTree = "<group>"; };
+		9402269F1C37D5EF00EAC701 /* RealmModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModels.swift; sourceTree = "<group>"; };
 		9406EE651B66A37B005A814F /* H-News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "H-News.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9406EE691B66A37B005A814F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9406EE6A1B66A37B005A814F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 			children = (
 				9406EE6E1B66A37B005A814F /* DetailViewController.swift */,
 				949661FE1B6BCDD900B8882E /* HNewsReadingPile.swift */,
+				9402269F1C37D5EF00EAC701 /* RealmModels.swift */,
 			);
 			name = "Reading List";
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				949661FF1B6BCDD900B8882E /* HNewsReadingPile.swift in Sources */,
 				94AFE4701B89CDBF0087B8A4 /* HNewsWebViewController.swift in Sources */,
 				94B28D2E1C16D99300D7666A /* Models.swift in Sources */,
+				940226A01C37D5EF00EAC701 /* RealmModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
