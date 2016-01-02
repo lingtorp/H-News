@@ -12,14 +12,14 @@ class MasterViewController: UITableViewController {
     
     var detailViewController: DetailViewController?
     
-    private var stories: [Story] = [] {
+    private var stories: [News] = [] {
         didSet {
             tableView.reloadData()
         }
     }
     
-    private let newsGenerator  = Generator<Story>()
-    private let newsDownloader = StoryDownloader()
+    private let newsGenerator  = Generator<News>()
+    private let newsDownloader = Downloader<News>(APIEndpoint.News) 
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -58,7 +58,7 @@ class MasterViewController: UITableViewController {
 
 // MARK: - Paging
 extension MasterViewController {
-    private func updateDatasource(items: [Story]) {
+    private func updateDatasource(items: [News]) {
         stories += items
         refreshControl?.endRefreshing()
     }
