@@ -118,7 +118,7 @@ class Downloader<T: Downloadable>: DownloaderType {
     }
     
     private func parseJSONArray(json: JSONDictionary) -> [Element] {
-        guard let values = json["news"] as? JSONArray else { return [] }
+        guard let values = json["values"] as? JSONArray else { return [] }
         var elements: [Element] = []
         for value in values {
             if let element = Element.parseJSON(value) {
