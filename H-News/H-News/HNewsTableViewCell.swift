@@ -34,6 +34,7 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             let view = UIView()
             view.backgroundColor = UIColor.orangeColor()
             selectedBackgroundView = view
+            defaultColor = UIColor.darkGrayColor()
             
             // Setup NSDateFormatter
             HNewsTableViewCell.dateCompsFormatter.unitsStyle = .Short
@@ -46,7 +47,6 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             time.text          = HNewsTableViewCell.dateCompsFormatter.stringFromTimeInterval(-story.date.timeIntervalSinceNow)
             
             if story.read {
-                title.font = UIFont.italicSystemFontOfSize(18)
                 title.textColor = UIColor.grayColor()
             }
             
