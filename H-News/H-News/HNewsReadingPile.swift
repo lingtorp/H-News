@@ -8,8 +8,10 @@
 
 import RealmSwift
 
+/// Represents the to-be-reading/saved stories
 class HNewsReadingPile {
     
+    // Public because someone might want to subscribe for changes
     var realm: Realm?
     
     init?() {
@@ -32,26 +34,32 @@ class HNewsReadingPile {
     /// Removed the NewsClass in Realm with the passed id
     func removeNews(id: Int) {
         if let newsToBeRemoved = realm?.objects(NewsClass).filter("id = %@", id) {
-            realm?.write {
-                self.realm?.delete(newsToBeRemoved)
-            }
+            do {
+                try realm?.write {
+                    self.realm?.delete(newsToBeRemoved)
+                }
+            } catch _ {}
         }
     }
     
     /// Removes all the saved News from the Reading Pile
     func removeAllNews() {
-        realm?.write {
-            self.realm?.deleteAll()
-        }
+        do {
+            try realm?.write {
+                self.realm?.deleteAll()
+            }
+        } catch _ {}
     }
     
     /// Add a News to the pile
     func addNews(news: News) {
         guard !existsStory(news.id) else { return }
         let newsClass = NewsClass(news: news)
-        realm?.write {
-            self.realm?.add(newsClass)
-        }
+        do {
+            try realm?.write {
+                self.realm?.add(newsClass)
+            }
+        } catch _ {}
     }
 
     /// Fetches all News from the pile
@@ -68,9 +76,11 @@ class HNewsReadingPile {
     /// Saves the html binary data to the News in the Realm
     func save(html: NSData, newsID: Int) {
         guard let news = realm?.objects(NewsClass).filter("id = %@", newsID) else { return }
-        realm?.write {
-            news.first?.html = html
-        }
+        do {
+            try realm?.write {
+                news.first?.html = html
+            }
+        } catch _ {}
     }
     
     /// Returns the HTML data for the News
@@ -83,52 +93,24 @@ class HNewsReadingPile {
         return realm?.objects(NewsClass).count
     }
     
-    /// Marks a specific News as read.
-    func markNewsAsRead(news: News) -> Bool {
-        guard let news = realm?.objects(NewsClass).filter("id = %@", news.id) else { return false }
-        realm?.write {
-            news.first?.read = true
+    /// Marks a specific News as read, returns a updated News. Also archives it to the ArchivePile.
+    func markNewsAsRead(news: News) -> News? {
+        if !existsStory(news.id) {
+            addNews(news)
         }
-        return true
+        guard let news = realm?.objects(NewsClass).filter("id = %@", news.id) else { return nil }
+        do {
+            try realm?.write {
+                news.first?.read = true
+            }
+            try realm?.commitWrite()
+        } catch _ {}
+        return news.first?.convertToNews()
     }
     
+    /// Checks if the Story has been read before.
     func isStoryRead(id: Int) -> Bool {
-        guard let story = realm?.objects(StoryClass).filter("id = %@", id).first else { return false }
-        return story.read
-    }
-}
-
-class StoryClass: Object {
-    dynamic var id    : Int    = 0
-    dynamic var title : String = ""
-    dynamic var url   : String = ""
-    dynamic var author: String = ""
-    dynamic var score : Int    = 0
-    dynamic var date  : NSDate = NSDate()
-    dynamic var comments : Int = 0
-    
-     /// Indicates whether the Story has been read/viewed
-    dynamic var read  : Bool   = false
-    
-    override class func primaryKey() -> String { return "id" }
-}
-
-class NewsClass: StoryClass {
-    /// The downloaded html for the news story, length 0 == nil
-    dynamic var html  : NSData = NSData()
-    
-    required convenience init(news: News) {
-        self.init()
-        id     = news.id
-        title  = news.title
-        url    = news.url.absoluteString
-        author = news.author
-        score  = news.score
-        date   = news.date
-        comments = news.comments
-    }
-    
-    func convertToNews() -> News {
-        return News(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, url: NSURL(string: url)!)
+        guard let story = realm?.objects(StoryClass).filter("id = %@", id) else { return false }
+        return story.first?.read ?? false
     }
 }
