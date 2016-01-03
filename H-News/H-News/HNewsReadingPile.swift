@@ -110,7 +110,7 @@ class HNewsReadingPile {
     
     /// Checks if the Story has been read before.
     func isStoryRead(id: Int) -> Bool {
-        guard let story = realm?.objects(StoryClass).filter("id = %@", id) else { return false }
-        return story.first?.read ?? false
+        guard let story = realm?.objects(NewsClass).filter("id = %@", id).first else { return false }
+        return story.read ?? false
     }
 }
