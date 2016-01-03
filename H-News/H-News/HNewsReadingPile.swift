@@ -93,7 +93,7 @@ class HNewsReadingPile {
         return realm?.objects(NewsClass).count
     }
     
-    /// Marks a specific News as read, returns a updated News. Also archives it to the ArchivePile.
+    /// Marks a specific News as read, returns a updated News. 
     func markNewsAsRead(news: News) -> News? {
         if !existsStory(news.id) {
             addNews(news)
