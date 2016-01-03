@@ -31,7 +31,7 @@ class HNewsReadingPile {
         return flag
     }
     
-    /// Removed the NewsClass in Realm with the passed id
+    /// Removes the NewsClass in Realm with the passed id
     func removeNews(id: Int) {
         if let newsToBeRemoved = realm?.objects(NewsClass).filter("id = %@", id) {
             do {
@@ -42,11 +42,21 @@ class HNewsReadingPile {
         }
     }
     
+    /// Removes read/unread News from the Reading Pile
+    func removeAllNews(read read: Bool) {
+        do {
+            try realm?.write {
+                guard let news = realm?.objects(NewsClass).filter("read = %@", read) else { return }
+                self.realm?.delete(news)
+            }
+        } catch _ {}
+    }
+    
     /// Removes all the saved News from the Reading Pile
     func removeAllNews() {
         do {
             try realm?.write {
-                self.realm?.deleteAll()
+                realm?.deleteAll()
             }
         } catch _ {}
     }
@@ -62,13 +72,12 @@ class HNewsReadingPile {
         } catch _ {}
     }
 
-    /// Fetches all News from the pile
-    func fetchAllNews() -> [News] {
+    /// Fetches all News read or unread from the pile
+    func fetchAllNews(read read: Bool) -> [News] {
+        guard let objects = realm?.objects(NewsClass).filter("read = %@", read) else { return [] }
         var news: [News] = []
-        if let objects = realm?.objects(NewsClass) {
-            for object in objects {
-                news.append(object.convertToNews())
-            }
+        for object in objects {
+            news.append(object.convertToNews())
         }
         return news
     }
