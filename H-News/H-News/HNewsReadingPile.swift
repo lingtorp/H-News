@@ -75,10 +75,10 @@ class HNewsReadingPile {
     
     /// Saves the html binary data to the News in the Realm
     func save(html: NSData, newsID: Int) {
-        guard let news = realm?.objects(NewsClass).filter("id = %@", newsID) else { return }
+        guard let news = realm?.objects(NewsClass).filter("id = %@", newsID).first else { return }
         do {
             try realm?.write {
-                news.first?.html = html
+                news.html = html
             }
         } catch _ {}
     }
@@ -98,19 +98,19 @@ class HNewsReadingPile {
         if !existsStory(news.id) {
             addNews(news)
         }
-        guard let news = realm?.objects(NewsClass).filter("id = %@", news.id) else { return nil }
+        guard let news = realm?.objects(NewsClass).filter("id = %@", news.id).first else { return nil }
         do {
             try realm?.write {
-                news.first?.read = true
+                news.read = true
             }
             try realm?.commitWrite()
         } catch _ {}
-        return news.first?.convertToNews()
+        return news.convertToNews()
     }
     
     /// Checks if the Story has been read before.
     func isStoryRead(id: Int) -> Bool {
         guard let story = realm?.objects(NewsClass).filter("id = %@", id).first else { return false }
-        return story.read ?? false
+        return story.read
     }
 }
