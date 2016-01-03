@@ -11,6 +11,8 @@ import MCSwipeTableViewCell
 
 class HNewsTableViewCell: MCSwipeTableViewCell {
     
+    private static let defaultTextColor = UIColor(red: 214, green: 214, blue: 214, alpha: 0.8)
+    
     static let cellID = "Cell"
     
     static let trashImage       = UIImageView(image: UIImage(named: "UIButtonBarTrash"))
@@ -48,6 +50,8 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             
             if story.read {
                 title.textColor = UIColor.grayColor()
+            } else { // Return to default since UITableView is reusing the cells
+                title.textColor = HNewsTableViewCell.defaultTextColor
             }
             
             if let news = story as? News {
