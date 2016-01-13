@@ -28,6 +28,9 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     @IBOutlet var author: UILabel!
     @IBOutlet var time: UILabel!
     
+    // Callback property called when the user clicks to see the comments for a News item
+    var showCommentsFor: ((news: News) -> ())?
+    
     var story: Story? {
         didSet {
             guard let story = story else { return }
@@ -59,7 +62,19 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
                 score.text = "\(news.score)"
             }
             
+            let gestureRecog = UITapGestureRecognizer(target: self, action: "didClickOnComment:")
+            title.userInteractionEnabled = true
+            title.addGestureRecognizer(gestureRecog)
+
             setNeedsDisplay()
+        }
+    }
+    
+    /// Tap gesture callback
+    func didClickOnComment(sender: AnyObject) {
+        guard let news = story as? News else { return }
+        if let callback = showCommentsFor {
+            callback(news: news)
         }
     }
 }
