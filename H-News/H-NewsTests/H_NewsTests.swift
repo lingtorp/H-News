@@ -8,6 +8,7 @@
 
 import UIKit
 import XCTest
+@testable import H_News
 
 class H_NewsTests: XCTestCase {
     

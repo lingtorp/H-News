@@ -82,6 +82,7 @@ extension MasterViewController {
         
         cell.story = news
         cell.secondTrigger = 0.5
+        cell.showCommentsFor = showCommentsFor
         
         // Add to Reading Pile gesture
         cell.setSwipeGestureWithView(HNewsTableViewCell.readingPileImage, color: UIColor.darkGrayColor(), mode: .Exit, state: .State1,
@@ -124,7 +125,20 @@ extension MasterViewController {
                 guard let webViewVC = segue.destinationViewController.childViewControllers.first as? HNewsWebViewController else { return }
                 guard let url = sender as? NSURL else { return }
                 webViewVC.url = url
+            case "showCommentsFor":
+                guard let commentsVC = segue.destinationViewController as? HNewsCommentsViewController else { return }
+                guard let id = sender as? Int else { return }
+                guard let news = stories.filter({ $0.id == id })[0] as? News else { return }
+                commentsVC.news = news
             default: return
         }
+    }
+}
+
+/// MARK: - Custom tap cell handling for comments
+extension MasterViewController {
+    func showCommentsFor(news: News) {
+        // Open up the comments VC with the News id to load comments for
+        performSegueWithIdentifier("showCommentsFor", sender: news.id)
     }
 }

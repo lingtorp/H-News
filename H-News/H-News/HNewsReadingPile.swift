@@ -61,13 +61,12 @@ class HNewsReadingPile {
         } catch _ {}
     }
     
-    /// Add a News to the pile
+    /// Add a News if it does not exist or update it if it does in the pile
     func addNews(news: News) {
-        guard !existsStory(news.id) else { return }
         let newsClass = NewsClass(news: news)
         do {
             try realm?.write {
-                self.realm?.add(newsClass)
+                self.realm?.add(newsClass, update: true)
             }
         } catch _ {}
     }
@@ -104,9 +103,7 @@ class HNewsReadingPile {
     
     /// Marks a specific News as read, returns a updated News. 
     func markNewsAsRead(news: News) -> News? {
-        if !existsStory(news.id) {
-            addNews(news)
-        }
+        addNews(news) // Updates the rest of the values
         guard let news = realm?.objects(NewsClass).filter("id = %@", news.id).first else { return nil }
         do {
             try realm?.write {
@@ -121,5 +118,40 @@ class HNewsReadingPile {
     func isStoryRead(id: Int) -> Bool {
         guard let story = realm?.objects(NewsClass).filter("id = %@", id).first else { return false }
         return story.read
+    }
+}
+
+class StoryClass: Object {
+    dynamic var id    : Int    = 0
+    dynamic var title : String = ""
+    dynamic var url   : String = ""
+    dynamic var author: String = ""
+    dynamic var score : Int    = 0
+    dynamic var date  : NSDate = NSDate()
+    dynamic var comments : Int = 0
+    
+    /// Indicates whether the Story has been read/viewed
+    dynamic var read  : Bool   = false
+    
+    override class func primaryKey() -> String { return "id" }
+}
+
+class NewsClass: StoryClass {
+    /// The downloaded html for the news story, length 0 == nil
+    dynamic var html  : NSData = NSData()
+    
+    required convenience init(news: News) {
+        self.init()
+        id     = news.id
+        title  = news.title
+        url    = news.url.absoluteString
+        author = news.author
+        score  = news.score
+        date   = news.date
+        comments = news.comments
+    }
+    
+    func convertToNews() -> News {
+        return News(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, url: NSURL(string: url)!)
     }
 }

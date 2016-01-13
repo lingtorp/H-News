@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15A278b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15A278b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -16,14 +17,12 @@
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title about something major in the tech industry today" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6sV-wM-YFA" userLabel="title">
                         <rect key="frame" x="8" y="8" width="436.5" height="21.5"/>
-                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <color key="textColor" red="0.83743686868686862" green="0.83743686868686862" blue="0.83743686868686862" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="github.com/Entalpi/Popem" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xqY-FZ-PkB" userLabel="url">
                         <rect key="frame" x="18" y="58.5" width="158.5" height="16"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="345" id="CG4-r3-8Id"/>
                             <constraint firstAttribute="width" constant="400" id="X2C-fa-2RR"/>
@@ -40,21 +39,18 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="user123" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fa0-Nd-IPh" userLabel="author">
                         <rect key="frame" x="439" y="58.5" width="48" height="16"/>
-                        <animations/>
                         <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="13"/>
                         <color key="textColor" red="0.59428267045454541" green="0.59428267045454541" blue="0.59428267045454541" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12 mins" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RCO-Ry-ujz" userLabel="time">
                         <rect key="frame" x="495" y="58.5" width="45.5" height="16"/>
-                        <animations/>
                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="13"/>
                         <color key="textColor" red="0.59428267045454541" green="0.59428267045454541" blue="0.59428267045454541" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="comment_bubble_black" translatesAutoresizingMaskIntoConstraints="NO" id="765-WK-KEz">
                         <rect key="frame" x="582" y="58" width="16" height="16"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="16" id="f9R-43-MmQ"/>
                             <constraint firstAttribute="height" constant="16" id="ufn-dX-eDt"/>
@@ -62,7 +58,6 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoY-0m-2DX" userLabel="commentsCount">
                         <rect key="frame" x="549" y="56.5" width="30" height="18"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="oBa-xA-xMH"/>
                         </constraints>
@@ -72,13 +67,11 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="123" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6gs-bR-BK0" userLabel="score">
                         <rect key="frame" x="550" y="8" width="33.5" height="24"/>
-                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <color key="textColor" red="1" green="0.49803921569999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <animations/>
                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="RCO-Ry-ujz" firstAttribute="leading" secondItem="Fa0-Nd-IPh" secondAttribute="trailing" priority="750" constant="8" id="1NS-ra-lhn"/>
@@ -145,7 +138,6 @@
                     </mask>
                 </variation>
             </tableViewCellContentView>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="author" destination="Fa0-Nd-IPh" id="IHG-Of-P5f"/>

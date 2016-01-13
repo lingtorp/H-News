@@ -65,6 +65,7 @@ extension DetailViewController {
         }
         
         cell.secondTrigger = 0.5
+        cell.showCommentsFor = showCommentsFor
         
         // Remove from Reading Pile gesture
         cell.setSwipeGestureWithView(HNewsTableViewCell.trashImage, color: UIColor.darkGrayColor(), mode: .Exit, state: .State1,
@@ -105,8 +106,10 @@ extension DetailViewController {
 // MARK: - UITableViewDelegate
 extension DetailViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let downloadedHTML = HNewsReadingPile()?.html(news[indexPath.row]) {
-            HNewsReadingPile()?.markNewsAsRead(news[indexPath.row])
+        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? HNewsTableViewCell else { return }
+        guard let news = cell.story as? News else { return }
+        if let downloadedHTML = HNewsReadingPile()?.html(news) {
+            HNewsReadingPile()?.markNewsAsRead(news)
             performSegueWithIdentifier("webview", sender: downloadedHTML)
         }
     }
@@ -119,7 +122,21 @@ extension DetailViewController {
             guard let webViewVC = segue.destinationViewController.childViewControllers.first as? HNewsWebViewController else { return }
             guard let data = sender as? NSData else { return }
             webViewVC.data = data
+        case "showCommentsFor":
+            guard let commentsVC = segue.destinationViewController.childViewControllers.first as? HNewsCommentsViewController else { return }
+            // TODO: Must think about sections here
+            guard let id = sender as? Int else { return }
+            guard let news = news.filter({ $0.id == id })[0] as? News else { return }
+            commentsVC.news = news
         default: return
         }
+    }
+}
+
+/// MARK: - Custom tap cell handling for comments
+extension DetailViewController {
+    func showCommentsFor(news: News) {
+        // Open up the comments VC with the News id to load comments for
+        performSegueWithIdentifier("showCommentsFor", sender: news.id)
     }
 }

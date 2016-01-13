@@ -46,6 +46,7 @@ extension News: Downloadable {
         guard let url   = NSURL(string: tem)         else { return nil }
         
         let df = NSDateFormatter()
+        df.timeZone = try! NSTimeZone(abbreviation: "GMT")
         df.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
         guard let date = df.dateFromString(time) else { return nil }
         return News(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, url: url)
@@ -61,7 +62,8 @@ extension Comment: Downloadable {
         guard let time     = json["time"]    as? String else { return nil }
         
         let df = NSDateFormatter()
-        df.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
+        df.timeZone = try! NSTimeZone(abbreviation: "GMT")
+        df.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSSSSSSSSXXXXX" // RFC3339
         guard let date = df.dateFromString(time) else { return nil }
         return Comment(id: id, author: author, date: date, text: text, offset: offset)
     }
@@ -82,15 +84,17 @@ class Downloader<T: Downloadable>: DownloaderType {
     
     private var buffer: [Element] = [] {
         didSet {
-            if buffer.count >= 10 {
+            if buffer.count >= 1 {
                 onFinished?(buffer)
                 buffer.removeAll(keepCapacity: true)
             }
         }
     }
     
+    /// The API endpoint to fetch Downloadables from
     private let apiendpoint: APIEndpoint
-    private let extraParams: [String:AnyObject]
+    /// Extra URL parameters to send for every request to API
+    var extraParams: [String:AnyObject]
     
     init(_ apiendpoint: APIEndpoint, params: [String:AnyObject]? = nil) {
         self.apiendpoint = apiendpoint
