@@ -24,7 +24,31 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8fS-aE-onr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-38" y="-630"/>
+            <point key="canvasLocation" x="-45" y="-1090"/>
+        </scene>
+        <!--News Comments View Controller-->
+        <scene sceneID="DS1-CX-VzQ">
+            <objects>
+                <tableViewController id="ttC-gV-K1Q" customClass="HNewsCommentsViewController" customModule="H_News" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="c0T-cu-Fsi">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexTrackingBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="ttC-gV-K1Q" id="Agc-kF-Cpp"/>
+                            <outlet property="delegate" destination="ttC-gV-K1Q" id="Z3e-N5-pgD"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="2VC-1Q-jxF">
+                        <barButtonItem key="rightBarButtonItem" image="comment_bubble_black" id="hwV-3S-vIR"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lA3-BR-Arh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1434" y="-225"/>
         </scene>
         <!--Reading List-->
         <scene sceneID="yUG-lL-AsK">
@@ -51,11 +75,12 @@
                     </navigationItem>
                     <connections>
                         <segue destination="rHC-h7-ekw" kind="show" identifier="webview" id="ckC-z2-pkV"/>
+                        <segue destination="ttC-gV-K1Q" kind="show" identifier="showCommentsFor" id="n4u-iM-sLy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="709" y="129"/>
+            <point key="canvasLocation" x="721" y="497"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="UEa-s1-nWn">
@@ -71,7 +96,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0wB-Ug-IjK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1457" y="129"/>
+            <point key="canvasLocation" x="1434" y="509"/>
         </scene>
         <!--News Web View Controller-->
         <scene sceneID="mLa-VA-isv">
@@ -114,7 +139,7 @@
                     </items>
                 </toolbar>
             </objects>
-            <point key="canvasLocation" x="2218" y="129"/>
+            <point key="canvasLocation" x="2194" y="509"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
@@ -138,7 +163,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <sections/>
                         <connections>
                             <outlet property="dataSource" destination="7bK-jq-Zjz" id="Gho-Na-rnu"/>
@@ -170,11 +194,12 @@
                     </refreshControl>
                     <connections>
                         <segue destination="rHC-h7-ekw" kind="show" identifier="webview" id="o1z-4H-own"/>
+                        <segue destination="ttC-gV-K1Q" kind="show" identifier="showCommentsFor" id="RBN-r5-Acn"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="709" y="-630"/>
+            <point key="canvasLocation" x="721" y="-1090"/>
         </scene>
         <!--Settings-->
         <scene sceneID="XQ0-Py-zZb">
@@ -201,7 +226,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bbr-Q9-COs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2166" y="-630"/>
+            <point key="canvasLocation" x="2194" y="-1090"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Qh3-2x-z0j">
@@ -223,7 +248,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="20z-2B-yi4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1434" y="-630"/>
+            <point key="canvasLocation" x="1434" y="-1090"/>
         </scene>
         <!--Reading List-->
         <scene sceneID="r7l-gg-dq7">
@@ -243,15 +268,17 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SLD-UC-DBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-45" y="129"/>
+            <point key="canvasLocation" x="-45" y="497"/>
         </scene>
     </scenes>
     <resources>
+        <image name="comment_bubble_black" width="32" height="32"/>
         <image name="reading_list_icon" width="29" height="29"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bd0-bi-4gO"/>
+        <segue reference="Tll-UG-LXB"/>
         <segue reference="ckC-z2-pkV"/>
+        <segue reference="n4u-iM-sLy"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="0.49803921569999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
 </document>
