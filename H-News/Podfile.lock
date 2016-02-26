@@ -1,17 +1,19 @@
 PODS:
-  - Alamofire (3.1.4)
+  - Alamofire (3.2.0)
   - MCSwipeTableViewCell (2.1.4)
-  - Realm (0.97.0):
-    - Realm/Headers (= 0.97.0)
-  - Realm/Headers (0.97.0)
-  - RealmSwift (0.97.0):
-    - Realm (= 0.97.0)
+  - Realm (0.98.2):
+    - Realm/Headers (= 0.98.2)
+  - Realm/Headers (0.98.2)
+  - RealmSwift (0.98.2):
+    - Realm (= 0.98.2)
+  - SnapKit (0.15.0)
 
 DEPENDENCIES:
   - Alamofire (~> 3.0)
   - MCSwipeTableViewCell (~> 2.1.4)
   - Realm (from `https://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
   - RealmSwift (from `https://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
+  - SnapKit (~> 0.15.0)
 
 EXTERNAL SOURCES:
   Realm:
@@ -23,16 +25,17 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Realm:
-    :commit: 5b43732645b08fea873c79ac0a4e1e4ee143c1ed
+    :commit: 7b57465d3e35419ced0f8e04c22cdaeca6a01def
     :git: https://github.com/realm/realm-cocoa.git
   RealmSwift:
-    :commit: 5b43732645b08fea873c79ac0a4e1e4ee143c1ed
+    :commit: 7b57465d3e35419ced0f8e04c22cdaeca6a01def
     :git: https://github.com/realm/realm-cocoa.git
 
 SPEC CHECKSUMS:
-  Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
+  Alamofire: 4da478599fccddff361205c8929333d7fe18dceb
   MCSwipeTableViewCell: 1b303e16c3a26b1982f3a68386e9b8c5fc8344c3
-  Realm: b498a6fb9d288b171ff98d0e2d4384c295be8990
-  RealmSwift: d014810dec75c9a3f1a33926d2dabfed855c582c
+  Realm: 9f08b9aad497354d3fcc91d1cfc5c621e5af8196
+  RealmSwift: 9907c7415b3e19ef2ab9f89878fc890f03f93aea
+  SnapKit: 4962eed2ee18e48cbd2b2292fffc57efe7235f87
 
 COCOAPODS: 0.39.0

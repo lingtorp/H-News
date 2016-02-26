@@ -1,10 +1,3 @@
-//
-//  DetailViewController.swift
-//  H-News
-//
-//  Created by Alexander Lingtorp on 27/07/15.
-//  Copyright (c) 2015 Lingtorp. All rights reserved.
-//
 
 import UIKit
 import RealmSwift
@@ -15,8 +8,12 @@ class DetailViewController: UITableViewController {
     private var news: [News] = HNewsReadingPile()?.fetchAllNews(read: false) ?? []
     private var archivednews = HNewsReadingPile()?.fetchAllNews(read: true) ?? []
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func viewDidLoad() {
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 160.0
+        
+        navigationController?.navigationBar.backgroundColor = UIColor.darkGrayColor()
+        
         // Observe Realm Notifications
         notiToken = HNewsReadingPile()?.realm?.addNotificationBlock { notification, realm in
             self.news = HNewsReadingPile()?.fetchAllNews(read: false) ?? []
@@ -24,7 +21,7 @@ class DetailViewController: UITableViewController {
             self.archivednews = HNewsReadingPile()?.fetchAllNews(read: true) ?? []
             self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Automatic)
         }
-        tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID)
+        tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID) // TODO: Register class
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -110,25 +107,9 @@ extension DetailViewController {
         guard let news = cell.story as? News else { return }
         if let downloadedHTML = HNewsReadingPile()?.html(news) {
             HNewsReadingPile()?.markNewsAsRead(news)
-            performSegueWithIdentifier("webview", sender: downloadedHTML)
-        }
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        guard let segueID = segue.identifier else { return }
-        
-        switch segueID {
-        case "webview":
-            guard let webViewVC = segue.destinationViewController.childViewControllers.first as? HNewsWebViewController else { return }
-            guard let data = sender as? NSData else { return }
-            webViewVC.data = data
-        case "showCommentsFor":
-            guard let commentsVC = segue.destinationViewController.childViewControllers.first as? HNewsCommentsViewController else { return }
-            // TODO: Must think about sections here
-            guard let id = sender as? Int else { return }
-            guard let news = news.filter({ $0.id == id })[0] as? News else { return }
-            commentsVC.news = news
-        default: return
+            let webViewVC = HNewsWebViewController()
+            webViewVC.data = downloadedHTML // TODO: Downloaded data not working
+            navigationController?.pushViewController(webViewVC, animated: true)
         }
     }
 }
@@ -136,7 +117,8 @@ extension DetailViewController {
 /// MARK: - Custom tap cell handling for comments
 extension DetailViewController {
     func showCommentsFor(news: News) {
-        // Open up the comments VC with the News id to load comments for
-        performSegueWithIdentifier("showCommentsFor", sender: news.id)
+        let commentsVC = HNewsCommentsViewController()
+        commentsVC.news = news
+        navigationController?.pushViewController(commentsVC, animated: true)
     }
 }

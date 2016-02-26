@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15A278b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15A278b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -88,6 +88,7 @@
                     <constraint firstItem="xoY-0m-2DX" firstAttribute="top" secondItem="6gs-bR-BK0" secondAttribute="bottom" priority="250" constant="22" id="IFP-Or-ysi"/>
                     <constraint firstItem="765-WK-KEz" firstAttribute="width" secondItem="xoY-0m-2DX" secondAttribute="width" id="Khe-RG-wfQ"/>
                     <constraint firstAttribute="bottomMargin" secondItem="765-WK-KEz" secondAttribute="bottom" constant="1.5" id="LlT-OP-Oxg"/>
+                    <constraint firstItem="xqY-FZ-PkB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6sV-wM-YFA" secondAttribute="bottom" constant="20" id="MNF-FW-Mel"/>
                     <constraint firstItem="Fa0-Nd-IPh" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xqY-FZ-PkB" secondAttribute="trailing" constant="8" id="N2F-zm-I1I"/>
                     <constraint firstItem="765-WK-KEz" firstAttribute="centerY" secondItem="RCO-Ry-ujz" secondAttribute="centerY" id="NFN-y1-HIM"/>
                     <constraint firstItem="xoY-0m-2DX" firstAttribute="leading" secondItem="RCO-Ry-ujz" secondAttribute="trailing" id="OvY-hP-muy"/>

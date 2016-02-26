@@ -1,10 +1,3 @@
-//
-//  HNewsCommentsViewController.swift
-//  H-News
-//
-//  Created by Alexander Lingtorp on 03/01/16.
-//  Copyright © 2016 Lingtorp. All rights reserved.
-//
 
 class HNewsCommentsViewController: UITableViewController {
     
@@ -30,11 +23,14 @@ class HNewsCommentsViewController: UITableViewController {
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        tableView.registerNib(UINib(nibName: "HNewsCommentTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsCommentTableViewCell.cellID)
+    override func viewDidLoad() {
+        tableView.registerNib(UINib(nibName: "HNewsCommentTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsCommentTableViewCell.cellID) // TODO: Register class 
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160
+    }
+    
+    @IBAction func onMore(sender: UIBarButtonItem) {
+        // TODO: Present custom more menu
     }
 }
 

@@ -1,16 +1,22 @@
-//
-//  HNewsSettingsViewController.swift
-//  H-News
-//
-//  Created by Alexander Lingtorp on 08/12/15.
-//  Copyright © 2015 Lingtorp. All rights reserved.
-//
 
 import UIKit
 
 class HNewsSettingsViewController: UITableViewController {
- 
-    @IBAction func onClose(sender: NSObject) {
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        // Close button
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: "didTapClose")
+    }
+    
+    func didTapClose() {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func didClickLogin(sender: AnyObject) {
+        Login.login("Entalpi", password: "eagames1") { (success) in
+            print("Logged in: \(success)")
+        }
     }
 }

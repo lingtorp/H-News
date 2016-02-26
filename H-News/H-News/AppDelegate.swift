@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  H-News
-//
-//  Created by Alexander Lingtorp on 27/07/15.
-//  Copyright (c) 2015 Lingtorp. All rights reserved.
-//
 
 import UIKit
 
@@ -14,11 +7,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        let splitViewController = window!.rootViewController as! UISplitViewController
-        let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count - 1] as! UINavigationController
-        navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
-        splitViewController.delegate = self
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        
+        let masterVC = MasterViewController()
+        let masterNav = UINavigationController(rootViewController: masterVC)
+        let detailVC = DetailViewController()
+        let detailNav = UINavigationController(rootViewController: detailVC)
+        
+        let splitVC = UISplitViewController()
+        splitVC.viewControllers = [masterNav, detailNav]
+        splitVC.delegate = self
+        
+        window?.rootViewController = splitVC
+        window?.makeKeyAndVisible()
+    
         return true
     }
 

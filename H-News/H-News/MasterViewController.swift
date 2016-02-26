@@ -1,16 +1,7 @@
-//
-//  MasterViewController.swift
-//  H-News
-//
-//  Created by Alexander Lingtorp on 27/07/15.
-//  Copyright (c) 2015 Lingtorp. All rights reserved.
-//
 
 import UIKit
 
 class MasterViewController: UITableViewController {
-    
-    var detailViewController: DetailViewController?
     
     private var stories: [News] = [] {
         didSet {
@@ -21,14 +12,14 @@ class MasterViewController: UITableViewController {
     private let newsGenerator  = Generator<News>()
     private let newsDownloader = Downloader<News>(APIEndpoint.News) 
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func viewDidLoad() {
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 160.0
+        
+        navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        
         tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID)
         newsGenerator.next(25, newsDownloader.fetchNextBatch, onFinish: updateDatasource)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             clearsSelectionOnViewWillAppear = false
@@ -36,10 +27,14 @@ class MasterViewController: UITableViewController {
             navigationItem.rightBarButtonItem = nil // Hide detail btn on ipads
         }
         
-        if let split = splitViewController {
-            let controllers = split.viewControllers
-            detailViewController = controllers.last as? DetailViewController
-        }
+        // Settings
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.settings, style: .Plain, target: self, action: "didTapSettings")
+        
+        // Reading list / Detail
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.readingList, style: .Plain, target: self, action: "didTapDetail")
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: "didRefreshFeed:", forControlEvents: .ValueChanged)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -48,11 +43,23 @@ class MasterViewController: UITableViewController {
         tableView.deselectRowAtIndexPath(indexPathForSelectedRow, animated: true)
     }
     
-    @IBAction func didRefreshFeed(sender: UIRefreshControl) {
+    func didRefreshFeed(sender: UIRefreshControl) {
         newsGenerator.reset()
         newsDownloader.reset()
         stories.removeAll()
         newsGenerator.next(25, newsDownloader.fetchNextBatch, onFinish: updateDatasource)
+    }
+    
+    func didTapSettings() {
+        let settingsVC = HNewsSettingsViewController()
+        let navigationController = UINavigationController(rootViewController: settingsVC)
+        presentViewController(navigationController, animated: true, completion: nil)
+    }
+    
+    func didTapDetail() {
+        if let split = splitViewController {
+            split.showDetailViewController(DetailViewController(), sender: self)
+        }
     }
 }
 
@@ -114,31 +121,20 @@ extension MasterViewController {
         guard let news = stories[indexPath.row] as? News else { return }
         guard let updatedNews = HNewsReadingPile()?.markNewsAsRead(news) else { return }
         stories[indexPath.row] = updatedNews
-        performSegueWithIdentifier("webview", sender: news.url)
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        guard let segueID = segue.identifier else { return }
         
-        switch segueID {
-            case "webview":
-                guard let webViewVC = segue.destinationViewController.childViewControllers.first as? HNewsWebViewController else { return }
-                guard let url = sender as? NSURL else { return }
-                webViewVC.url = url
-            case "showCommentsFor":
-                guard let commentsVC = segue.destinationViewController as? HNewsCommentsViewController else { return }
-                guard let id = sender as? Int else { return }
-                guard let news = stories.filter({ $0.id == id })[0] as? News else { return }
-                commentsVC.news = news
-            default: return
-        }
+        let webViewVC = HNewsWebViewController()
+        webViewVC.url = news.url
+        let navContr = UINavigationController(rootViewController: webViewVC)
+        navigationController?.pushViewController(navContr, animated: true)
     }
 }
 
 /// MARK: - Custom tap cell handling for comments
 extension MasterViewController {
     func showCommentsFor(news: News) {
-        // Open up the comments VC with the News id to load comments for
-        performSegueWithIdentifier("showCommentsFor", sender: news.id)
+        let commentsVC = HNewsCommentsViewController()
+        commentsVC.news = news
+        let navContr = UINavigationController(rootViewController: commentsVC)
+        navigationController?.pushViewController(navContr, animated: true)
     }
 }

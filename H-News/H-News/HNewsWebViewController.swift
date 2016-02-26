@@ -1,10 +1,3 @@
-//
-//  HNewsWebView.swift
-//  H-News
-//
-//  Created by Alexander Lingtorp on 23/08/15.
-//  Copyright © 2015 Lingtorp. All rights reserved.
-//
 
 import UIKit
 import WebKit
@@ -29,12 +22,18 @@ class HNewsWebViewController: UIViewController {
         }
     }
     
+    func didTapMore() {
+        // TODO: Open up HnewsMoreMenu
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         webView.frame = view.bounds
         webView.addObserver(self, forKeyPath: "loading", options: .New, context: nil)
         webView.addObserver(self, forKeyPath: "title", options: .New, context: nil)
         view.addSubview(webView)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.more, style: .Plain, target: self, action: "didTapMore")
     }
     
     deinit {
@@ -51,7 +50,8 @@ class HNewsWebViewController: UIViewController {
         webView.loadRequest(NSURLRequest(URL: url))
     }
     
-    @IBAction func onShare(sender: UIBarButtonItem) {
+    @IBAction func onMore(sender: UIBarButtonItem) {
+        // TODO: Present custom more menu.
         guard let url = url else { return }
         let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         presentViewController(shareSheet, animated: true, completion: nil)

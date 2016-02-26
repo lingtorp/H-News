@@ -1,10 +1,3 @@
-//
-//  HNewsCommentTableViewCell.swift
-//  H-News
-//
-//  Created by Alexander Lingtorp on 04/01/16.
-//  Copyright © 2016 Lingtorp. All rights reserved.
-//
 
 // TODO: When clicked the cell shall expand and reveal a textfield in which you can reply to the comment and 
 // TODO: Add a shortcut to scroll back to top.
@@ -13,8 +6,6 @@ import MCSwipeTableViewCell
 
 class HNewsCommentTableViewCell: UITableViewCell {
     
-    private static let defaultCellColor = UIColor(red: 214, green: 214, blue: 214, alpha: 0.8)
-
     private static let dateCompsFormatter = NSDateComponentsFormatter()
     static let cellID = "HNewsCommentTableViewCell"
     
@@ -24,8 +15,6 @@ class HNewsCommentTableViewCell: UITableViewCell {
     @IBOutlet var author: UILabel!
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var commentLabel: UILabel!
-    
-    private let gradient = CAGradientLayer()
     
     var comment: Comment? {
         didSet {
@@ -46,12 +35,6 @@ class HNewsCommentTableViewCell: UITableViewCell {
             doubletapGestureRecog.numberOfTapsRequired = 2
             addGestureRecognizer(doubletapGestureRecog)
             
-            gradient.frame = CGRectMake(0, 0, CGFloat(comment.offset  * 15), contentView.bounds.height)
-            gradient.startPoint = CGPoint(x: 0, y: 0.5)
-            gradient.endPoint   = CGPoint(x: 1, y: 0.5)
-            gradient.colors = [UIColor.lightGrayColor().CGColor, contentView.backgroundColor?.CGColor ?? UIColor.redColor().CGColor]
-            contentView.layer.addSublayer(gradient)
-            
             setNeedsDisplay() // Renders the cell before it comes into sight
         }
     }
@@ -71,10 +54,23 @@ class HNewsCommentTableViewCell: UITableViewCell {
         tableView.endUpdates()
     }
     
+    private var gradient: CAGradientLayer?
+    
+    /// UI that changes dynamically ends up here
     /// Handle indentation: Sets the indentation depending on the offset property of the comment
     override func layoutSubviews() {
         super.layoutSubviews()
         guard let comment = comment else { return }
         indentationConstraint.constant = CGFloat(comment.offset) * 15
+
+        if gradient == nil { gradient = CAGradientLayer(); contentView.layer.addSublayer(gradient!) }
+        if let gradient = gradient {
+            gradient.frame = CGRectMake(0, 0, CGFloat(comment.offset  * 15), contentView.bounds.height)
+            gradient.startPoint = CGPoint(x: 0, y: 0.5)
+            gradient.endPoint   = CGPoint(x: 1, y: 0.5)
+            gradient.colors = [UIColor.lightGrayColor().CGColor, contentView.backgroundColor?.CGColor ?? UIColor.redColor().CGColor]
+        }
+        
+        setNeedsDisplay()
     }
 }
