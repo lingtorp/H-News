@@ -1,10 +1,3 @@
-//
-//  Dispatcher.swift
-//  H-News
-//
-//  Created by Alexander Lingtorp on 08/12/15.
-//  Copyright © 2015 Lingtorp. All rights reserved.
-//
 
 import Foundation
 

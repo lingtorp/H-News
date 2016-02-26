@@ -1,11 +1,3 @@
-//
-//  Downloader.swift
-//  H-News
-//
-//
-//  Created by Alexander Lingtorp on 27/07/15.
-//  Copyright (c) 2015 Lingtorp. All rights reserved.
-//
 
 import Alamofire
 
@@ -46,7 +38,7 @@ extension News: Downloadable {
         guard let url   = NSURL(string: tem)         else { return nil }
         
         let df = NSDateFormatter()
-        df.timeZone = try! NSTimeZone(abbreviation: "GMT")
+        df.timeZone = NSTimeZone(abbreviation: "GMT")
         df.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
         guard let date = df.dateFromString(time) else { return nil }
         return News(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, url: url)
@@ -62,7 +54,7 @@ extension Comment: Downloadable {
         guard let time     = json["time"]    as? String else { return nil }
         
         let df = NSDateFormatter()
-        df.timeZone = try! NSTimeZone(abbreviation: "GMT")
+        df.timeZone = NSTimeZone(abbreviation: "GMT")
         df.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSSSSSSSSXXXXX" // RFC3339
         guard let date = df.dateFromString(time) else { return nil }
         return Comment(id: id, author: author, date: date, text: text, offset: offset)

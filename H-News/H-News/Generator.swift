@@ -1,10 +1,3 @@
-//
-//  Generator.swift
-//  H-News
-//
-//  Created by Alexander Lingtorp on 08/12/15.
-//  Copyright © 2015 Lingtorp. All rights reserved.
-//
 
 /// The Generator provides a interface to a possibly infinite datastream which is fetched in batches
 protocol GeneratorType {

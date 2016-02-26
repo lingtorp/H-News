@@ -1,10 +1,3 @@
-//
-//  Models.swift
-//  H-News
-//
-//  Created by Alexander Lingtorp on 08/12/15.
-//  Copyright © 2015 Lingtorp. All rights reserved.
-//
 
 /// A Story is something that comes up as a post on HN.
 protocol Story {
