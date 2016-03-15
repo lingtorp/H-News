@@ -2,62 +2,163 @@ struct HNewsMoreMenuItem {
     let title: String
     let subtitle: String
     let image: UIImage
+    let callback: (item: HNewsMoreMenuItem) -> Void
 }
 
 class HNewsMoreMenuItemView: UIView {
     
-    convenience init(item: HNewsMoreMenuItem) {
-        self.init()
-        
-        // Create title
-        let title = UILabel()
-        addSubview(title)
-        title.text = item.title
-        title.snp_makeConstraints { (make) -> Void in
-            make.top.right.left.equalTo(8)
+    var item: HNewsMoreMenuItem?  {
+        didSet {
+            guard let item = item else { return }
+            backgroundColor = Colors.gray
+            let textColor = Colors.white
+            
+            // Create title
+            let title = UILabel()
+            addSubview(title)
+            title.text = item.title
+            title.textAlignment = .Center
+            title.textColor = textColor
+            title.snp_makeConstraints { (make) -> Void in
+                make.top.equalTo(0)
+                make.right.left.equalTo(0)
+            }
+            
+            // Create subtitle
+            let subtitle = UILabel()
+            addSubview(subtitle)
+            subtitle.text = item.subtitle
+            subtitle.textAlignment = .Center
+            subtitle.textColor = textColor
+            subtitle.snp_makeConstraints { (make) -> Void in
+                make.bottom.equalTo(0)
+                make.right.left.equalTo(0)
+            }
+            
+            // Create image - with tintcolor shining through (.AlwaysTemplate)
+            let image = UIImageView(image: item.image.imageWithRenderingMode(.AlwaysTemplate))
+            addSubview(image)
+            image.tintColor = textColor
+            image.snp_makeConstraints { (make) -> Void in
+                make.center.equalTo(0)
+                make.top.equalTo(title.snp_bottom)
+                make.bottom.equalTo(subtitle.snp_top)
+            }
+            
+            let tapGestureRecog = UITapGestureRecognizer(target: self, action: "didTapOnItem:")
+            addGestureRecognizer(tapGestureRecog)
         }
-        
-        // Create subtitle
-        let subtitle = UILabel()
-        addSubview(subtitle)
-        subtitle.text = item.subtitle
-        subtitle.snp_makeConstraints { (make) -> Void in
-            make.left.right.bottom.equalTo(8)
-        }
-        
-        // Create image
-        let image = UIImageView(image: item.image)
-        addSubview(image)
-        image.snp_makeConstraints { (make) -> Void in
-            make.centerWithinMargins.equalTo(10)
-        }
+    }
+    
+    /// Call the item's callback
+    func didTapOnItem(sender: UITapGestureRecognizer) {
+        guard let item = item else { return }
+        item.callback(item: item)
     }
 }
 
-/// Presents a group of MoreMenu items.
+/// MoreMenu main class. 
 class HNewsMoreMenuView: UIView {
     
-    convenience init(items: [HNewsMoreMenuItem]) {
-        // Setup frame
-        let width = UIScreen().applicationFrame.width
-        let height = UIScreen().applicationFrame.height
-        let frame = CGRect(x: 0, y: height, width: width, height: height / 3)
-        self.init(frame: frame)
-        
-        // Setup subview - the items
-        for item in items {
-            let itemview = HNewsMoreMenuItemView(item: item)
-            addSubview(itemview)
-            itemview.snp_makeConstraints(closure: { (make) in
-              make.centerWithinMargins.equalTo(8)
+    private let itemviews: [HNewsMoreMenuItemView] = [
+        HNewsMoreMenuItemView(), HNewsMoreMenuItemView(),
+        HNewsMoreMenuItemView(), HNewsMoreMenuItemView()
+    ]
+    
+    var items: [HNewsMoreMenuItem] = [] {
+        didSet {
+            // Setup subview - the items
+            for i in 0 ..< items.count where items.count == itemviews.count {
+                itemviews[i].item = items[i]
+            }
+        }
+    }
+    
+    /// Indicates if view is shown
+    var shown: Bool = false
+    
+    /// Dismisses the more menu, does not remove it from the superview
+    func dismiss() {
+        shown = !shown
+        // tell constraints they need updating
+        setNeedsUpdateConstraints()
+        // update constraints now so we can animate the change
+        updateConstraints()
+        // do the initial layout
+        layoutIfNeeded()
+        UIView.animateWithDuration(0.4) {
+            guard let superview = self.superview else { return }
+            // make animatable changes
+            self.snp_updateConstraints(closure: { (make) in
+                make.bottom.equalTo(superview.snp_bottom).offset(200)
             })
+            // do the animation
+            self.layoutIfNeeded()
+        }
+    }
+    
+    /// Shows the more menu in the superview
+    func show() {
+        shown = !shown
+        // tell constraints they need updating
+        setNeedsUpdateConstraints()
+        // update constraints now so we can animate the change
+        updateConstraints()
+        // do the initial layout
+        layoutIfNeeded()
+        UIView.animateWithDuration(0.4) {
+            guard let superview = self.superview else { return }
+            // make animatable changes
+            self.snp_updateConstraints(closure: { (make) in
+                make.bottom.equalTo(superview.snp_bottom).offset(0)
+            })
+            // do the animation
+            self.layoutIfNeeded()
         }
     }
     
     /// Called whenever the view was added in the view that it will present itself in
     override func didMoveToSuperview() {
         guard let superview = superview else { return }
-        center = superview.center
-        print("penis")
+        
+        // Setup the more menu view
+        self.snp_makeConstraints { (make) in
+            make.left.right.equalTo(0)
+            make.bottom.equalTo(superview.snp_bottom).offset(200)
+            make.height.equalTo(superview.snp_height).dividedBy(3)
+        }
+
+        // Setup menu item grid ...
+        let lowerleftitem = itemviews[0]
+        addSubview(lowerleftitem)
+        lowerleftitem.snp_makeConstraints { (make) in
+            make.width.equalTo(superview.snp_width).dividedBy(2)
+            make.height.equalTo(self.snp_height).dividedBy(2)
+            make.bottom.left.equalTo(0)
+        }
+        
+        let lowerrightitem = itemviews[1]
+        addSubview(lowerrightitem)
+        lowerrightitem.snp_makeConstraints { (make) in
+            make.width.equalTo(superview.snp_width).dividedBy(2)
+            make.height.equalTo(self.snp_height).dividedBy(2)
+            make.bottom.right.equalTo(0)
+        }
+        
+        let upperleftitem = itemviews[2]
+        addSubview(upperleftitem)
+        upperleftitem.snp_makeConstraints { (make) in
+            make.width.equalTo(superview.snp_width).dividedBy(2)
+            make.height.equalTo(self.snp_height).dividedBy(2)
+            make.top.left.equalTo(0)
+        }
+
+        let upperrightitem = itemviews[3]
+        addSubview(upperrightitem)
+        upperrightitem.snp_makeConstraints { (make) in
+            make.width.equalTo(superview.snp_width).dividedBy(2)
+            make.height.equalTo(self.snp_height).dividedBy(2)
+            make.top.right.equalTo(0)
+        }
     }
 }

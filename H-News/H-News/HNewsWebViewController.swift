@@ -4,9 +4,10 @@ import WebKit
 import SnapKit
 
 class HNewsWebViewController: UIViewController {
-        
+    
+    private let moremenu = HNewsMoreMenuView()
     private let webView = WKWebView()
-    private let activitySpinner = UIActivityIndicatorView()
+    private let activitySpinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
     
     /// The url to load
     var url: NSURL? {
@@ -24,10 +25,6 @@ class HNewsWebViewController: UIViewController {
         }
     }
     
-    func didTapMore() {
-        // TODO: Open up HnewsMoreMenu
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         webView.frame = view.bounds
@@ -36,9 +33,25 @@ class HNewsWebViewController: UIViewController {
         view.addSubview(webView)
         
         view.addSubview(activitySpinner)
+        view.bringSubviewToFront(activitySpinner)
+        activitySpinner.color = Colors.hackerNews
+        activitySpinner.startAnimating()
         activitySpinner.snp_makeConstraints { (make) -> Void in
-            make.left.right.top.bottom.equalTo(50)
+            make.center.equalTo(0)
+            make.size.equalTo(25)
         }
+        
+        // Setup more menu
+        view.addSubview(moremenu)
+        let item0 = HNewsMoreMenuItem(title: "", subtitle: "Comments", image: Icons.comments) { (item) in print("item0"); self.moremenu.dismiss() }
+        let item1 = HNewsMoreMenuItem(title: "", subtitle: "Upvote", image: Icons.upvote) { (item) in print("item1") }
+        let item2 = HNewsMoreMenuItem(title: "", subtitle: "Save", image: Icons.readingList) { (item) in print("item2") }
+        let item3 = HNewsMoreMenuItem(title: "", subtitle: "Share", image: Icons.comments) { (item) in print("item3") }
+        moremenu.items = [item0, item1, item2, item3]
+        
+        //        guard let url = url else { return }
+        //        let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        //        presentViewController(shareSheet, animated: true, completion: nil)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.more, style: .Plain, target: self, action: "didTapMore:")
     }
@@ -58,12 +71,7 @@ class HNewsWebViewController: UIViewController {
     }
     
     func didTapMore(sender: UIBarButtonItem) {
-        let item = HNewsMoreMenuItem(title: "Title", subtitle: "Subtitle", image: UIImage(named: "more")!)
-        let moremenu = HNewsMoreMenuView(items: [item])
-        view.addSubview(moremenu)
-//        guard let url = url else { return }
-//        let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-//        presentViewController(shareSheet, animated: true, completion: nil)
+        if moremenu.shown { moremenu.dismiss() } else { moremenu.show() }
     }
     
     // MARK: - WKWebView KVO
@@ -73,12 +81,8 @@ class HNewsWebViewController: UIViewController {
         guard let change = change else {return}
         switch keyPath {
             case "loading":
-                if let loading = change[NSKeyValueChangeNewKey] as? Bool {
-                    if loading {
-                        // activity.startAnimating()
-                    } else {
-                        // activity.stopAnimating()
-                    }
+                if let _ = change[NSKeyValueChangeNewKey] as? Bool {
+                    activitySpinner.stopAnimating()
                 }
             case "title":
                 if let newTitle = change[NSKeyValueChangeNewKey] as? String {

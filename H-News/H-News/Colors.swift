@@ -12,4 +12,7 @@ struct Colors {
     static let blue = UIColor(red: 0, green: 78/255, blue: 102/255, alpha: 1)
     
     static let hackerNews = UIColor(red: 255/255, green: 127/255, blue: 0/255, alpha: 1)
+    
+    /// Default background color
+    static let gray = UIColor.darkGrayColor()
 }
