@@ -4,8 +4,6 @@ import MCSwipeTableViewCell
 
 class HNewsTableViewCell: MCSwipeTableViewCell {
     
-    private static let defaultTextColor = UIColor(red: 214, green: 214, blue: 214, alpha: 0.8)
-    
     static let cellID = "Cell"
     
     static let trashImage       = UIImageView(image: UIImage(named: "UIButtonBarTrash"))
@@ -34,6 +32,9 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             selectedBackgroundView = view
             defaultColor = UIColor.darkGrayColor()
             
+            contentView.backgroundColor = UIColor.darkGrayColor()
+            commentsCount.textColor = Colors.peach
+            
             // Setup NSDateFormatter
             HNewsTableViewCell.dateCompsFormatter.unitsStyle = .Short
             HNewsTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .DropAll
@@ -47,7 +48,7 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             if story.read {
                 title.textColor = UIColor.grayColor()
             } else { // Return to default since UITableView is reusing the cells
-                title.textColor = HNewsTableViewCell.defaultTextColor
+                title.textColor = Colors.white
             }
             
             if let news = story as? News {

@@ -1,10 +1,12 @@
 
 import UIKit
 import WebKit
+import SnapKit
 
 class HNewsWebViewController: UIViewController {
         
     private let webView = WKWebView()
+    private let activitySpinner = UIActivityIndicatorView()
     
     /// The url to load
     var url: NSURL? {
@@ -33,7 +35,12 @@ class HNewsWebViewController: UIViewController {
         webView.addObserver(self, forKeyPath: "title", options: .New, context: nil)
         view.addSubview(webView)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.more, style: .Plain, target: self, action: "didTapMore")
+        view.addSubview(activitySpinner)
+        activitySpinner.snp_makeConstraints { (make) -> Void in
+            make.left.right.top.bottom.equalTo(50)
+        }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.more, style: .Plain, target: self, action: "didTapMore:")
     }
     
     deinit {
@@ -50,11 +57,13 @@ class HNewsWebViewController: UIViewController {
         webView.loadRequest(NSURLRequest(URL: url))
     }
     
-    @IBAction func onMore(sender: UIBarButtonItem) {
-        // TODO: Present custom more menu.
-        guard let url = url else { return }
-        let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        presentViewController(shareSheet, animated: true, completion: nil)
+    func didTapMore(sender: UIBarButtonItem) {
+        let item = HNewsMoreMenuItem(title: "Title", subtitle: "Subtitle", image: UIImage(named: "more")!)
+        let moremenu = HNewsMoreMenuView(items: [item])
+        view.addSubview(moremenu)
+//        guard let url = url else { return }
+//        let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+//        presentViewController(shareSheet, animated: true, completion: nil)
     }
     
     // MARK: - WKWebView KVO

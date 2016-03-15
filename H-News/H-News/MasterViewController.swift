@@ -1,4 +1,3 @@
-
 import UIKit
 
 class MasterViewController: UITableViewController {
@@ -12,11 +11,13 @@ class MasterViewController: UITableViewController {
     private let newsGenerator  = Generator<News>()
     private let newsDownloader = Downloader<News>(APIEndpoint.News) 
     
-    override func viewDidLoad() {
+    override func viewDidLoad() {        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
         
-        navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        navigationController?.navigationBar.tintColor = Colors.peach
+        navigationController?.navigationBar.barTintColor = UIColor.darkGrayColor()
+        tableView.backgroundColor = UIColor.darkGrayColor()
         
         tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID)
         newsGenerator.next(25, newsDownloader.fetchNextBatch, onFinish: updateDatasource)

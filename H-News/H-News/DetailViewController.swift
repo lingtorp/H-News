@@ -12,7 +12,9 @@ class DetailViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
         
-        navigationController?.navigationBar.backgroundColor = UIColor.darkGrayColor()
+        navigationController?.navigationBar.tintColor = Colors.peach
+        navigationController?.navigationBar.barTintColor = UIColor.darkGrayColor()
+        tableView.backgroundColor = UIColor.darkGrayColor()
         
         // Observe Realm Notifications
         notiToken = HNewsReadingPile()?.realm?.addNotificationBlock { notification, realm in
@@ -22,6 +24,9 @@ class DetailViewController: UITableViewController {
             self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Automatic)
         }
         tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID) // TODO: Register class
+        
+        // Trash items
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.trash, style: .Plain, target: self, action: "didPressTrash")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -30,7 +35,7 @@ class DetailViewController: UITableViewController {
         tableView.deselectRowAtIndexPath(indexPathForSelectedRow, animated: true)
     }
     
-    @IBAction func didPressTrashAll(sender: UIBarButtonItem) {
+    func didPressTrash() {
         let alert = UIAlertController()
         alert.addAction(UIAlertAction(title: "Unread", style: .Destructive, handler: { (UIAlertAction) -> Void in
             HNewsReadingPile()?.removeAllNews(read: false)

@@ -1,4 +1,3 @@
-
 import Foundation
 
 /// Wrapper around Grand Central Dispatch (GCD) to make it more Swift-like.

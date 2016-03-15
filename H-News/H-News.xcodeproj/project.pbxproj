@@ -117,7 +117,10 @@
 		9406EE671B66A37B005A814F /* H-News */ = {
 			isa = PBXGroup;
 			children = (
-				949B0C411C802FA700FBE684 /* Application Wide */,
+				94BEC0801BFA4C0200668D2E /* Images.xcassets */,
+				949B0C3A1C802AD100FBE684 /* Icons.swift */,
+				94B28D291C16D3AE00D7666A /* Dispatcher.swift */,
+				949B0C3F1C802F9D00FBE684 /* Colors.swift */,
 				943AA6291C7FB5F8006F4661 /* API Requests */,
 				94A5B4F01C4CFEAC00D92EDE /* Custom Views */,
 				94EB37881C39C35B004B7E0F /* Comments View */,
@@ -194,17 +197,6 @@
 				94DCD8CA1C4784DE00001739 /* LoginRequests.swift */,
 			);
 			name = "API Requests";
-			sourceTree = "<group>";
-		};
-		949B0C411C802FA700FBE684 /* Application Wide */ = {
-			isa = PBXGroup;
-			children = (
-				94BEC0801BFA4C0200668D2E /* Images.xcassets */,
-				949B0C3A1C802AD100FBE684 /* Icons.swift */,
-				94B28D291C16D3AE00D7666A /* Dispatcher.swift */,
-				949B0C3F1C802F9D00FBE684 /* Colors.swift */,
-			);
-			name = "Application Wide";
 			sourceTree = "<group>";
 		};
 		94A5B4F01C4CFEAC00D92EDE /* Custom Views */ = {
