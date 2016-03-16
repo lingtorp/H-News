@@ -15,4 +15,10 @@ struct Colors {
     
     /// Default background color
     static let gray = UIColor.darkGrayColor()
+    
+    /// Signals a success
+    static let success = UIColor.greenColor()
+    
+    /// Signals a failure
+    static let failure = UIColor.redColor()
 }

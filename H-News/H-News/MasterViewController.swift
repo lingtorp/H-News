@@ -35,6 +35,7 @@ class MasterViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.readingList, style: .Plain, target: self, action: "didTapDetail")
         
         refreshControl = UIRefreshControl()
+        refreshControl?.tintColor = Colors.white
         refreshControl?.addTarget(self, action: "didRefreshFeed:", forControlEvents: .ValueChanged)
     }
     
@@ -125,6 +126,7 @@ extension MasterViewController {
         
         let webViewVC = HNewsWebViewController()
         webViewVC.url = news.url
+        webViewVC.item = news
         let navContr = UINavigationController(rootViewController: webViewVC)
         navigationController?.pushViewController(navContr, animated: true)
     }

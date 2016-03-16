@@ -1,8 +1,7 @@
 struct HNewsMoreMenuItem {
     let title: String
-    let subtitle: String
     let image: UIImage
-    let callback: (item: HNewsMoreMenuItem) -> Void
+    let callback: () -> Void
 }
 
 class HNewsMoreMenuItemView: UIView {
@@ -20,17 +19,6 @@ class HNewsMoreMenuItemView: UIView {
             title.textAlignment = .Center
             title.textColor = textColor
             title.snp_makeConstraints { (make) -> Void in
-                make.top.equalTo(0)
-                make.right.left.equalTo(0)
-            }
-            
-            // Create subtitle
-            let subtitle = UILabel()
-            addSubview(subtitle)
-            subtitle.text = item.subtitle
-            subtitle.textAlignment = .Center
-            subtitle.textColor = textColor
-            subtitle.snp_makeConstraints { (make) -> Void in
                 make.bottom.equalTo(0)
                 make.right.left.equalTo(0)
             }
@@ -41,8 +29,7 @@ class HNewsMoreMenuItemView: UIView {
             image.tintColor = textColor
             image.snp_makeConstraints { (make) -> Void in
                 make.center.equalTo(0)
-                make.top.equalTo(title.snp_bottom)
-                make.bottom.equalTo(subtitle.snp_top)
+                make.bottom.equalTo(title.snp_top)
             }
             
             let tapGestureRecog = UITapGestureRecognizer(target: self, action: "didTapOnItem:")
@@ -53,11 +40,11 @@ class HNewsMoreMenuItemView: UIView {
     /// Call the item's callback
     func didTapOnItem(sender: UITapGestureRecognizer) {
         guard let item = item else { return }
-        item.callback(item: item)
+        item.callback()
     }
 }
 
-/// MoreMenu main class. 
+/// MoreMenu main class.
 class HNewsMoreMenuView: UIView {
     
     private let itemviews: [HNewsMoreMenuItemView] = [
@@ -90,7 +77,7 @@ class HNewsMoreMenuView: UIView {
             guard let superview = self.superview else { return }
             // make animatable changes
             self.snp_updateConstraints(closure: { (make) in
-                make.bottom.equalTo(superview.snp_bottom).offset(200)
+                make.bottom.equalTo(superview.snp_bottom).offset(superview.frame.height / 3)
             })
             // do the animation
             self.layoutIfNeeded()
@@ -121,11 +108,12 @@ class HNewsMoreMenuView: UIView {
     override func didMoveToSuperview() {
         guard let superview = superview else { return }
         
-        // Setup the more menu view
+        /// Setup the more menu view
+        // Hide the view under the superview, animate up when shown
         self.snp_makeConstraints { (make) in
             make.left.right.equalTo(0)
-            make.bottom.equalTo(superview.snp_bottom).offset(200)
             make.height.equalTo(superview.snp_height).dividedBy(3)
+            make.bottom.equalTo(superview.snp_bottom).offset(superview.frame.height / 3)
         }
 
         // Setup menu item grid ...

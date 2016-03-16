@@ -54,23 +54,12 @@ class HNewsCommentTableViewCell: UITableViewCell {
         tableView.endUpdates()
     }
     
-    private var gradient: CAGradientLayer?
-    
     /// UI that changes dynamically ends up here
     /// Handle indentation: Sets the indentation depending on the offset property of the comment
     override func layoutSubviews() {
         super.layoutSubviews()
         guard let comment = comment else { return }
         indentationConstraint.constant = CGFloat(comment.offset) * 15
-
-        if gradient == nil { gradient = CAGradientLayer(); contentView.layer.addSublayer(gradient!) }
-        if let gradient = gradient {
-            gradient.frame = CGRectMake(0, 0, CGFloat(comment.offset  * 15), contentView.bounds.height)
-            gradient.startPoint = CGPoint(x: 0, y: 0.5)
-            gradient.endPoint   = CGPoint(x: 1, y: 0.5)
-            gradient.colors = [UIColor.lightGrayColor().CGColor, contentView.backgroundColor?.CGColor ?? UIColor.redColor().CGColor]
-        }
-        
         setNeedsDisplay()
     }
 }

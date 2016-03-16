@@ -25,8 +25,10 @@ class HNewsWebViewController: UIViewController {
         }
     }
     
+    /// The Story/item/entry related to this webview
+    var item: News?
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
         webView.frame = view.bounds
         webView.addObserver(self, forKeyPath: "loading", options: .New, context: nil)
         webView.addObserver(self, forKeyPath: "title", options: .New, context: nil)
@@ -43,15 +45,29 @@ class HNewsWebViewController: UIViewController {
         
         // Setup more menu
         view.addSubview(moremenu)
-        let item0 = HNewsMoreMenuItem(title: "", subtitle: "Comments", image: Icons.comments) { (item) in print("item0"); self.moremenu.dismiss() }
-        let item1 = HNewsMoreMenuItem(title: "", subtitle: "Upvote", image: Icons.upvote) { (item) in print("item1") }
-        let item2 = HNewsMoreMenuItem(title: "", subtitle: "Save", image: Icons.readingList) { (item) in print("item2") }
-        let item3 = HNewsMoreMenuItem(title: "", subtitle: "Share", image: Icons.comments) { (item) in print("item3") }
+        let item0 = HNewsMoreMenuItem(title: "Comments", image: Icons.comments) { () in
+            self.moremenu.dismiss()
+            let commentVC = HNewsCommentsViewController()
+            commentVC.news = self.item
+            self.navigationController?.pushViewController(commentVC, animated: true)
+        }
+        let item1 = HNewsMoreMenuItem(title: "Upvote", image: Icons.upvote) { () in
+            self.moremenu.dismiss()
+            // TODO: Add visual cue that the item was upvoted successfully or not
+        }
+        let item2 = HNewsMoreMenuItem(title: "Save", image: Icons.readingList) { () in
+            self.moremenu.dismiss()
+            guard let item = self.item else { return }
+            HNewsReadingPile()?.addNews(item)
+            Popover(title: "Saved", mode: .Success).present()
+        }
+        let item3 = HNewsMoreMenuItem(title: "Share", image: Icons.comments) { () in
+            self.moremenu.dismiss()
+            guard let url = self.url else { return }
+            let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            self.presentViewController(shareSheet, animated: true, completion: nil)
+        }
         moremenu.items = [item0, item1, item2, item3]
-        
-        //        guard let url = url else { return }
-        //        let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        //        presentViewController(shareSheet, animated: true, completion: nil)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.more, style: .Plain, target: self, action: "didTapMore:")
     }

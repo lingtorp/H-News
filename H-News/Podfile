@@ -6,6 +6,7 @@ target 'H-News' do
   pod 'MCSwipeTableViewCell', '~> 2.1.4'
   pod 'Alamofire', '~> 3.0'
   pod 'SnapKit', '~> 0.15.0'
+  pod 'CRToast', '~> 0.0.7'
 
   # You need to add both “Realm” & “RealmSwift”
 	pod 'Realm', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'swift-2.0'
