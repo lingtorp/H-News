@@ -24,5 +24,12 @@ struct Icons {
     /// Application wide used icon for upvoting on items/entries
     static let upvote = UIImage(named: "upvote")!
     
+    /// Application wide used icon for showing that something is selected
+    static let selected = UIImage(named: "selected")!
+
+    /// Application wide used icon for showing that something is unselected
+    static let unselected = UIImage(named: "unselected")!
+    
+    static let loginBackground = UIImage(named: "login")!
 }
 

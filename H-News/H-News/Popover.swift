@@ -3,7 +3,7 @@ import CRToast
 class Popover {
     
     enum Mode {
-        case Success, Failure
+        case Success, NoInternet, LoginRequired
     }
     
     private var options: [NSObject : AnyObject]
@@ -19,8 +19,11 @@ class Popover {
         switch mode {
         case .Success:
             options[kCRToastBackgroundColorKey] = Colors.success
-        case .Failure:
+        case .NoInternet:
             options[kCRToastBackgroundColorKey] = Colors.failure
+        case .LoginRequired:
+            options[kCRToastBackgroundColorKey] = Colors.failure
+            // TODO: Add login required title, make clickable to login popover
         }
     }
     
