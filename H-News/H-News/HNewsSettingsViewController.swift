@@ -97,10 +97,6 @@ class HNewsSettingsViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
         
-        navigationController?.navigationBar.tintColor = Colors.peach
-        navigationController?.navigationBar.barTintColor = UIColor.darkGrayColor()
-        tableView.backgroundColor = UIColor.darkGrayColor()
-        
         // Close button
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: "didTapClose")
     }

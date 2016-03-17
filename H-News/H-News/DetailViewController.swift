@@ -12,10 +12,6 @@ class DetailViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
         
-        navigationController?.navigationBar.tintColor = Colors.peach
-        navigationController?.navigationBar.barTintColor = UIColor.darkGrayColor()
-        tableView.backgroundColor = UIColor.darkGrayColor()
-        
         // Observe Realm Notifications
         notiToken = HNewsReadingPile()?.realm?.addNotificationBlock { notification, realm in
             self.news = HNewsReadingPile()?.fetchAllNews(read: false) ?? []
