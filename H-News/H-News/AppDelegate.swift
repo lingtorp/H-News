@@ -21,9 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         window?.makeKeyAndVisible()
         
         // Global appearance
-//        navigationController?.navigationBar.tintColor = Colors.peach
-//        navigationController?.navigationBar.barTintColor = UIColor.darkGrayColor()
-//        tableView.backgroundColor = UIColor.darkGrayColor()
         UINavigationBar.appearance().tintColor = Colors.peach
         UINavigationBar.appearance().barTintColor = UIColor.darkGrayColor()
         UITableView.appearance().backgroundColor = UIColor.darkGrayColor()

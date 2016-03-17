@@ -134,8 +134,8 @@
 				94E8B4601C99443E007FB239 /* Popover.swift */,
 				94E8B4621C9948B3007FB239 /* Fonts.swift */,
 				94E8B4681C9975FF007FB239 /* HNewsLoginViewController.swift */,
+				94A5B4F11C4CFEB400D92EDE /* More Menu */,
 				943AA6291C7FB5F8006F4661 /* API Requests */,
-				94A5B4F01C4CFEAC00D92EDE /* Custom Views */,
 				94EB37881C39C35B004B7E0F /* Comments View */,
 				94B28D311C16EF2C00D7666A /* Settings View */,
 				94AFE4711B89CE9C0087B8A4 /* Hacker News Webview */,
@@ -210,14 +210,6 @@
 				94DCD8CA1C4784DE00001739 /* Login.swift */,
 			);
 			name = "API Requests";
-			sourceTree = "<group>";
-		};
-		94A5B4F01C4CFEAC00D92EDE /* Custom Views */ = {
-			isa = PBXGroup;
-			children = (
-				94A5B4F11C4CFEB400D92EDE /* More Menu */,
-			);
-			name = "Custom Views";
 			sourceTree = "<group>";
 		};
 		94A5B4F11C4CFEB400D92EDE /* More Menu */ = {

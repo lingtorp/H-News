@@ -30,6 +30,7 @@ struct Icons {
     /// Application wide used icon for showing that something is unselected
     static let unselected = UIImage(named: "unselected")!
     
-    static let loginBackground = UIImage(named: "login")!
+    /// Application wide used icon for accepting stuff, next, done, etc.
+    static let accept = UIImage(named: "checkmark")!
 }
 

@@ -33,7 +33,7 @@ class HNewsSettingsViewController: UITableViewController {
         let title: String
         var selected: Bool
         let selectable: Bool
-        private let action: () -> Void
+        private let action: () -> Void // Called whenever row is clicked on
         
         init(title: String, selected: Bool, selectable: Bool, action: () -> Void) {
             self.title = title
@@ -44,7 +44,7 @@ class HNewsSettingsViewController: UITableViewController {
         
         func toggleSelect() {
             selected = !selected
-            if selected { action() }
+            if selected || !selectable { action() }
         }
     }
     
@@ -93,10 +93,6 @@ class HNewsSettingsViewController: UITableViewController {
                 })])
         ]
 
-        
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 160.0
-        
         // Close button
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: "didTapClose")
     }
@@ -135,7 +131,7 @@ class HNewsSettingsViewController: UITableViewController {
         let section = sections[indexPath.section]
         let row = section.rows[indexPath.row]
         if row.selectable {
-            section.rows.map { row in if row.selected { row.toggleSelect() } }
+            section.rows.forEach { row in if row.selected { row.toggleSelect() } }
         }
         row.toggleSelect()
         tableView.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .None)
