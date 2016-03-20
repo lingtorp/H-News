@@ -1,4 +1,5 @@
 import UIKit
+import BEMCheckBox
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -20,10 +21,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         window?.rootViewController = splitVC
         window?.makeKeyAndVisible()
         
-        // Global appearance
+        /// Global appearance
         UINavigationBar.appearance().tintColor = Colors.peach
         UINavigationBar.appearance().barTintColor = UIColor.darkGrayColor()
         UITableView.appearance().backgroundColor = UIColor.darkGrayColor()
+        
+        // Checkbox default appearance
+        BEMCheckBox.appearance().onTintColor = Colors.peach
+        BEMCheckBox.appearance().tintColor = Colors.peach
+        BEMCheckBox.appearance().onCheckColor = Colors.peach
+        BEMCheckBox.appearance().lineWidth = 1.5
+        BEMCheckBox.appearance().animationDuration = 0.2
         
         return true
     }

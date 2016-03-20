@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (3.2.0)
+  - BEMCheckBox (1.2.0)
   - CRToast (0.0.9)
   - MCSwipeTableViewCell (2.1.4)
   - Realm (0.98.2):
@@ -11,6 +12,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 3.0)
+  - BEMCheckBox
   - CRToast (~> 0.0.7)
   - MCSwipeTableViewCell (~> 2.1.4)
   - Realm (from `https://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
@@ -35,6 +37,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 4da478599fccddff361205c8929333d7fe18dceb
+  BEMCheckBox: fcfbbf42cf23d38fbb605c72f63db9ae82d6acd3
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   MCSwipeTableViewCell: 1b303e16c3a26b1982f3a68386e9b8c5fc8344c3
   Realm: 9f08b9aad497354d3fcc91d1cfc5c621e5af8196

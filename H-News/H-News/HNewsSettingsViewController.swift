@@ -1,4 +1,5 @@
 import UIKit
+import BEMCheckBox
 
 /// Settings for the application
 class Settings {
@@ -20,6 +21,8 @@ class Settings {
     /// Indicates whether the user is logged in
     static var loggedIn: Bool = false
     
+    /// Indicates whether the user is kept logged in 
+    static var stayloggedin: Bool = true
 }
 
 class HNewsSettingsViewController: UITableViewController {
@@ -113,6 +116,7 @@ class HNewsSettingsViewController: UITableViewController {
         let cell = UITableViewCell()
         let row = sections[indexPath.section].rows[indexPath.row]
         cell.textLabel!.text = row.title
+        cell.textLabel?.textColor = Colors.lightGray
         cell.backgroundColor = Colors.gray
         cell.accessoryType = .DisclosureIndicator
         // Set selection color theme
@@ -121,8 +125,9 @@ class HNewsSettingsViewController: UITableViewController {
         cell.selectedBackgroundView = view
         if row.selectable {
             cell.selectionStyle = .None
-            cell.accessoryView = row.selected ?
-                UIImageView(image: Icons.selected) : UIImageView(image: Icons.unselected)
+            let checkbox = BEMCheckBox(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+            checkbox.on = row.selected
+            cell.accessoryView = checkbox
         }
         return cell
     }

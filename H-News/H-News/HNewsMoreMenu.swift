@@ -6,30 +6,31 @@ struct HNewsMoreMenuItem {
 
 class HNewsMoreMenuItemView: UIView {
     
+    private let title: UILabel = UILabel()
+    private let icon: UIImageView = UIImageView()
+    
     var item: HNewsMoreMenuItem?  {
         didSet {
             guard let item = item else { return }
             backgroundColor = Colors.gray
-            let textColor = Colors.white
             
             // Create title
-            let title = UILabel()
             addSubview(title)
             title.text = item.title
             title.textAlignment = .Center
-            title.textColor = textColor
+            title.textColor = Colors.lightGray
             title.snp_makeConstraints { (make) -> Void in
-                make.bottom.equalTo(0)
+                make.bottom.equalTo(-15)
                 make.right.left.equalTo(0)
             }
             
             // Create image - with tintcolor shining through (.AlwaysTemplate)
-            let image = UIImageView(image: item.image.imageWithRenderingMode(.AlwaysTemplate))
-            addSubview(image)
-            image.tintColor = textColor
-            image.snp_makeConstraints { (make) -> Void in
-                make.center.equalTo(0)
-                make.bottom.equalTo(title.snp_top)
+            icon.image = item.image.imageWithRenderingMode(.AlwaysTemplate)
+            addSubview(icon)
+            icon.tintColor = Colors.lightGray
+            icon.snp_makeConstraints { (make) -> Void in
+                make.centerX.equalTo(0)
+                make.bottom.equalTo(title.snp_top).offset(-6)
             }
             
             let tapGestureRecog = UITapGestureRecognizer(target: self, action: "didTapOnItem:")
@@ -40,12 +41,21 @@ class HNewsMoreMenuItemView: UIView {
     /// Call the item's callback
     func didTapOnItem(sender: UITapGestureRecognizer) {
         guard let item = item else { return }
-        item.callback()
+        // Animate highlight
+        let options: UIViewAnimationOptions = [.Autoreverse, .CurveEaseInOut]
+        UIView.animateWithDuration(1, delay: 0, options: options, animations: {
+                self.icon.tintColor = Colors.white
+                self.title.textColor = Colors.white
+            }) { (bool) in
+                item.callback()
+        }
     }
 }
 
 /// MoreMenu main class.
 class HNewsMoreMenuView: UIView {
+    
+    private let animationDuration: NSTimeInterval = 0.2
     
     private let itemviews: [HNewsMoreMenuItemView] = [
         HNewsMoreMenuItemView(), HNewsMoreMenuItemView(),
@@ -73,7 +83,7 @@ class HNewsMoreMenuView: UIView {
         updateConstraints()
         // do the initial layout
         layoutIfNeeded()
-        UIView.animateWithDuration(0.4) {
+        UIView.animateWithDuration(animationDuration) {
             guard let superview = self.superview else { return }
             // make animatable changes
             self.snp_updateConstraints(closure: { (make) in
@@ -93,7 +103,7 @@ class HNewsMoreMenuView: UIView {
         updateConstraints()
         // do the initial layout
         layoutIfNeeded()
-        UIView.animateWithDuration(0.4) {
+        UIView.animateWithDuration(animationDuration) {
             guard let superview = self.superview else { return }
             // make animatable changes
             self.snp_updateConstraints(closure: { (make) in
