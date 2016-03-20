@@ -42,12 +42,14 @@ class HNewsMoreMenuItemView: UIView {
     func didTapOnItem(sender: UITapGestureRecognizer) {
         guard let item = item else { return }
         // Animate highlight
-        let options: UIViewAnimationOptions = [.Autoreverse, .CurveEaseInOut]
-        UIView.animateWithDuration(1, delay: 0, options: options, animations: {
+        UIView.animateWithDuration(0.1, delay: 0, options: .CurveEaseIn, animations: {
                 self.icon.tintColor = Colors.white
-                self.title.textColor = Colors.white
-            }) { (bool) in
-                item.callback()
+            }) { (finished) in
+                UIView.animateWithDuration(0.1, delay: 0, options: .CurveEaseOut, animations: {
+                    self.icon.tintColor = Colors.lightGray
+                    }, completion: { (finished) in
+                        item.callback()
+                })
         }
     }
 }
