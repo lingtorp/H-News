@@ -3,7 +3,18 @@ import BEMCheckBox
 
 /// Settings for the application
 class Settings {
+    
+    private let instance = Settings()
+    
+    private init() {
+        // TODO: Load the state
+    }
+    
+    deinit {
+        // TODO: Save the state
+    }
 
+    /// Decides which browser opens with the stories
     enum Browser {
         case Safari, SafariInApp, Webview
     }
@@ -11,6 +22,7 @@ class Settings {
     /// Browser opened
     static var browser: Browser = .Webview
     
+    /// Overall theme in the application
     enum Theme {
         case Light, Dark, Automatic
     }
@@ -23,6 +35,7 @@ class Settings {
     
     /// Indicates whether the user is kept logged in 
     static var stayloggedin: Bool = true
+    
 }
 
 class HNewsSettingsViewController: UITableViewController {
@@ -34,8 +47,8 @@ class HNewsSettingsViewController: UITableViewController {
     
     private class Row {
         let title: String
-        var selected: Bool
-        let selectable: Bool
+        var selected: Bool // Used for checkbox like behavior
+        let selectable: Bool // Selectable is a bad name for checkboxMode ...
         private let action: () -> Void // Called whenever row is clicked on
         
         init(title: String, selected: Bool, selectable: Bool, action: () -> Void) {
@@ -45,7 +58,8 @@ class HNewsSettingsViewController: UITableViewController {
             self.action = action
         }
         
-        func toggleSelect() {
+        /// Called whenever a user selects a row
+        func didSelectRow() {
             selected = !selected
             if selected || !selectable { action() }
         }
@@ -57,6 +71,12 @@ class HNewsSettingsViewController: UITableViewController {
         title = "Preferences"
         
         sections = [
+            Section(title: "Account", rows:
+                [Row(title: "Login in to Hacker News", selected: false, selectable: false, action: { () in
+                    let loginVC = HNewsLoginViewController()
+                    let navcontr = UINavigationController(rootViewController: loginVC)
+                    self.presentViewController(navcontr, animated: true, completion: nil)
+                })]),
             Section(title: "Browser", rows:
                 [Row(title: "Safari", selected: false, selectable: true, action: { () in
                     Settings.browser = .Safari
@@ -76,12 +96,6 @@ class HNewsSettingsViewController: UITableViewController {
                 }),
                 Row(title: "Automatic selection", selected: false, selectable: true, action: { () in
                     Settings.theme = .Automatic
-                })]),
-            Section(title: "Account", rows:
-                [Row(title: "Login in to Hacker News", selected: false, selectable: false, action: { () in
-                    let loginVC = HNewsLoginViewController()
-                    let navcontr = UINavigationController(rootViewController: loginVC)
-                    self.presentViewController(navcontr, animated: true, completion: nil)
                 })]),
             Section(title: "About", rows:
                 [Row(title: "Developer", selected: false, selectable: false, action: { () in
@@ -127,6 +141,7 @@ class HNewsSettingsViewController: UITableViewController {
             cell.selectionStyle = .None
             let checkbox = BEMCheckBox(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
             checkbox.on = row.selected
+            checkbox.userInteractionEnabled = false
             cell.accessoryView = checkbox
         }
         return cell
@@ -135,11 +150,20 @@ class HNewsSettingsViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let section = sections[indexPath.section]
         let row = section.rows[indexPath.row]
-        if row.selectable {
-            section.rows.forEach { row in if row.selected { row.toggleSelect() } }
+        // TODO: Guard against animating the same row
+        
+        // Deselect every row in section
+        for i in 0..<tableView.numberOfRowsInSection(indexPath.section) {
+            let indexPath = NSIndexPath(forRow: i, inSection: indexPath.section)
+            if let checkbox = tableView.cellForRowAtIndexPath(indexPath)?.accessoryView as? BEMCheckBox {
+                checkbox.setOn(false, animated: true)
+            }
         }
-        row.toggleSelect()
-        tableView.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .None)
+        // Select current clicked row
+        if let checkbox = tableView.cellForRowAtIndexPath(indexPath)?.accessoryView as? BEMCheckBox {
+            checkbox.setOn(true, animated: true)
+        }
+        row.didSelectRow()
     }
     
     func didTapClose() {
