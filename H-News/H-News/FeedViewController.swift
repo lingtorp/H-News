@@ -25,7 +25,7 @@ class FeedViewController: UITableViewController {
         
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = Colors.white
-        refreshControl?.addTarget(self, action: "didRefreshFeed:", forControlEvents: .ValueChanged)
+        refreshControl?.addTarget(self, action: #selector(FeedViewController.didRefreshFeed(_:)), forControlEvents: .ValueChanged)
     }
     
     override func viewWillAppear(animated: Bool) {

@@ -69,7 +69,7 @@ class HNewsWebViewController: UIViewController {
         }
         moremenu.items = [item0, item1, item2, item3]
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.more, style: .Plain, target: self, action: "didTapMore:")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.more, style: .Plain, target: self, action: #selector(HNewsWebViewController.didTapMore(_:)))
     }
     
     deinit {

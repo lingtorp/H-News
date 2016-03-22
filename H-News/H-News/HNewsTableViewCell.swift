@@ -56,7 +56,7 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
                 score.text = "\(news.score)"
             }
             
-            let gestureRecog = UITapGestureRecognizer(target: self, action: "didClickOnComment:")
+            let gestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsTableViewCell.didClickOnComment(_:)))
             title.userInteractionEnabled = true
             title.addGestureRecognizer(gestureRecog)
 

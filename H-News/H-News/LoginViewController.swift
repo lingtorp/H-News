@@ -1,6 +1,6 @@
 import BEMCheckBox
 
-class HNewsLoginViewController: UIViewController {
+class LoginViewController: UIViewController {
 
     private let usernameField: UITextField = UITextField()
     private let passwordField: UITextField = UITextField()
@@ -57,10 +57,10 @@ class HNewsLoginViewController: UIViewController {
         }
         
         // Close button
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: "didTapClose")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: #selector(LoginViewController.didTapClose))
         
         // Login button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.accept, style: .Plain, target: self, action: "didTapLogin")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.accept, style: .Plain, target: self, action: #selector(LoginViewController.didTapLogin))
     }
     
     func didTapClose() {

@@ -33,7 +33,7 @@ class HNewsMoreMenuItemView: UIView {
                 make.bottom.equalTo(title.snp_top).offset(-6)
             }
             
-            let tapGestureRecog = UITapGestureRecognizer(target: self, action: "didTapOnItem:")
+            let tapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsMoreMenuItemView.didTapOnItem(_:)))
             addGestureRecognizer(tapGestureRecog)
         }
     }

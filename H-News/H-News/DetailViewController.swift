@@ -22,7 +22,7 @@ class DetailViewController: UITableViewController {
         tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID) // TODO: Register class
         
         // Trash items
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.trash, style: .Plain, target: self, action: "didPressTrash")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.trash, style: .Plain, target: self, action: #selector(DetailViewController.didPressTrash))
     }
     
     override func viewWillAppear(animated: Bool) {

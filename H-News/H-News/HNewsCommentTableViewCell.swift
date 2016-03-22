@@ -31,7 +31,7 @@ class HNewsCommentTableViewCell: UITableViewCell {
             
             commentLabel.text = comment.text
             
-            let doubletapGestureRecog = UITapGestureRecognizer(target: self, action: "didDoubleTapOnComment")
+            let doubletapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsCommentTableViewCell.didDoubleTapOnComment))
             doubletapGestureRecog.numberOfTapsRequired = 2
             addGestureRecognizer(doubletapGestureRecog)
             

@@ -14,7 +14,7 @@ extension Dictionary {
 
 /// Downloader provides a interface to download something in batches async possibly combined with a Generator.
 protocol DownloaderType {
-    typealias Element
+    associatedtype Element
     func fetchNextBatch(offset: Int, batchSize: Int, onCompletion: (result: [Element]) -> Void)
     /// Resets the Downloaders' internal state, clears buffers, et cetera.
     func reset()

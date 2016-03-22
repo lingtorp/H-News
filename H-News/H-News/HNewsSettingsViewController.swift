@@ -73,7 +73,7 @@ class HNewsSettingsViewController: UITableViewController {
         sections = [
             Section(title: "Account", rows:
                 [Row(title: "Login in to Hacker News", selected: false, selectable: false, action: { () in
-                    let loginVC = HNewsLoginViewController()
+                    let loginVC = LoginViewController()
                     let navcontr = UINavigationController(rootViewController: loginVC)
                     self.presentViewController(navcontr, animated: true, completion: nil)
                 })]),
@@ -111,7 +111,7 @@ class HNewsSettingsViewController: UITableViewController {
         ]
 
         // Close button
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: "didTapClose")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: #selector(HNewsSettingsViewController.didTapClose))
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
