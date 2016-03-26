@@ -55,7 +55,7 @@
 		9406EE651B66A37B005A814F /* H-News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "H-News.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9406EE691B66A37B005A814F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9406EE6A1B66A37B005A814F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9406EE6C1B66A37B005A814F /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		9406EE6C1B66A37B005A814F /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FeedViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9406EE6E1B66A37B005A814F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9406EE761B66A37B005A814F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		9406EE7C1B66A37B005A814F /* H-NewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "H-NewsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -330,7 +330,6 @@
 				TargetAttributes = {
 					9406EE641B66A37B005A814F = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = A54BC22R86;
 					};
 					9406EE7B1B66A37B005A814F = {
 						CreatedOnToolsVersion = 6.4;

@@ -12,22 +12,22 @@ class HNewsMoreMenuItemView: UIView {
     var item: HNewsMoreMenuItem?  {
         didSet {
             guard let item = item else { return }
-            backgroundColor = Colors.gray
+            backgroundColor = Colors.lightGray
             
             // Create title
             addSubview(title)
             title.text = item.title
             title.textAlignment = .Center
-            title.textColor = Colors.lightGray
+            title.textColor = Colors.gray
             title.snp_makeConstraints { (make) -> Void in
-                make.bottom.equalTo(-15)
+                make.bottom.equalTo(-16)
                 make.right.left.equalTo(0)
             }
             
             // Create image - with tintcolor shining through (.AlwaysTemplate)
             icon.image = item.image.imageWithRenderingMode(.AlwaysTemplate)
             addSubview(icon)
-            icon.tintColor = Colors.lightGray
+            icon.tintColor = Colors.gray
             icon.snp_makeConstraints { (make) -> Void in
                 make.centerX.equalTo(0)
                 make.bottom.equalTo(title.snp_top).offset(-6)
@@ -46,7 +46,7 @@ class HNewsMoreMenuItemView: UIView {
                 self.icon.tintColor = Colors.white
             }) { (finished) in
                 UIView.animateWithDuration(0.1, delay: 0, options: .CurveEaseOut, animations: {
-                    self.icon.tintColor = Colors.lightGray
+                    self.icon.tintColor = Colors.gray
                     }, completion: { (finished) in
                         item.callback()
                 })
@@ -132,7 +132,7 @@ class HNewsMoreMenuView: UIView {
         let lowerleftitem = itemviews[0]
         addSubview(lowerleftitem)
         lowerleftitem.snp_makeConstraints { (make) in
-            make.width.equalTo(superview.snp_width).dividedBy(2)
+            make.width.equalTo(self.snp_width).dividedBy(2)
             make.height.equalTo(self.snp_height).dividedBy(2)
             make.bottom.left.equalTo(0)
         }
@@ -140,7 +140,7 @@ class HNewsMoreMenuView: UIView {
         let lowerrightitem = itemviews[1]
         addSubview(lowerrightitem)
         lowerrightitem.snp_makeConstraints { (make) in
-            make.width.equalTo(superview.snp_width).dividedBy(2)
+            make.width.equalTo(self.snp_width).dividedBy(2)
             make.height.equalTo(self.snp_height).dividedBy(2)
             make.bottom.right.equalTo(0)
         }
@@ -148,7 +148,7 @@ class HNewsMoreMenuView: UIView {
         let upperleftitem = itemviews[2]
         addSubview(upperleftitem)
         upperleftitem.snp_makeConstraints { (make) in
-            make.width.equalTo(superview.snp_width).dividedBy(2)
+            make.width.equalTo(self.snp_width).dividedBy(2)
             make.height.equalTo(self.snp_height).dividedBy(2)
             make.top.left.equalTo(0)
         }
@@ -156,7 +156,7 @@ class HNewsMoreMenuView: UIView {
         let upperrightitem = itemviews[3]
         addSubview(upperrightitem)
         upperrightitem.snp_makeConstraints { (make) in
-            make.width.equalTo(superview.snp_width).dividedBy(2)
+            make.width.equalTo(self.snp_width).dividedBy(2)
             make.height.equalTo(self.snp_height).dividedBy(2)
             make.top.right.equalTo(0)
         }

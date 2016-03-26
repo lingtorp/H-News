@@ -9,15 +9,15 @@ class FeedViewController: UITableViewController {
         }
     }
     
-    private let newsGenerator  = Generator<News>()
-    private let newsDownloader = Downloader<News>(APIEndpoint.News) 
+    var generator: Generator?   = Generator<News>()
+    var downloader: Downloader? = Downloader<News>(.Top)
     
     override func viewDidLoad() {        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
                 
         tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID)
-        newsGenerator.next(25, newsDownloader.fetchNextBatch, onFinish: updateDatasource)
+        generator?.next(25, downloader?.fetchNextBatch, onFinish: updateDatasource)
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             clearsSelectionOnViewWillAppear = false
@@ -35,10 +35,10 @@ class FeedViewController: UITableViewController {
     }
     
     func didRefreshFeed(sender: UIRefreshControl) {
-        newsGenerator.reset()
-        newsDownloader.reset()
+        generator?.reset()
+        downloader?.reset()
         stories.removeAll()
-        newsGenerator.next(25, newsDownloader.fetchNextBatch, onFinish: updateDatasource)
+        generator?.next(25, downloader?.fetchNextBatch, onFinish: updateDatasource)
     }    
 }
 
@@ -51,7 +51,7 @@ extension FeedViewController {
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == tableView.dataSource!.tableView(tableView, numberOfRowsInSection: 1) - 5 {
-            Dispatcher.async { self.newsGenerator.next(15, self.newsDownloader.fetchNextBatch, onFinish: self.updateDatasource) }
+            Dispatcher.async { self.generator?.next(15, self.downloader?.fetchNextBatch, onFinish: self.updateDatasource) }
         }
     }
 }

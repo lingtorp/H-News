@@ -25,6 +25,25 @@ protocol Downloadable {
     static func parseJSON(json: [String:AnyObject]) -> Self?
 }
 
+extension Ask: Downloadable {
+    static func parseJSON(json: [String:AnyObject]) -> Ask? {
+        guard let id     = json["id"]     as? Int    else { return nil }
+        guard let title  = json["title"]  as? String else { return nil }
+        guard let author = json["author"] as? String else { return nil }
+        guard let time   = json["time"]   as? String else { return nil }
+        guard let score  = json["points"] as? Int    else { return nil }
+        guard let comments = json["comments"] as? Int else { return nil }
+        guard let read  = HNewsReadingPile()?.isStoryRead(id) else { return nil }
+        guard let question = json["question"] as? String else { return nil }
+        
+        let df = NSDateFormatter()
+        df.timeZone = NSTimeZone(abbreviation: "GMT")
+        df.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
+        guard let date = df.dateFromString(time) else { return nil }
+        return Ask(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, question: question)
+    }
+}
+
 extension News: Downloadable {
     static func parseJSON(json: [String:AnyObject]) -> News? {
         guard let id     = json["id"]     as? Int    else { return nil }
@@ -63,8 +82,11 @@ extension Comment: Downloadable {
 
 /// The API endpoint from which a Downloader fetches data
 enum APIEndpoint: String {
-    case News     = "https://h-news.herokuapp.com/v1/news"
+    case Top      = "https://h-news.herokuapp.com/v1/news"
     case Comments = "https://h-news.herokuapp.com/v1/comments"
+    case Show     = "https://h-news.herokuapp.com/v1/show"
+    case New      = "https://h-news.herokuapp.com/v1/new"
+    case Ask      = "https://h-news.herokuapp.com/v1/ask"
 }
 
 class Downloader<T: Downloadable>: DownloaderType {

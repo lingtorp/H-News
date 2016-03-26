@@ -10,6 +10,7 @@ protocol Story {
     var comments : Int    { get }
 }
 
+/// Represents all entries/items on HN except Ask:s and Comments.
 struct News: Story {
     let id       : Int
     let title    : String
@@ -20,6 +21,18 @@ struct News: Story {
     let comments : Int
     
     let url   : NSURL
+}
+
+struct Ask: Story {
+    let id       : Int
+    let title    : String
+    let author   : String
+    let date     : NSDate
+    let read     : Bool
+    let score    : Int
+    let comments : Int
+
+    let question: String
 }
 
 struct Comment {
