@@ -4,9 +4,6 @@ class MasterViewController: UIViewController {
     
     private let feedSwitchView = FeedSwitchView()
     
-    /// The currently shown feed viewcontroller
-    var currentFeedViewController = FeedViewController()
-    
     override func viewDidLoad() {
         // Fixes so that the views end up below the navbar not underneth.
         navigationController?.navigationBar.translucent = false
@@ -20,6 +17,8 @@ class MasterViewController: UIViewController {
         let showVC = FeedViewController()
         showVC.downloader = Downloader<News>(.Top)
         
+        
+        
         // Feed switcher view
         feedSwitchView.delegate = self
         feedSwitchView.feeds = [Feed(name: "TOP", selected: true, type: .Top, viewController: topVC),
@@ -28,8 +27,11 @@ class MasterViewController: UIViewController {
                                 Feed(name: "SHOW", selected: false, type: .Show, viewController: showVC)]
         view.addSubview(feedSwitchView)
         
-        // Setup first feed
-        installViewController(currentFeedViewController, animated: false)
+        // Install the feed view controllers
+        installFeedViewController(currentFeedViewController)
+        installFeedViewController(newVC)
+        installFeedViewController(askVC)
+        installFeedViewController(showVC)
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             preferredContentSize = CGSize(width: 320.0, height: 600.0)
@@ -45,25 +47,38 @@ class MasterViewController: UIViewController {
         view.bringSubviewToFront(feedSwitchView)
     }
     
-    func installViewController(viewController: UIViewController, animated: Bool) {
-        if !childViewControllers.contains(viewController) { addChildViewController(viewController) }
-        if !view.subviews.contains(viewController.view) { view.addSubview(viewController.view) }
+    /// The currently shown feed viewcontroller
+    var currentFeedViewController = FeedViewController()
+    
+    var feedViewControllers: [FeedViewController] = []
+    
+    func installFeedViewController(viewController: FeedViewController) {
+        addChildViewController(viewController)
+        view.addSubview(viewController.view)
         viewController.didMoveToParentViewController(self)
-        viewController.view.snp_makeConstraints { (make) in
-            make.top.equalTo(self.feedSwitchView.snp_bottom)
-            make.centerX.equalTo(0)
-            make.right.left.equalTo(0)
-            make.bottom.equalTo(self.view.snp_bottom)
+        if feedViewControllers.count == 0 {
+            // Add first view controller as the selected one
+            currentFeedViewController = viewController
+            selectViewController(viewController)
+        } else {
+            let previousViewController = feedViewControllers[feedViewControllers.count - 1]
+            viewController.view.snp_makeConstraints { (make) in
+                make.top.equalTo(self.feedSwitchView.snp_bottom)
+                make.centerY.equalTo(0)
+                make.left.equalTo(previousViewController.view.snp_right)
+                make.bottom.equalTo(self.view.snp_bottom)
+            }
         }
-        
-        guard animated else { return }
-        
+        feedViewControllers.append(viewController)
+    }
+    
+    func selectViewController(viewController: UIViewController) {
         let toViewController = viewController
         let fromViewController = currentFeedViewController
         
         let goingRight = fromViewController.view.frame.origin.x > toViewController.view.frame.origin.x
         let travelDistance = view.bounds.width
-        let travel = CGAffineTransformMakeTranslation(goingRight ? travelDistance : -travelDistance, 0)
+        let travel = CGAffineTransformMakeTranslation(goingRight ? -travelDistance : travelDistance, 0)
         toViewController.view.alpha = 0
         toViewController.view.transform = CGAffineTransformInvert(travel)
         
@@ -101,8 +116,8 @@ class MasterViewController: UIViewController {
 }
 
 extension MasterViewController: FeedSwitchDelegate {
-    func didSelect(feed: Feed) {
-        installViewController(feed.viewController, animated: true)
+    func didSelect(view: FeedSwitchView, feed: Feed) {
+        selectViewController(feed.viewController)
     }
 }
 
@@ -117,7 +132,7 @@ struct Feed {
 }
 
 protocol FeedSwitchDelegate {
-    func didSelect(feed: Feed)
+    func didSelect(view: FeedSwitchView, feed: Feed)
 }
 
 /// FeedSwitchView represent a tabbar like view which switches feeds.
@@ -127,8 +142,6 @@ class FeedSwitchView: UIView {
     private class FeedItemView: UIControl {
         
         private let title: UILabel = UILabel()
-        
-        var delegate: FeedSwitchDelegate?
         
         var feed: Feed? {
             didSet {
@@ -150,8 +163,6 @@ class FeedSwitchView: UIView {
         @objc func didTapFeed(sender: UITapGestureRecognizer) {
             guard let feed = feed else { return }
             guard !feed.selected else { return }
-            delegate?.didSelect(feed)
-            
             guard let parent = superview as? FeedSwitchView else { return }
             parent.selected(feed)
             parent.selectorAnimateTo(self)
@@ -183,7 +194,6 @@ class FeedSwitchView: UIView {
             let feedTitle = FeedItemView()
             addSubview(feedTitle)
             feedTitle.feed = feed
-            feedTitle.delegate = delegate
             let rightPadding = superview.frame.width / CGFloat(feeds.count + 1)
             feedTitle.snp_makeConstraints(closure: { (make) in
                 make.width.equalTo(rightPadding)
@@ -208,6 +218,7 @@ class FeedSwitchView: UIView {
     }
     
     private func selected(selectedFeed: Feed) {
+        delegate?.didSelect(self, feed: selectedFeed)
         guard let feeds = feeds else { return }
         for feed in feeds {
             // Deselect all
