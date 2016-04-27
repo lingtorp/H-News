@@ -24,7 +24,8 @@ class HNewsCommentsViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
-        tableView.registerNib(UINib(nibName: "HNewsCommentTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsCommentTableViewCell.cellID) // TODO: Register class 
+        tableView.registerClass(HNewsCommentTableViewCell.self, forCellReuseIdentifier: HNewsCommentTableViewCell.cellID)
+//        tableView.registerNib(UINib(nibName: "HNewsCommentTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsCommentTableViewCell.cellID) // TODO: Register class 
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160
         
@@ -40,6 +41,7 @@ class HNewsCommentsViewController: UITableViewController {
     
     @IBAction func onMore(sender: UIBarButtonItem) {
         // TODO: Present custom more menu
+        // TODO: Solve the circle of News -> Comments -> News -> ...
     }
 }
 
@@ -68,5 +70,15 @@ extension HNewsCommentsViewController {
         guard let comment = comments[indexPath.row] as? Comment else { return UITableViewCell() }
         cell.comment = comment
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? HNewsCommentTableViewCell else { return }
+        cell.didSelectCell(tableView)
+    }
+    
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? HNewsCommentTableViewCell else { return }
+        cell.didUnselectCell(tableView)
     }
 }

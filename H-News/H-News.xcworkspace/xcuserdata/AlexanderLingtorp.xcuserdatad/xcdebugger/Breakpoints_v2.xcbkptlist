@@ -73,22 +73,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "H-News/HNewsCommentTableViewCell.swift"
-            timestampString = "478163210.705826"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "HNewsCommentTableViewCell"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "H-News/Downloader.swift"
             timestampString = "480673094.989005"
             startingColumnNumber = "9223372036854775807"
@@ -447,6 +431,70 @@
             endingLineNumber = "69"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "H-News/HNewsCommentTableViewCell.swift"
+            timestampString = "483454444.279219"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "init(style:reuseIdentifier:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "H-News/HNewsCommentTableViewCell.swift"
+            timestampString = "483454444.279219"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "HNewsCommentTableViewCell"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "H_News.HNewsCommentTableViewCell.comment.didset : Swift.Optional&lt;H_News.Comment&gt;"
+                  moduleName = "H-News"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/AlexanderLingtorp/Google%20Drive/Repositories/H-News/H-News-iOS/H-News/H-News/HNewsCommentTableViewCell.swift"
+                  timestampString = "483454424.927482"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "1968">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "H_News.HNewsCommentTableViewCell.(comment.didset : Swift.Optional&lt;H_News.Comment&gt;).(closure #1)"
+                  moduleName = "H-News"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/AlexanderLingtorp/Google%20Drive/Repositories/H-News/H-News-iOS/H-News/H-News/HNewsCommentTableViewCell.swift"
+                  timestampString = "483454424.927693"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "88">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -1,7 +1,8 @@
 
-// TODO: When clicked the cell shall expand and reveal a textfield in which you can reply to the comment and 
+// TODO: Add a button for submitting a new comment on the relevant News ...
+// TODO: When doubled tapped the cell shall expand and reveal a textfield in which you can reply to the comment, et al
 // TODO: Add a shortcut to scroll back to top.
-
+// TODO: The view shall present button at the bottom when clicked
 import MCSwipeTableViewCell
 
 class HNewsCommentTableViewCell: UITableViewCell {
@@ -9,27 +10,54 @@ class HNewsCommentTableViewCell: UITableViewCell {
     private static let dateCompsFormatter = NSDateComponentsFormatter()
     static let cellID = "HNewsCommentTableViewCell"
     
-    @IBOutlet var indentationConstraint: NSLayoutConstraint!
-    @IBOutlet var cellHeightConstraint: NSLayoutConstraint!
+    private let author = UILabel()
+    private let dateLabel = UILabel()
+    private let commentLabel = UILabel()
     
-    @IBOutlet var author: UILabel!
-    @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var commentLabel: UILabel!
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        // Setup views
+        commentLabel.numberOfLines = 3
+        
+        backgroundColor = Colors.lightGray
+        author.font = Fonts.light
+        dateLabel.font = Fonts.light
+        commentLabel.font = Fonts.light
+        
+        addSubview(author)
+        author.snp_makeConstraints { (make) in
+            make.left.bottom.equalTo(0).inset(8)
+        }
+        
+        addSubview(dateLabel)
+        dateLabel.snp_makeConstraints { (make) in
+            make.right.top.equalTo(0).inset(8)
+        }
+        
+        addSubview(commentLabel)
+        commentLabel.snp_makeConstraints { (make) in
+            make.right.left.equalTo(0).inset(8)
+            make.bottom.equalTo(author.snp_top).offset(-8)
+            make.top.equalTo(dateLabel.snp_bottom).offset(8)
+        }
+        
+        // Setup NSDateFormatter
+        HNewsCommentTableViewCell.dateCompsFormatter.unitsStyle = .Short
+        HNewsCommentTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .DropAll
+        HNewsCommentTableViewCell.dateCompsFormatter.maximumUnitCount = 1
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     var comment: Comment? {
         didSet {
             guard let comment = comment else { return }
-            
             author.text = comment.author
-            
-            // Setup NSDateFormatter
-            HNewsCommentTableViewCell.dateCompsFormatter.unitsStyle = .Short
-            HNewsCommentTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .DropAll
-            HNewsCommentTableViewCell.dateCompsFormatter.maximumUnitCount = 1
-            dateLabel.text = HNewsCommentTableViewCell.dateCompsFormatter.stringFromTimeInterval(-comment.date.timeIntervalSinceNow)
             dateLabel.text? += " ago"
-            
             commentLabel.text = comment.text
+            dateLabel.text = HNewsCommentTableViewCell.dateCompsFormatter.stringFromTimeInterval(-comment.date.timeIntervalSinceNow)
             
             let doubletapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsCommentTableViewCell.didDoubleTapOnComment))
             doubletapGestureRecog.numberOfTapsRequired = 2
@@ -39,15 +67,23 @@ class HNewsCommentTableViewCell: UITableViewCell {
         }
     }
     
-    private var expanded = false
+    func didSelectCell(tableView: UITableView) {
+        
+    }
+    
+    func didUnselectCell(tableView: UITableView) {
+        
+    }
+    
+    private var textExpanded = false
     
     func didDoubleTapOnComment() {
-        let v = expanded ? 3 : 0
+        let lines = textExpanded ? 3 : 0
         UIView.animateWithDuration(0.75) { () -> Void in
-            self.commentLabel.numberOfLines = v
+            self.commentLabel.numberOfLines = lines
             self.contentView.layoutIfNeeded()
         }
-        expanded = !expanded
+        textExpanded = !textExpanded
         // This will recompute the cell's height
         guard let tableView = superview?.superview as? UITableView else { return }
         tableView.beginUpdates()
@@ -56,10 +92,13 @@ class HNewsCommentTableViewCell: UITableViewCell {
     
     /// UI that changes dynamically ends up here
     /// Handle indentation: Sets the indentation depending on the offset property of the comment
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        guard let comment = comment else { return }
-        indentationConstraint.constant = CGFloat(comment.offset) * 15
-        setNeedsDisplay()
-    }
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        guard let comment = comment else { return }
+////        indentationConstraint.constant = CGFloat(comment.offset) * 15
+//        self.snp_updateConstraints { (make) in
+//            make.leftMargin.equalTo(CGFloat(comment.offset) * 15)
+//        }
+//        setNeedsDisplay()
+//    }
 }
