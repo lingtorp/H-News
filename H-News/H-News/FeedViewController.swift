@@ -108,8 +108,8 @@ extension FeedViewController {
             if #available(iOS 9.0, *) {
                 let safariVC = SFSafariViewController(URL: news.url)
                 safariVC.view.tintColor = Colors.peach
-                let navContr = UINavigationController(rootViewController: safariVC)
-                navigationController?.pushViewController(navContr, animated: true)
+                navigationController?.navigationBarHidden = true
+                navigationController?.pushViewController(safariVC, animated: true)
             } else {
                 // Fallback on WKWebView with .Webview case
                 fallthrough
@@ -118,8 +118,12 @@ extension FeedViewController {
             let webViewVC = HNewsWebViewController()
             webViewVC.url = news.url
             webViewVC.item = news
-            let navContr = UINavigationController(rootViewController: webViewVC)
-            navigationController?.pushViewController(navContr, animated: true)
+            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+                let navContr = UINavigationController(rootViewController: webViewVC)
+                splitViewController?.presentViewController(navContr, animated: true, completion: nil)
+            } else {
+                navigationController?.pushViewController(webViewVC, animated: true)
+            }
         }
     }
 }
@@ -129,7 +133,11 @@ extension FeedViewController {
     func showCommentsFor(news: News) {
         let commentsVC = HNewsCommentsViewController()
         commentsVC.news = news
-        let navContr = UINavigationController(rootViewController: commentsVC)
-        navigationController?.pushViewController(navContr, animated: true)
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            let navContr = UINavigationController(rootViewController: commentsVC)
+            splitViewController?.presentViewController(navContr, animated: true, completion: nil)
+        } else {
+            navigationController?.pushViewController(commentsVC, animated: true)
+        }
     }
 }

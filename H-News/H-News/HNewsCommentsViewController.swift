@@ -27,6 +27,15 @@ class HNewsCommentsViewController: UITableViewController {
         tableView.registerNib(UINib(nibName: "HNewsCommentTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsCommentTableViewCell.cellID) // TODO: Register class 
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160
+        
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            // Add a dismiss button to the webview on a iPad
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: #selector(HNewsCommentsViewController.didTapDismiss(_:)))
+        }
+    }
+    
+    func didTapDismiss(sender: UIBarButtonItem) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func onMore(sender: UIBarButtonItem) {

@@ -17,8 +17,6 @@ class MasterViewController: UIViewController {
         let showVC = FeedViewController()
         showVC.downloader = Downloader<News>(.Top)
         
-        
-        
         // Feed switcher view
         feedSwitchView.delegate = self
         feedSwitchView.feeds = [Feed(name: "TOP", selected: true, type: .Top, viewController: topVC),
@@ -33,16 +31,13 @@ class MasterViewController: UIViewController {
         installFeedViewController(askVC)
         installFeedViewController(showVC)
         
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            preferredContentSize = CGSize(width: 320.0, height: 600.0)
-            navigationItem.rightBarButtonItem = nil // Hide detail btn on ipads
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            // Reading list / Detail
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.readingList, style: .Plain, target: self, action: #selector(MasterViewController.didTapDetail))
         }
         
         // Settings
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.settings, style: .Plain, target: self, action: #selector(MasterViewController.didTapSettings))
-        
-        // Reading list / Detail
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.readingList, style: .Plain, target: self, action: #selector(MasterViewController.didTapDetail))
         
         view.bringSubviewToFront(feedSwitchView)
     }
@@ -109,9 +104,7 @@ class MasterViewController: UIViewController {
     }
     
     func didTapDetail() {
-        if let split = splitViewController {
-            split.showDetailViewController(DetailViewController(), sender: self)
-        }
+        splitViewController?.showDetailViewController(DetailViewController(), sender: self)
     }
 }
 

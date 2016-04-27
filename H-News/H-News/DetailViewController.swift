@@ -110,7 +110,13 @@ extension DetailViewController {
             HNewsReadingPile()?.markNewsAsRead(news)
             let webViewVC = HNewsWebViewController()
             webViewVC.data = downloadedHTML // TODO: Downloaded data not working
-            navigationController?.pushViewController(webViewVC, animated: true)
+            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+                // Present webviews modally on iPads
+                let navContr = UINavigationController(rootViewController: webViewVC)
+                splitViewController?.presentViewController(navContr, animated: true, completion: nil)
+            } else {
+                navigationController?.pushViewController(webViewVC, animated: true)
+            }
         }
     }
 }
@@ -120,6 +126,11 @@ extension DetailViewController {
     func showCommentsFor(news: News) {
         let commentsVC = HNewsCommentsViewController()
         commentsVC.news = news
-        navigationController?.pushViewController(commentsVC, animated: true)
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            let navContr = UINavigationController(rootViewController: commentsVC)
+            splitViewController?.presentViewController(navContr, animated: true, completion: nil)
+        } else {
+            navigationController?.pushViewController(commentsVC, animated: true)
+        }
     }
 }

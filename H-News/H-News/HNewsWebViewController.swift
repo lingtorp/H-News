@@ -65,11 +65,17 @@ class HNewsWebViewController: UIViewController {
             self.moremenu.dismiss()
             guard let url = self.url else { return }
             let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            shareSheet.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem!
             self.presentViewController(shareSheet, animated: true, completion: nil)
         }
         moremenu.items = [item0, item1, item2, item3]
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.more, style: .Plain, target: self, action: #selector(HNewsWebViewController.didTapMore(_:)))
+        
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            // Add a dismiss button to the webview on a iPad
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: #selector(HNewsWebViewController.didTapDismiss(_:)))
+        }
     }
     
     deinit {
@@ -88,6 +94,10 @@ class HNewsWebViewController: UIViewController {
     
     func didTapMore(sender: UIBarButtonItem) {
         if moremenu.shown { moremenu.dismiss() } else { moremenu.show() }
+    }
+    
+    func didTapDismiss(sender: UIBarButtonItem) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: - WKWebView KVO
