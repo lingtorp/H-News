@@ -67,11 +67,11 @@ class MasterViewController: UIViewController {
         feedViewControllers.append(viewController)
     }
     
-    func selectViewController(viewController: UIViewController) {
+    func selectViewController(viewController: FeedViewController) {
         let toViewController = viewController
         let fromViewController = currentFeedViewController
         
-        let goingRight = fromViewController.view.frame.origin.x > toViewController.view.frame.origin.x
+        let goingRight = feedViewControllers.indexOf(toViewController) ?? 0 < feedViewControllers.indexOf(fromViewController) ?? 0
         let travelDistance = view.bounds.width
         let travel = CGAffineTransformMakeTranslation(goingRight ? -travelDistance : travelDistance, 0)
         toViewController.view.alpha = 0
@@ -92,6 +92,7 @@ class MasterViewController: UIViewController {
             }) { (complete) in
                 fromViewController.view.transform = CGAffineTransformIdentity
         }
+        currentFeedViewController = toViewController
     }
     
     func didTapSettings() {
