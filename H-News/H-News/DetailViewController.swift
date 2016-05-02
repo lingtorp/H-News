@@ -12,8 +12,6 @@ class DetailViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
         
-        navigationController?.navigationBar.backgroundColor = UIColor.darkGrayColor()
-        
         // Observe Realm Notifications
         notiToken = HNewsReadingPile()?.realm?.addNotificationBlock { notification, realm in
             self.news = HNewsReadingPile()?.fetchAllNews(read: false) ?? []
@@ -22,6 +20,9 @@ class DetailViewController: UITableViewController {
             self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Automatic)
         }
         tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID) // TODO: Register class
+        
+        // Trash items
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.trash, style: .Plain, target: self, action: #selector(DetailViewController.didPressTrash))
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -30,7 +31,7 @@ class DetailViewController: UITableViewController {
         tableView.deselectRowAtIndexPath(indexPathForSelectedRow, animated: true)
     }
     
-    @IBAction func didPressTrashAll(sender: UIBarButtonItem) {
+    func didPressTrash() {
         let alert = UIAlertController()
         alert.addAction(UIAlertAction(title: "Unread", style: .Destructive, handler: { (UIAlertAction) -> Void in
             HNewsReadingPile()?.removeAllNews(read: false)
@@ -109,7 +110,13 @@ extension DetailViewController {
             HNewsReadingPile()?.markNewsAsRead(news)
             let webViewVC = HNewsWebViewController()
             webViewVC.data = downloadedHTML // TODO: Downloaded data not working
-            navigationController?.pushViewController(webViewVC, animated: true)
+            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+                // Present webviews modally on iPads
+                let navContr = UINavigationController(rootViewController: webViewVC)
+                splitViewController?.presentViewController(navContr, animated: true, completion: nil)
+            } else {
+                navigationController?.pushViewController(webViewVC, animated: true)
+            }
         }
     }
 }
@@ -119,6 +126,11 @@ extension DetailViewController {
     func showCommentsFor(news: News) {
         let commentsVC = HNewsCommentsViewController()
         commentsVC.news = news
-        navigationController?.pushViewController(commentsVC, animated: true)
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            let navContr = UINavigationController(rootViewController: commentsVC)
+            splitViewController?.presentViewController(navContr, animated: true, completion: nil)
+        } else {
+            navigationController?.pushViewController(commentsVC, animated: true)
+        }
     }
 }

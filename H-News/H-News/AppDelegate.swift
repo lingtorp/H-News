@@ -1,5 +1,5 @@
-
 import UIKit
+import BEMCheckBox
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -20,12 +20,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         window?.rootViewController = splitVC
         window?.makeKeyAndVisible()
-    
+        
+        /// Global appearance
+        UINavigationBar.appearance().tintColor = Colors.peach
+        UINavigationBar.appearance().barTintColor = UIColor.darkGrayColor()
+        UITableView.appearance().backgroundColor = UIColor.darkGrayColor()
+        
+        // Checkbox default appearance
+        BEMCheckBox.appearance().onTintColor = Colors.peach
+        BEMCheckBox.appearance().tintColor = Colors.peach
+        BEMCheckBox.appearance().onCheckColor = Colors.peach
+        BEMCheckBox.appearance().lineWidth = 1.5
+        BEMCheckBox.appearance().animationDuration = 0.2
+        
         return true
     }
 
     // MARK: - Split view
-    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
+    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController: UIViewController, ontoPrimaryViewController primaryViewController: UIViewController) -> Bool {
         if let secondaryAsNavController = secondaryViewController as? UINavigationController {
             if let _ = secondaryAsNavController.topViewController as? DetailViewController {
                 // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.

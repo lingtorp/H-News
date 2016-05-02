@@ -14,7 +14,7 @@ extension Dictionary {
 
 /// Downloader provides a interface to download something in batches async possibly combined with a Generator.
 protocol DownloaderType {
-    typealias Element
+    associatedtype Element
     func fetchNextBatch(offset: Int, batchSize: Int, onCompletion: (result: [Element]) -> Void)
     /// Resets the Downloaders' internal state, clears buffers, et cetera.
     func reset()
@@ -23,6 +23,25 @@ protocol DownloaderType {
 /// Something that adopts this protocol is able to convert from JSON to itself and thus makes it 'downloadable'
 protocol Downloadable {
     static func parseJSON(json: [String:AnyObject]) -> Self?
+}
+
+extension Ask: Downloadable {
+    static func parseJSON(json: [String:AnyObject]) -> Ask? {
+        guard let id     = json["id"]     as? Int    else { return nil }
+        guard let title  = json["title"]  as? String else { return nil }
+        guard let author = json["author"] as? String else { return nil }
+        guard let time   = json["time"]   as? String else { return nil }
+        guard let score  = json["points"] as? Int    else { return nil }
+        guard let comments = json["comments"] as? Int else { return nil }
+        guard let read  = HNewsReadingPile()?.isStoryRead(id) else { return nil }
+        guard let question = json["question"] as? String else { return nil }
+        
+        let df = NSDateFormatter()
+        df.timeZone = NSTimeZone(abbreviation: "GMT")
+        df.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
+        guard let date = df.dateFromString(time) else { return nil }
+        return Ask(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, question: question)
+    }
 }
 
 extension News: Downloadable {
@@ -63,8 +82,11 @@ extension Comment: Downloadable {
 
 /// The API endpoint from which a Downloader fetches data
 enum APIEndpoint: String {
-    case News     = "https://h-news.herokuapp.com/v1/news"
+    case Top      = "https://h-news.herokuapp.com/v1/news"
     case Comments = "https://h-news.herokuapp.com/v1/comments"
+    case Show     = "https://h-news.herokuapp.com/v1/show"
+    case New      = "https://h-news.herokuapp.com/v1/new"
+    case Ask      = "https://h-news.herokuapp.com/v1/ask"
 }
 
 class Downloader<T: Downloadable>: DownloaderType {

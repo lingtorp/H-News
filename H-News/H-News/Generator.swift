@@ -1,9 +1,9 @@
 
 /// The Generator provides a interface to a possibly infinite datastream which is fetched in batches
 protocol GeneratorType {
-    typealias Element
-    typealias FetchNextBatch
-    mutating func next(batchSize: Int, _ fetchNextBatch: FetchNextBatch, onFinish: ([Element] -> Void)?)
+    associatedtype Element
+    associatedtype FetchNextBatch
+    mutating func next(batchSize: Int, _ fetchNextBatch: FetchNextBatch?, onFinish: ([Element] -> Void)?)
     /// Resets the Generators' position in the datastream. Starts from the beginning again.
     func reset()
 }
@@ -21,8 +21,8 @@ class Generator<T>: GeneratorType {
         self.batchSize = batchSize
     }
     
-    func next(batchSize: Int, _ fetchNextBatch: FetchNextBatch, onFinish: ([Element] -> Void)?) {
-        fetchNextBatch(offset: offset, batchSize: batchSize) { [unowned self] (items) in
+    func next(batchSize: Int, _ fetchNextBatch: FetchNextBatch?, onFinish: ([Element] -> Void)?) {
+        fetchNextBatch?(offset: offset, batchSize: batchSize) { [unowned self] (items) in
             self.offset += items.count
             Dispatcher.main { onFinish?(items) }
         }

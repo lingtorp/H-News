@@ -1,140 +1,242 @@
-
 import UIKit
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UIViewController {
     
-    private var stories: [News] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-    
-    private let newsGenerator  = Generator<News>()
-    private let newsDownloader = Downloader<News>(APIEndpoint.News) 
+    private let feedSwitchView = FeedSwitchView()
     
     override func viewDidLoad() {
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 160.0
+        // Fixes so that the views end up below the navbar not underneth.
+        navigationController?.navigationBar.translucent = false
+        definesPresentationContext = true
         
-        navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        let topVC = currentFeedViewController
+        let newVC = FeedViewController()
+        newVC.downloader = Downloader<News>(.Top)
+        let askVC = FeedViewController()
+        askVC.downloader = Downloader<News>(.Top)
+        let showVC = FeedViewController()
+        showVC.downloader = Downloader<News>(.Top)
         
-        tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID)
-        newsGenerator.next(25, newsDownloader.fetchNextBatch, onFinish: updateDatasource)
+        // Feed switcher view
+        feedSwitchView.delegate = self
+        feedSwitchView.feeds = [Feed(name: "TOP", selected: true, type: .Top, viewController: topVC),
+                                Feed(name: "NEW", selected: false, type: .New, viewController: newVC),
+                                Feed(name: "ASK", selected: false, type: .Ask, viewController: askVC),
+                                Feed(name: "SHOW", selected: false, type: .Show, viewController: showVC)]
+        view.addSubview(feedSwitchView)
         
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            clearsSelectionOnViewWillAppear = false
-            preferredContentSize = CGSize(width: 320.0, height: 600.0)
-            navigationItem.rightBarButtonItem = nil // Hide detail btn on ipads
+        // Install the feed view controllers
+        installFeedViewController(currentFeedViewController)
+        installFeedViewController(newVC)
+        installFeedViewController(askVC)
+        installFeedViewController(showVC)
+        
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            // Reading list / Detail
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.readingList, style: .Plain, target: self, action: #selector(MasterViewController.didTapDetail))
         }
         
         // Settings
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.settings, style: .Plain, target: self, action: "didTapSettings")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.settings, style: .Plain, target: self, action: #selector(MasterViewController.didTapSettings))
         
-        // Reading list / Detail
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.readingList, style: .Plain, target: self, action: "didTapDetail")
-        
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: "didRefreshFeed:", forControlEvents: .ValueChanged)
+        view.bringSubviewToFront(feedSwitchView)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        guard let indexPathForSelectedRow = tableView.indexPathForSelectedRow else { return }
-        tableView.deselectRowAtIndexPath(indexPathForSelectedRow, animated: true)
+    /// The currently shown feed viewcontroller
+    var currentFeedViewController = FeedViewController()
+    
+    var feedViewControllers: [FeedViewController] = []
+    
+    func installFeedViewController(viewController: FeedViewController) {
+        addChildViewController(viewController)
+        view.addSubview(viewController.view)
+        viewController.didMoveToParentViewController(self)
+        if feedViewControllers.count == 0 {
+            // Add first view controller as the selected one
+            currentFeedViewController = viewController
+            selectViewController(viewController)
+        } else {
+            let previousViewController = feedViewControllers[feedViewControllers.count - 1]
+            viewController.view.snp_makeConstraints { (make) in
+                make.top.equalTo(self.feedSwitchView.snp_bottom)
+                make.centerY.equalTo(0)
+                make.left.equalTo(previousViewController.view.snp_right)
+                make.bottom.equalTo(self.view.snp_bottom)
+            }
+        }
+        feedViewControllers.append(viewController)
     }
     
-    func didRefreshFeed(sender: UIRefreshControl) {
-        newsGenerator.reset()
-        newsDownloader.reset()
-        stories.removeAll()
-        newsGenerator.next(25, newsDownloader.fetchNextBatch, onFinish: updateDatasource)
+    func selectViewController(viewController: FeedViewController) {
+        let toViewController = viewController
+        let fromViewController = currentFeedViewController
+        
+        let goingRight = feedViewControllers.indexOf(toViewController) ?? 0 < feedViewControllers.indexOf(fromViewController) ?? 0
+        let travelDistance = view.bounds.width
+        let travel = CGAffineTransformMakeTranslation(goingRight ? -travelDistance : travelDistance, 0)
+        toViewController.view.alpha = 0
+        toViewController.view.transform = CGAffineTransformInvert(travel)
+        
+        UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.TransitionNone, animations: { 
+            fromViewController.view.transform = travel
+            toViewController.view.transform = CGAffineTransformIdentity
+            toViewController.view.alpha = 1
+            
+            toViewController.view.snp_makeConstraints { (make) in
+                make.top.equalTo(self.feedSwitchView.snp_bottom)
+                make.centerX.equalTo(0)
+                make.right.left.equalTo(0)
+                make.bottom.equalTo(self.view.snp_bottom)
+            }
+
+            }) { (complete) in
+                fromViewController.view.transform = CGAffineTransformIdentity
+        }
+        currentFeedViewController = toViewController
     }
     
     func didTapSettings() {
         let settingsVC = HNewsSettingsViewController()
-        let navigationController = UINavigationController(rootViewController: settingsVC)
-        presentViewController(navigationController, animated: true, completion: nil)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        let navContr = UINavigationController(rootViewController: settingsVC)
+        presentViewController(navContr, animated: true) { 
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+        }
     }
     
     func didTapDetail() {
-        if let split = splitViewController {
-            split.showDetailViewController(DetailViewController(), sender: self)
+        splitViewController?.showDetailViewController(DetailViewController(), sender: self)
+    }
+}
+
+extension MasterViewController: FeedSwitchDelegate {
+    func didSelect(view: FeedSwitchView, feed: Feed) {
+        selectViewController(feed.viewController)
+    }
+}
+
+/// View-model which represents a feed
+struct Feed {
+    let name: String
+    var selected: Bool
+    let type: FeedType
+    let viewController: FeedViewController
+    
+    enum FeedType { case Show, Ask, New, Top }
+}
+
+protocol FeedSwitchDelegate {
+    func didSelect(view: FeedSwitchView, feed: Feed)
+}
+
+/// FeedSwitchView represent a tabbar like view which switches feeds.
+/// Need to add this as a subview, after setting it's properties.
+class FeedSwitchView: UIView {
+    
+    private class FeedItemView: UIControl {
+        
+        private let title: UILabel = UILabel()
+        
+        var feed: Feed? {
+            didSet {
+                guard let feed = feed else { return }
+                tag = feed.name.hashValue
+                
+                title.text = feed.name
+                title.textAlignment = .Center
+                title.textColor = Colors.gray
+                addSubview(title)
+                title.snp_makeConstraints { (make) in
+                    make.center.equalTo(0)
+                }
+                let tapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(FeedSwitchView.FeedItemView.didTapFeed(_:)))
+                addGestureRecognizer(tapGestureRecog)
+            }
+        }
+        
+        @objc func didTapFeed(sender: UITapGestureRecognizer) {
+            guard let feed = feed else { return }
+            guard !feed.selected else { return }
+            guard let parent = superview as? FeedSwitchView else { return }
+            parent.selected(feed)
+            parent.selectorAnimateTo(self)
         }
     }
-}
-
-// MARK: - Paging
-extension MasterViewController {
-    private func updateDatasource(items: [News]) {
-        stories += items
-        refreshControl?.endRefreshing()
-    }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == tableView.dataSource!.tableView(tableView, numberOfRowsInSection: 1) - 5 {
-            Dispatcher.async { self.newsGenerator.next(15, self.newsDownloader.fetchNextBatch, onFinish: self.updateDatasource) }
+    private let selector: UIView = UIView()
+    
+    var feeds: [Feed]?
+    
+    var delegate: FeedSwitchDelegate?
+    
+    override func didMoveToSuperview() {
+        guard let superview = superview else { return }
+        guard let feeds = feeds else { return }
+        
+        backgroundColor = Colors.lightGray
+        
+        self.snp_makeConstraints { (make) in
+            make.left.right.equalTo(0)
+            make.centerX.equalTo(0)
+            make.top.equalTo(superview.snp_top)
+            make.height.equalTo(superview.snp_height).dividedBy(14)
+        }
+        
+        // Setup feed items
+        var rightViewConstraint = superview.snp_right
+        for feed in feeds {
+            let feedTitle = FeedItemView()
+            addSubview(feedTitle)
+            feedTitle.feed = feed
+            let rightPadding = superview.frame.width / CGFloat(feeds.count + 1)
+            feedTitle.snp_makeConstraints(closure: { (make) in
+                make.width.equalTo(rightPadding)
+                make.height.equalTo(rightPadding / 2)
+                make.centerX.equalTo(rightViewConstraint).offset(-rightPadding)
+                make.centerY.equalTo(0)
+            })
+            rightViewConstraint = feedTitle.snp_centerX
+        }
+        
+        guard let selectedFeed = feeds.filter({ (feed) -> Bool in feed.selected }).first else { return }
+        guard let selectedView = viewWithTag(selectedFeed.name.hashValue) else { return }
+        // Setup selector
+        selector.backgroundColor = Colors.gray
+        addSubview(selector)
+        selector.snp_makeConstraints { (make) in
+            make.height.equalTo(2)
+            make.width.equalTo(superview.snp_width).dividedBy(16)
+            make.top.equalTo(selectedView.snp_baseline).offset(-4)
+            make.centerX.equalTo(selectedView.snp_centerX)
         }
     }
-}
-
-// MARK: - UITableViewDatasource
-extension MasterViewController {
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stories.count
-    }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(HNewsTableViewCell.cellID) as? HNewsTableViewCell else { return UITableViewCell() }
-        guard let news = stories[indexPath.row] as? News else { return UITableViewCell() }
-        
-        cell.story = news
-        cell.secondTrigger = 0.5
-        cell.showCommentsFor = showCommentsFor
-        
-        // Add to Reading Pile gesture
-        cell.setSwipeGestureWithView(HNewsTableViewCell.readingPileImage, color: UIColor.darkGrayColor(), mode: .Exit, state: .State1,
-            completionBlock: { (cell, state, mode) -> Void in
-                guard let cell = cell as? HNewsTableViewCell else { return }
-                guard let news = cell.story as? News         else { return }
-                HNewsReadingPile()?.addNews(news)
-                Dispatcher.async { self.downloadArticle(news.url, newsID: news.id) }
-                self.stories = self.stories.filter { $0.id == news.id ? false : true }
-                self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
-        })
-        
-        return cell
-    }
-    
-    private func downloadArticle(url: NSURL, newsID: Int) {
-        let request = NSMutableURLRequest(URL: url)
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, err) -> Void in
-            guard let data = data else { return }
-            HNewsReadingPile()?.save(data, newsID: newsID)
+    private func selected(selectedFeed: Feed) {
+        delegate?.didSelect(self, feed: selectedFeed)
+        guard let feeds = feeds else { return }
+        for feed in feeds {
+            // Deselect all
+            if let view = viewWithTag(feed.name.hashValue) as? FeedItemView {
+                view.feed?.selected = false
+            }
+            // Select the selected
+            if let view = viewWithTag(selectedFeed.name.hashValue) as? FeedItemView {
+                view.feed?.selected = true
+            }
         }
-        task.resume()
     }
-}
-
-// MARK: - UITableViewDelegate
-extension MasterViewController {
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let news = stories[indexPath.row] as? News else { return }
-        guard let updatedNews = HNewsReadingPile()?.markNewsAsRead(news) else { return }
-        stories[indexPath.row] = updatedNews
-        
-        let webViewVC = HNewsWebViewController()
-        webViewVC.url = news.url
-        let navContr = UINavigationController(rootViewController: webViewVC)
-        navigationController?.pushViewController(navContr, animated: true)
-    }
-}
-
-/// MARK: - Custom tap cell handling for comments
-extension MasterViewController {
-    func showCommentsFor(news: News) {
-        let commentsVC = HNewsCommentsViewController()
-        commentsVC.news = news
-        let navContr = UINavigationController(rootViewController: commentsVC)
-        navigationController?.pushViewController(navContr, animated: true)
+    
+    private func selectorAnimateTo(selectedView: FeedItemView) {
+        UIView.animateWithDuration(0.2) {
+            // make animatable changes
+            self.selector.snp_remakeConstraints(closure: { (make) in
+                make.height.equalTo(2)
+                make.width.equalTo(self.snp_width).dividedBy(16)
+                make.top.equalTo(selectedView.snp_baseline).offset(-4)
+                make.centerX.equalTo(selectedView.snp_centerX)
+            })
+            // do the animation
+            self.layoutIfNeeded()
+        }
     }
 }
