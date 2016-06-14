@@ -32,5 +32,8 @@ struct Icons {
     
     /// Application wide used icon for accepting stuff, next, done, etc.
     static let accept = UIImage(named: "checkmark")!
+    
+    /// Application wide used icon for iOS typical share icon 
+    static let share = UIImage(named: "share")!
 }
 
