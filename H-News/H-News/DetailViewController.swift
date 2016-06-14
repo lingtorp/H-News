@@ -19,7 +19,7 @@ class DetailViewController: UITableViewController {
             self.archivednews = HNewsReadingPile()?.fetchAllNews(read: true) ?? []
             self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Automatic)
         }
-        tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID) // TODO: Register class
+        tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.ID) // TODO: Register class
         
         // Trash items
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.trash, style: .Plain, target: self, action: #selector(DetailViewController.didPressTrash))
@@ -52,7 +52,7 @@ class DetailViewController: UITableViewController {
 // MARK: - UITableViewDatasource
 extension DetailViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(HNewsTableViewCell.cellID) as? HNewsTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(HNewsTableViewCell.ID) as? HNewsTableViewCell else { return UITableViewCell() }
         
         switch indexPath.section {
         case 0:

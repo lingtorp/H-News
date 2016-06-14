@@ -16,7 +16,8 @@ class FeedViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
                 
-        tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID)
+//        tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID)
+        tableView.registerClass(HNewsTableViewCell.self, forCellReuseIdentifier: HNewsTableViewCell.ID)
         generator?.next(25, downloader?.fetchNextBatch, onFinish: updateDatasource)
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
@@ -63,7 +64,7 @@ extension FeedViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(HNewsTableViewCell.cellID) as? HNewsTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(HNewsTableViewCell.ID) as? HNewsTableViewCell else { return UITableViewCell() }
         guard let news = stories[indexPath.row] as? News else { return UITableViewCell() }
         
         cell.story = news
