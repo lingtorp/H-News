@@ -14,7 +14,7 @@ class Login {
         let params = ["username" : username, "password" : password]
         Alamofire.request(.POST, LoginEndpointURL, parameters: params).responseJSON { (response) in
             var success = false
-            if let json = response.result.value as? [String:AnyObject] {
+            if let json = response.result.value as? [String : AnyObject] {
                 print(json)
                 success = true
             }
@@ -25,7 +25,11 @@ class Login {
     private static let UpvoteEndpointURL = NSURL(string: "\(baseurl)/v1/login/upvote")!
     
     class func upvote(id: Int, callback: (result: Result) -> Void) {
-
-    
+        Alamofire.request(.POST, UpvoteEndpointURL, parameters: nil).responseJSON { (response) in
+            if let json = response.result.value as? [String : AnyObject] {
+                print(json)
+            }
+            callback(result: .Success)
+        }
     }
 }
