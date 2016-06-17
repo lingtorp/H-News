@@ -3,6 +3,7 @@
 // TODO: When doubled tapped the cell shall expand and reveal a textfield in which you can reply to the comment, et al
 // TODO: Add a shortcut to scroll back to top.
 // TODO: The view shall present button at the bottom when clicked
+// TODO: Show an indicator that the comment can be expanded
 import MCSwipeTableViewCell
 
 class HNewsCommentTableViewCell: UITableViewCell {
@@ -10,8 +11,8 @@ class HNewsCommentTableViewCell: UITableViewCell {
     private static let dateCompsFormatter = NSDateComponentsFormatter()
     static let cellID = "HNewsCommentTableViewCell"
     
-    private let author = UILabel()
-    private let dateLabel = UILabel()
+    private let author       = UILabel()
+    private let dateLabel    = UILabel()
     private let commentLabel = UILabel()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -19,21 +20,24 @@ class HNewsCommentTableViewCell: UITableViewCell {
         // Setup views
         commentLabel.numberOfLines = 3
         
-        backgroundColor = Colors.lightGray
-        author.font = Fonts.light
-        dateLabel.font = Fonts.light
-        commentLabel.font = Fonts.light
+        backgroundColor = Colors.gray
         
+        author.font = Fonts.title
+        author.textColor = Colors.white
         addSubview(author)
         author.snp_makeConstraints { (make) in
             make.left.bottom.equalTo(0).inset(8)
         }
         
+        dateLabel.font = Fonts.light
+        dateLabel.textColor = Colors.lightGray
         addSubview(dateLabel)
         dateLabel.snp_makeConstraints { (make) in
             make.right.top.equalTo(0).inset(8)
         }
         
+        commentLabel.font = Fonts.light
+        commentLabel.textColor = Colors.white
         addSubview(commentLabel)
         commentLabel.snp_makeConstraints { (make) in
             make.right.left.equalTo(0).inset(8)

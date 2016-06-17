@@ -3,7 +3,7 @@ import UIKit
 class Fonts {
     
     /// TODO: Add fonts used as titles, subtitles, notifications, etc
-    static let title = UIFont(name: "", size: 12)
+    static let title = UIFont(name: "", size: 8)
     
-    static let light = UIFont.systemFontOfSize(12)
+    static let light = UIFont.systemFontOfSize(14)
 }

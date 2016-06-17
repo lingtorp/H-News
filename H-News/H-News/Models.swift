@@ -20,7 +20,7 @@ struct News: Story {
     let score    : Int
     let comments : Int
     
-    let url   : NSURL
+    let url      : NSURL
 }
 
 struct Ask: Story {
@@ -32,7 +32,7 @@ struct Ask: Story {
     let score    : Int
     let comments : Int
 
-    let question: String
+    let question : String
 }
 
 struct Comment {

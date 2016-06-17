@@ -6,9 +6,10 @@ extension Dictionary {
         dictionary.forEach { self.updateValue($1, forKey: $0) }
     }
     
-    func union(var dictionary: Dictionary) -> Dictionary {
-        dictionary.unionInPlace(self)
-        return dictionary
+    func union(dictionary: Dictionary) -> Dictionary {
+        var dict = dictionary
+        dict.unionInPlace(self)
+        return dict
     }
 }
 

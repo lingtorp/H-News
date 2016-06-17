@@ -23,8 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         /// Global appearance
         UINavigationBar.appearance().tintColor = Colors.peach
-        UINavigationBar.appearance().barTintColor = UIColor.darkGrayColor()
-        UITableView.appearance().backgroundColor = UIColor.darkGrayColor()
+        UINavigationBar.appearance().barTintColor = Colors.gray
+        UITableView.appearance().backgroundColor = Colors.gray
         
         // Checkbox default appearance
         BEMCheckBox.appearance().onTintColor = Colors.peach

@@ -9,6 +9,7 @@ class HNewsCommentsViewController: UITableViewController {
         didSet {
             guard let news = news else { return }
             title = news.title
+            
             // Begin to load the comments of the News.
             generator.reset()
             downloader.reset()
@@ -25,9 +26,13 @@ class HNewsCommentsViewController: UITableViewController {
 
     override func viewDidLoad() {
         tableView.registerClass(HNewsCommentTableViewCell.self, forCellReuseIdentifier: HNewsCommentTableViewCell.cellID)
-//        tableView.registerNib(UINib(nibName: "HNewsCommentTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsCommentTableViewCell.cellID) // TODO: Register class 
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160
+        tableView.allowsSelection = false
+        
+        let attribs: [String : AnyObject] = [
+            NSForegroundColorAttributeName : Colors.peach]
+        navigationController?.navigationBar.titleTextAttributes = attribs
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             // Add a dismiss button to the webview on a iPad
