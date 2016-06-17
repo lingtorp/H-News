@@ -58,28 +58,12 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             make.right.equalTo(0).offset(-8)
         }
         
-=======
         commentsCount.textColor = Colors.peach
         addSubview(commentsCount)
         commentsCount.snp_makeConstraints { (make) in
             make.right.top.equalTo(self.snp_right).offset(8)
         }
         
-        title.numberOfLines = 2
-        addSubview(title)
-        title.snp_makeConstraints { (make) in
-            make.left.top.equalTo(self.snp_left).offset(8)
-            make.right.equalTo(commentsCount.snp_left).offset(8)
-        }
-        
-        url.textColor = Colors.lightGray
-        addSubview(url)
-        url.snp_makeConstraints { (make) in
-            make.left.bottom.equalTo(0).offset(8)
-            make.top.equalTo(title.snp_bottom).offset(8)
-        }
-
->>>>>>> 158d943f151cfff489dcbaf446a7e6f8e2829505
         // do the initial layout
         layoutIfNeeded()
     }
