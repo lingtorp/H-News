@@ -35,7 +35,7 @@ class HNewsWebViewController: UIViewController, UIGestureRecognizerDelegate {
         let attribs: [String : AnyObject] = [
             NSForegroundColorAttributeName : Colors.peach]
         navigationController?.navigationBar.titleTextAttributes = attribs
-        
+
         // Setup more menu
         view.addSubview(moremenu)
         let item0 = HNewsMoreMenuItem(title: "Comments", image: Icons.comments) { () in

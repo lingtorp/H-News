@@ -19,6 +19,7 @@
 		949661FF1B6BCDD900B8882E /* HNewsReadingPile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949661FE1B6BCDD900B8882E /* HNewsReadingPile.swift */; };
 		949B0C3B1C802AD100FBE684 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949B0C3A1C802AD100FBE684 /* Icons.swift */; };
 		949B0C401C802F9D00FBE684 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949B0C3F1C802F9D00FBE684 /* Colors.swift */; };
+		949E8FF01D0841D200AAD2A2 /* HNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 949E8FEF1D0841D200AAD2A2 /* HNewsTableViewCell.xib */; };
 		94A5B4F31C4CFEC600D92EDE /* HNewsMoreMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A5B4F21C4CFEC600D92EDE /* HNewsMoreMenu.swift */; };
 		94AFE4701B89CDBF0087B8A4 /* HNewsWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AFE46F1B89CDBF0087B8A4 /* HNewsWebViewController.swift */; };
 		94B28D2A1C16D3AE00D7666A /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B28D291C16D3AE00D7666A /* Dispatcher.swift */; };
@@ -66,6 +67,7 @@
 		949661FE1B6BCDD900B8882E /* HNewsReadingPile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNewsReadingPile.swift; sourceTree = "<group>"; };
 		949B0C3A1C802AD100FBE684 /* Icons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
 		949B0C3F1C802F9D00FBE684 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		949E8FEF1D0841D200AAD2A2 /* HNewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HNewsTableViewCell.xib; sourceTree = "<group>"; };
 		94A5B4F21C4CFEC600D92EDE /* HNewsMoreMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNewsMoreMenu.swift; sourceTree = "<group>"; };
 		94AFE46F1B89CDBF0087B8A4 /* HNewsWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNewsWebViewController.swift; sourceTree = "<group>"; };
 		94B28D291C16D3AE00D7666A /* Dispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
@@ -303,7 +305,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Lingtorp;
 				TargetAttributes = {
 					9406EE641B66A37B005A814F = {
@@ -553,6 +555,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6C81014C0C773A921675CCC0 /* Pods-H-News.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -573,6 +576,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2216EA8B65121DF8F2AE26D0 /* Pods-H-News.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -585,7 +589,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "H-News/H-News-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -621,6 +625,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "lingtorp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/H-News.app/H-News";
 			};
 			name = Release;

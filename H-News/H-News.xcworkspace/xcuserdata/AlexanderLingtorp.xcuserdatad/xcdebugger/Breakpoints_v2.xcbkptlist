@@ -173,7 +173,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "105"
             endingLineNumber = "105"
-            landmarkName = "didTapMore(_:)"
+            landmarkName = "loadWebViewWith(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -621,8 +621,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "87"
             endingLineNumber = "87"
-            landmarkName = "didTapOnParent(_:)"
-            landmarkType = "5">
+            landmarkName = "HNewsWebViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
