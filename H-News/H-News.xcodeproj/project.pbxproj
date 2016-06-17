@@ -16,10 +16,10 @@
 		9406EE951B66D17A005A814F /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE941B66D17A005A814F /* Downloader.swift */; };
 		9406EE981B68DCC0005A814F /* HNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406EE971B68DCC0005A814F /* HNewsTableViewCell.swift */; };
 		941751B91CA0704200E5E306 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941751B81CA0704200E5E306 /* MasterViewController.swift */; };
+		946215EA1D145A9100D5A979 /* HNSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946215E91D145A9100D5A979 /* HNSectionHeader.swift */; };
 		949661FF1B6BCDD900B8882E /* HNewsReadingPile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949661FE1B6BCDD900B8882E /* HNewsReadingPile.swift */; };
 		949B0C3B1C802AD100FBE684 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949B0C3A1C802AD100FBE684 /* Icons.swift */; };
 		949B0C401C802F9D00FBE684 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949B0C3F1C802F9D00FBE684 /* Colors.swift */; };
-		949E8FF01D0841D200AAD2A2 /* HNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 949E8FEF1D0841D200AAD2A2 /* HNewsTableViewCell.xib */; };
 		94A5B4F31C4CFEC600D92EDE /* HNewsMoreMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A5B4F21C4CFEC600D92EDE /* HNewsMoreMenu.swift */; };
 		94AFE4701B89CDBF0087B8A4 /* HNewsWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AFE46F1B89CDBF0087B8A4 /* HNewsWebViewController.swift */; };
 		94B28D2A1C16D3AE00D7666A /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B28D291C16D3AE00D7666A /* Dispatcher.swift */; };
@@ -64,10 +64,10 @@
 		9406EE941B66D17A005A814F /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		9406EE971B68DCC0005A814F /* HNewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNewsTableViewCell.swift; sourceTree = "<group>"; };
 		941751B81CA0704200E5E306 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		946215E91D145A9100D5A979 /* HNSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNSectionHeader.swift; sourceTree = "<group>"; };
 		949661FE1B6BCDD900B8882E /* HNewsReadingPile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNewsReadingPile.swift; sourceTree = "<group>"; };
 		949B0C3A1C802AD100FBE684 /* Icons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
 		949B0C3F1C802F9D00FBE684 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		949E8FEF1D0841D200AAD2A2 /* HNewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HNewsTableViewCell.xib; sourceTree = "<group>"; };
 		94A5B4F21C4CFEC600D92EDE /* HNewsMoreMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNewsMoreMenu.swift; sourceTree = "<group>"; };
 		94AFE46F1B89CDBF0087B8A4 /* HNewsWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNewsWebViewController.swift; sourceTree = "<group>"; };
 		94B28D291C16D3AE00D7666A /* Dispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
@@ -235,6 +235,7 @@
 			children = (
 				94EB378C1C3ACDB8004B7E0F /* HNewsCommentTableViewCell.swift */,
 				94EB37891C39C371004B7E0F /* HNewsCommentsViewController.swift */,
+				946215E91D145A9100D5A979 /* HNSectionHeader.swift */,
 			);
 			name = "Comments View";
 			sourceTree = "<group>";
@@ -429,6 +430,7 @@
 				94B28D301C16ED7100D7666A /* Generator.swift in Sources */,
 				949661FF1B6BCDD900B8882E /* HNewsReadingPile.swift in Sources */,
 				94AFE4701B89CDBF0087B8A4 /* HNewsWebViewController.swift in Sources */,
+				946215EA1D145A9100D5A979 /* HNSectionHeader.swift in Sources */,
 				941751B91CA0704200E5E306 /* MasterViewController.swift in Sources */,
 				94E8B4631C9948B3007FB239 /* Fonts.swift in Sources */,
 				94B28D2E1C16D99300D7666A /* Models.swift in Sources */,

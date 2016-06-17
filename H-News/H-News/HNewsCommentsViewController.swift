@@ -25,6 +25,8 @@ class HNewsCommentsViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
+        tableView = UITableView(frame: view.frame, style: .Grouped)
+        tableView.registerClass(HNSectionHeader.self, forHeaderFooterViewReuseIdentifier: HNSectionHeader.ID)
         tableView.registerClass(HNewsCommentTableViewCell.self, forCellReuseIdentifier: HNewsCommentTableViewCell.cellID)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160
@@ -69,7 +71,18 @@ extension HNewsCommentsViewController {
 }
 
 // MARK: - UITableViewDelegate
-extension HNewsCommentsViewController {    
+extension HNewsCommentsViewController {
+
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return HNSectionHeader.height
+    }
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(HNSectionHeader.ID) as? HNSectionHeader else { return HNSectionHeader() }
+        header.news = news
+        return header
+    }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCellWithIdentifier(HNewsCommentTableViewCell.cellID) as? HNewsCommentTableViewCell else { return UITableViewCell() }
         guard let comment = comments[indexPath.row] as? Comment else { return UITableViewCell() }
