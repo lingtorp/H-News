@@ -4,20 +4,51 @@ import MCSwipeTableViewCell
 
 class HNewsTableViewCell: MCSwipeTableViewCell {
     
-    static let cellID = "Cell"
+    static let ID = "HNewsTableViewCell"
     
-    static let trashImage       = UIImageView(image: UIImage(named: "UIButtonBarTrash"))
-    static let readingPileImage = UIImageView(image: UIImage(named: "reading_list_icon"))
-    static let upvoteImage      = UIImageView(image: UIImage(named: "upvote_arrow"))
+    static let trashImage       = UIImageView(image: Icons.trash)
+    static let readingPileImage = UIImageView(image: Icons.readingList)
+    static let upvoteImage      = UIImageView(image: Icons.upvote)
     
     private static let dateCompsFormatter = NSDateComponentsFormatter()
     
-    @IBOutlet var title: UILabel!
-    @IBOutlet var commentsCount: UILabel!
-    @IBOutlet var score: UILabel!
-    @IBOutlet var url: UILabel!
-    @IBOutlet var author: UILabel!
-    @IBOutlet var time: UILabel!
+    private let title           = UILabel()
+    private let commentsCount   = UILabel()
+    private let score           = UILabel()
+    private let url             = UILabel()
+    private let author          = UILabel()
+    private let time            = UILabel()
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        commentsCount.textColor = Colors.peach
+        addSubview(commentsCount)
+        commentsCount.snp_makeConstraints { (make) in
+            make.right.top.equalTo(self.snp_right).offset(8)
+        }
+        
+        title.numberOfLines = 2
+        addSubview(title)
+        title.snp_makeConstraints { (make) in
+            make.left.top.equalTo(self.snp_left).offset(8)
+            make.right.equalTo(commentsCount.snp_left).offset(8)
+        }
+        
+        url.textColor = Colors.lightGray
+        addSubview(url)
+        url.snp_makeConstraints { (make) in
+            make.left.bottom.equalTo(0).offset(8)
+            make.top.equalTo(title.snp_bottom).offset(8)
+        }
+
+        // do the initial layout
+        layoutIfNeeded()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     // Callback property called when the user clicks to see the comments for a News item
     var showCommentsFor: ((news: News) -> ())?

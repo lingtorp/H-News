@@ -168,11 +168,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "H-News/HNewsWebViewController.swift"
-            timestampString = "483450588.823549"
+            timestampString = "487073905.950159"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "didTapMore(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -360,7 +360,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "H-News/HNewsMoreMenu.swift"
-            timestampString = "480592334.141094"
+            timestampString = "487077133.8089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
@@ -424,11 +424,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "H-News/HNewsWebViewController.swift"
-            timestampString = "483450588.823549"
+            timestampString = "487073578.888573"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -440,11 +440,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "H-News/HNewsCommentTableViewCell.swift"
-            timestampString = "483454444.279219"
+            timestampString = "487080119.381568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "init(style:reuseIdentifier:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -456,11 +456,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "H-News/HNewsCommentTableViewCell.swift"
-            timestampString = "483454444.279219"
+            timestampString = "487080119.381568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "HNewsCommentTableViewCell"
             landmarkType = "3">
             <Locations>
@@ -526,6 +526,102 @@
             startingLineNumber = "55"
             endingLineNumber = "55"
             landmarkName = "installFeedViewController(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "H-News/Downloader.swift"
+            timestampString = "487066911.569731"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "nextAPIBatch(_:batchSize:onCompletion:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "H_News.Downloader.(nextAPIBatch in _2D9AD6B65BB8536AAD5A6975D2795E4F) (Swift.Int, batchSize : Swift.Int, onCompletion : (result : Swift.Array&lt;A&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "H-News"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/AlexanderLingtorp/Google%20Drive/Repositories/H-News/H-News-iOS/H-News/H-News/Downloader.swift"
+                  timestampString = "486559992.284732"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "132"
+                  endingLineNumber = "132"
+                  offsetFromSymbolStart = "1055">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "H_News.Downloader.((nextAPIBatch in _2D9AD6B65BB8536AAD5A6975D2795E4F) (Swift.Int, batchSize : Swift.Int, onCompletion : (result : Swift.Array&lt;A&gt;) -&gt; ()) -&gt; ()).(closure #1)"
+                  moduleName = "H-News"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/AlexanderLingtorp/Google%20Drive/Repositories/H-News/H-News-iOS/H-News/H-News/Downloader.swift"
+                  timestampString = "486559992.284992"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "132"
+                  endingLineNumber = "132"
+                  offsetFromSymbolStart = "1081">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "H-News/Downloader.swift"
+            timestampString = "486560020.948307"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "nextAPIBatch(_:batchSize:onCompletion:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "H-News/HNewsWebViewController.swift"
+            timestampString = "487073905.950159"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "H-News/HNewsWebViewController.swift"
+            timestampString = "487073905.950159"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "didTapOnParent(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

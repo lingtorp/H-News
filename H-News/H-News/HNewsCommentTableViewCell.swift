@@ -3,6 +3,7 @@
 // TODO: When doubled tapped the cell shall expand and reveal a textfield in which you can reply to the comment, et al
 // TODO: Add a shortcut to scroll back to top.
 // TODO: The view shall present button at the bottom when clicked
+// TODO: Show an indicator that the comment can be expanded
 import MCSwipeTableViewCell
 
 class HNewsCommentTableViewCell: UITableViewCell {
@@ -19,7 +20,7 @@ class HNewsCommentTableViewCell: UITableViewCell {
         // Setup views
         commentLabel.numberOfLines = 3
         
-        backgroundColor = Colors.lightGray
+        backgroundColor = Colors.white
         author.font = Fonts.light
         dateLabel.font = Fonts.light
         commentLabel.font = Fonts.light

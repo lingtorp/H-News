@@ -14,23 +14,23 @@ class HNewsMoreMenuItemView: UIView {
             guard let item = item else { return }
             backgroundColor = Colors.lightGray
             
+            // Create image - with tintcolor shining through (.AlwaysTemplate)
+            icon.image = item.image.imageWithRenderingMode(.AlwaysTemplate)
+            addSubview(icon)
+            icon.tintColor = Colors.gray
+            icon.snp_makeConstraints { (make) -> Void in
+                make.centerY.equalTo(0).offset(-16)
+                make.centerX.equalTo(0)
+            }
+            
             // Create title
             addSubview(title)
             title.text = item.title
             title.textAlignment = .Center
             title.textColor = Colors.gray
             title.snp_makeConstraints { (make) -> Void in
-                make.bottom.equalTo(-16)
-                make.right.left.equalTo(0)
-            }
-            
-            // Create image - with tintcolor shining through (.AlwaysTemplate)
-            icon.image = item.image.imageWithRenderingMode(.AlwaysTemplate)
-            addSubview(icon)
-            icon.tintColor = Colors.gray
-            icon.snp_makeConstraints { (make) -> Void in
+                make.centerY.equalTo(0).offset(16)
                 make.centerX.equalTo(0)
-                make.bottom.equalTo(title.snp_top).offset(-6)
             }
             
             let tapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsMoreMenuItemView.didTapOnItem(_:)))
@@ -58,6 +58,8 @@ class HNewsMoreMenuItemView: UIView {
 class HNewsMoreMenuView: UIView {
     
     private let animationDuration: NSTimeInterval = 0.2
+    
+    private let background = UIView()
     
     private let itemviews: [HNewsMoreMenuItemView] = [
         HNewsMoreMenuItemView(), HNewsMoreMenuItemView(),
@@ -91,6 +93,7 @@ class HNewsMoreMenuView: UIView {
             self.snp_updateConstraints(closure: { (make) in
                 make.bottom.equalTo(superview.snp_bottom).offset(superview.frame.height / 3)
             })
+            self.background.alpha = 0.0
             // do the animation
             self.layoutIfNeeded()
         }
@@ -111,6 +114,7 @@ class HNewsMoreMenuView: UIView {
             self.snp_updateConstraints(closure: { (make) in
                 make.bottom.equalTo(superview.snp_bottom).offset(0)
             })
+            self.background.alpha = 0.5;
             // do the animation
             self.layoutIfNeeded()
         }
@@ -126,6 +130,14 @@ class HNewsMoreMenuView: UIView {
             make.left.right.equalTo(0)
             make.height.equalTo(superview.snp_height).dividedBy(3)
             make.bottom.equalTo(superview.snp_bottom).offset(superview.frame.height / 3)
+        }
+        
+        // Create dimming background
+        addSubview(background)
+        background.backgroundColor = Colors.lightGray
+        background.alpha = 0.0;
+        background.snp_makeConstraints { (make) in
+            make.left.right.top.bottom.equalTo(superview)
         }
 
         // Setup menu item grid ...
