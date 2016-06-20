@@ -64,6 +64,11 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             make.right.top.equalTo(self.snp_right).offset(8)
         }
         
+        // Setup NSDateFormatter
+        HNewsTableViewCell.dateCompsFormatter.unitsStyle = .Short
+        HNewsTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .DropAll
+        HNewsTableViewCell.dateCompsFormatter.maximumUnitCount = 1
+        
         // do the initial layout
         layoutIfNeeded()
     }
@@ -88,11 +93,6 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             contentView.backgroundColor = UIColor.darkGrayColor()
             commentsCount.textColor = Colors.peach
             
-            // Setup NSDateFormatter
-            HNewsTableViewCell.dateCompsFormatter.unitsStyle = .Short
-            HNewsTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .DropAll
-            HNewsTableViewCell.dateCompsFormatter.maximumUnitCount = 1
-
             title.text         = story.title
             commentsCount.text = "\(story.comments)"
             author.text        = story.author
@@ -118,7 +118,7 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     }
     
     /// Tap gesture callback
-    func didClickOnComment(sender: AnyObject) {
+    func didClickOnComment(sender: UITapGestureRecognizer) {
         guard let news = story as? News else { return }
         if let callback = showCommentsFor {
             callback(news: news)
