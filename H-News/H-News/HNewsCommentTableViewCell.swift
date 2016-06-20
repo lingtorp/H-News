@@ -11,31 +11,33 @@ class HNewsCommentTableViewCell: UITableViewCell {
     private static let dateCompsFormatter = NSDateComponentsFormatter()
     static let cellID = "HNewsCommentTableViewCell"
     
-    private let author = UILabel()
-    private let dateLabel = UILabel()
+    private let author       = UILabel()
+    private let dateLabel    = UILabel()
     private let commentLabel = UILabel()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         // Setup views
         commentLabel.numberOfLines = 3
-        
-        backgroundColor = Colors.white
-        author.font = Fonts.light
-        dateLabel.font = Fonts.light
-        commentLabel.font = Fonts.light
-        
-        addSubview(author)
+        backgroundColor = Colors.gray
+
+        author.font = Fonts.title
+        author.textColor = Colors.white
+        contentView.addSubview(author)
         author.snp_makeConstraints { (make) in
             make.left.bottom.equalTo(0).inset(8)
         }
         
-        addSubview(dateLabel)
+        dateLabel.font = Fonts.light
+        dateLabel.textColor = Colors.lightGray
+        contentView.addSubview(dateLabel)
         dateLabel.snp_makeConstraints { (make) in
             make.right.top.equalTo(0).inset(8)
         }
         
-        addSubview(commentLabel)
+        commentLabel.font = Fonts.light
+        commentLabel.textColor = Colors.white
+        contentView.addSubview(commentLabel)
         commentLabel.snp_makeConstraints { (make) in
             make.right.left.equalTo(0).inset(8)
             make.bottom.equalTo(author.snp_top).offset(-8)
@@ -64,6 +66,9 @@ class HNewsCommentTableViewCell: UITableViewCell {
             doubletapGestureRecog.numberOfTapsRequired = 2
             addGestureRecognizer(doubletapGestureRecog)
             
+            indentationLevel = 2
+            indentationWidth = 50.0
+            
             setNeedsDisplay() // Renders the cell before it comes into sight
         }
     }
@@ -80,7 +85,7 @@ class HNewsCommentTableViewCell: UITableViewCell {
     
     func didDoubleTapOnComment() {
         let lines = textExpanded ? 3 : 0
-        UIView.animateWithDuration(0.75) { () -> Void in
+        UIView.animateWithDuration(0.5) { () -> Void in
             self.commentLabel.numberOfLines = lines
             self.contentView.layoutIfNeeded()
         }
@@ -90,16 +95,4 @@ class HNewsCommentTableViewCell: UITableViewCell {
         tableView.beginUpdates()
         tableView.endUpdates()
     }
-    
-    /// UI that changes dynamically ends up here
-    /// Handle indentation: Sets the indentation depending on the offset property of the comment
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        guard let comment = comment else { return }
-////        indentationConstraint.constant = CGFloat(comment.offset) * 15
-//        self.snp_updateConstraints { (make) in
-//            make.leftMargin.equalTo(CGFloat(comment.offset) * 15)
-//        }
-//        setNeedsDisplay()
-//    }
 }

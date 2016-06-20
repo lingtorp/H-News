@@ -19,7 +19,8 @@ class DetailViewController: UITableViewController {
             self.archivednews = HNewsReadingPile()?.fetchAllNews(read: true) ?? []
             self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Automatic)
         }
-        tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.ID) // TODO: Register class
+
+        tableView.registerClass(HNewsTableViewCell.self, forCellReuseIdentifier: HNewsTableViewCell.ID)
         
         // Trash items
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.trash, style: .Plain, target: self, action: #selector(DetailViewController.didPressTrash))
