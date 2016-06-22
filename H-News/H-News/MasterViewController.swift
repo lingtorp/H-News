@@ -120,7 +120,6 @@ struct Feed {
     var selected: Bool
     let type: FeedType
     let viewController: FeedViewController
-    
     enum FeedType { case Show, Ask, New, Top }
 }
 
@@ -134,7 +133,7 @@ class FeedSwitchView: UIView {
     
     private class FeedItemView: UIControl {
         
-        private let title: UILabel = UILabel()
+        private let title = UILabel()
         
         var feed: Feed? {
             didSet {
@@ -162,7 +161,7 @@ class FeedSwitchView: UIView {
         }
     }
     
-    private let selector: UIView = UIView()
+    private let selector = UIView()
     
     var feeds: [Feed]?
     
@@ -175,8 +174,7 @@ class FeedSwitchView: UIView {
         backgroundColor = Colors.lightGray
         
         self.snp_makeConstraints { (make) in
-            make.left.right.equalTo(0)
-            make.centerX.equalTo(0)
+            make.left.right.centerX.equalTo(0)
             make.top.equalTo(superview.snp_top)
             make.height.equalTo(superview.snp_height).dividedBy(14)
         }
