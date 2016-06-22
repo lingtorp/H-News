@@ -27,9 +27,9 @@ class MasterViewController: UIViewController {
         
         // Install the feed view controllers
         installFeedViewController(currentFeedViewController)
-        installFeedViewController(newVC)
-        installFeedViewController(askVC)
-        installFeedViewController(showVC)
+        feedViewControllers.append(newVC)
+        feedViewControllers.append(askVC)
+        feedViewControllers.append(showVC)
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             // Reading list / Detail
@@ -51,24 +51,18 @@ class MasterViewController: UIViewController {
         addChildViewController(viewController)
         view.addSubview(viewController.view)
         viewController.didMoveToParentViewController(self)
-        if feedViewControllers.count == 0 {
-            // Add first view controller as the selected one
-            currentFeedViewController = viewController
-            selectViewController(viewController)
-        } else {
-            let previousViewController = feedViewControllers[feedViewControllers.count - 1]
-            viewController.view.snp_makeConstraints { (make) in
-                make.top.equalTo(self.feedSwitchView.snp_bottom)
-                make.centerY.equalTo(0)
-                make.left.equalTo(previousViewController.view.snp_right)
-                make.bottom.equalTo(self.view.snp_bottom)
-            }
+        // Add first view controller as the selected one
+        currentFeedViewController = viewController
+        viewController.view.snp_makeConstraints { (make) in
+            make.top.equalTo(self.feedSwitchView.snp_bottom)
+            make.right.left.bottom.centerX.equalTo(0)
         }
+        viewController.didMoveToParentViewController(self)
         feedViewControllers.append(viewController)
     }
     
-    func selectViewController(viewController: FeedViewController) {
-        let toViewController = viewController
+    func selectViewController(toViewController: FeedViewController) {
+        feedSwitchView.userInteractionEnabled = false
         let fromViewController = currentFeedViewController
         
         let goingRight = feedViewControllers.indexOf(toViewController) ?? 0 < feedViewControllers.indexOf(fromViewController) ?? 0
@@ -77,20 +71,25 @@ class MasterViewController: UIViewController {
         toViewController.view.alpha = 0
         toViewController.view.transform = CGAffineTransformInvert(travel)
         
-        UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.TransitionNone, animations: { 
+        fromViewController.willMoveToParentViewController(nil)
+        addChildViewController(toViewController)
+        view.addSubview(toViewController.view)
+        
+        UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.TransitionNone, animations: {
             fromViewController.view.transform = travel
             toViewController.view.transform = CGAffineTransformIdentity
             toViewController.view.alpha = 1
             
             toViewController.view.snp_makeConstraints { (make) in
                 make.top.equalTo(self.feedSwitchView.snp_bottom)
-                make.centerX.equalTo(0)
-                make.right.left.equalTo(0)
-                make.bottom.equalTo(self.view.snp_bottom)
+                make.right.left.bottom.centerX.equalTo(0)
             }
-
-            }) { (complete) in
-                fromViewController.view.transform = CGAffineTransformIdentity
+        }) { (complete) in
+            fromViewController.view.transform = CGAffineTransformIdentity
+            fromViewController.view.removeFromSuperview()
+            fromViewController.removeFromParentViewController()
+            toViewController.didMoveToParentViewController(self)
+            self.feedSwitchView.userInteractionEnabled = true
         }
         currentFeedViewController = toViewController
     }
