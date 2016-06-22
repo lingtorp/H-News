@@ -44,10 +44,19 @@ class HNewsCommentTableViewCell: UITableViewCell {
             make.top.equalTo(dateLabel.snp_bottom).offset(8)
         }
         
+        contentView.snp_updateConstraints { (make) in
+            make.leftMargin.equalTo(Int(indentationWidth) * indentationLevel)
+            make.rightMargin.equalTo(0)
+        }
+        
         // Setup NSDateFormatter
         HNewsCommentTableViewCell.dateCompsFormatter.unitsStyle = .Short
         HNewsCommentTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .DropAll
         HNewsCommentTableViewCell.dateCompsFormatter.maximumUnitCount = 1
+        
+        let doubletapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsCommentTableViewCell.didDoubleTapOnComment))
+        doubletapGestureRecog.numberOfTapsRequired = 2
+        addGestureRecognizer(doubletapGestureRecog)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,16 +70,18 @@ class HNewsCommentTableViewCell: UITableViewCell {
             dateLabel.text? += " ago"
             commentLabel.text = comment.text
             dateLabel.text = HNewsCommentTableViewCell.dateCompsFormatter.stringFromTimeInterval(-comment.date.timeIntervalSinceNow)
-            
-            let doubletapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsCommentTableViewCell.didDoubleTapOnComment))
-            doubletapGestureRecog.numberOfTapsRequired = 2
-            addGestureRecognizer(doubletapGestureRecog)
-            
-            indentationLevel = 2
-            indentationWidth = 50.0
-            
+            indentationLevel = comment.offset
             setNeedsDisplay() // Renders the cell before it comes into sight
         }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.snp_updateConstraints { (make) in
+            make.leftMargin.equalTo(Int(indentationWidth) * indentationLevel)
+            make.rightMargin.equalTo(-Int(indentationWidth) * indentationLevel)
+        }
+        setNeedsDisplay()
     }
     
     func didSelectCell(tableView: UITableView) {
