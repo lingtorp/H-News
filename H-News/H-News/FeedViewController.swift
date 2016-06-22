@@ -15,9 +15,9 @@ class FeedViewController: UITableViewController {
     override func viewDidLoad() {        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
-                
-//        tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID)
+        tableView.separatorStyle = .None
         tableView.registerClass(HNewsTableViewCell.self, forCellReuseIdentifier: HNewsTableViewCell.ID)
+        
         generator?.next(25, downloader?.fetchNextBatch, onFinish: updateDatasource)
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {

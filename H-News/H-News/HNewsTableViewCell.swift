@@ -69,6 +69,10 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
         HNewsTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .DropAll
         HNewsTableViewCell.dateCompsFormatter.maximumUnitCount = 1
         
+        let gestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsTableViewCell.didClickOnComment(_:)))
+        title.userInteractionEnabled = true
+        title.addGestureRecognizer(gestureRecog)
+        
         // do the initial layout
         layoutIfNeeded()
     }
@@ -109,10 +113,6 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
                 score.text = "\(news.score)"
             }
             
-            let gestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsTableViewCell.didClickOnComment(_:)))
-            title.userInteractionEnabled = true
-            title.addGestureRecognizer(gestureRecog)
-
             setNeedsDisplay()
         }
     }

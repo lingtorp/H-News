@@ -68,7 +68,7 @@ class HNewsMoreMenuView: UIView {
     
     var items: [HNewsMoreMenuItem] = [] {
         didSet {
-            // Setup subview - the items
+            // Setup subview - the item
             for i in 0 ..< items.count where items.count == itemviews.count {
                 itemviews[i].item = items[i]
             }

@@ -31,6 +31,7 @@ class HNewsCommentsViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160
         tableView.allowsSelection = false
+        tableView.separatorStyle = .None
         
         let attribs: [String : AnyObject] = [
             NSForegroundColorAttributeName : Colors.peach]
