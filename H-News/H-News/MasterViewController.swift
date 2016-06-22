@@ -8,6 +8,7 @@ class MasterViewController: UIViewController {
         // Fixes so that the views end up below the navbar not underneth.
         navigationController?.navigationBar.translucent = false
         definesPresentationContext = true
+        view.backgroundColor = Colors.lightGray
         
         let topVC = currentFeedViewController
         let newVC = FeedViewController()
