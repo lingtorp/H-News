@@ -1,5 +1,71 @@
+class CommentsViewController: UIViewController, UIGestureRecognizerDelegate {
+    
+    private let tableView = CommentsTableViewController()
+    private let textField = CommentTextField()
+    private let moremenu  = HNewsMoreMenuView()
+    
+    var news: News? {
+        didSet {
+            tableView.news = news
+            title = news?.title
+        }
+    }
+    
+    override func viewDidLoad() {
+        let attribs: [String : AnyObject] = [
+            NSForegroundColorAttributeName : Colors.peach]
+        navigationController?.navigationBar.titleTextAttributes = attribs
+        
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            // Add a dismiss button to the webview on a iPad
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: #selector(CommentsViewController.didTapDismiss(_:)))
+        }
+        
+        view.addSubview(tableView.view)
+        addChildViewController(tableView)
+        tableView.view.snp_makeConstraints { (make) in
+            make.right.left.top.bottom.equalTo(0)
+        }
+        
+        view.addSubview(textField)
+        textField.snp_makeConstraints { (make) in
+            make.left.right.bottom.equalTo(0)
+            make.height.equalTo(view.snp_height).multipliedBy(0.1)
+        }
+        
+        view.bringSubviewToFront(textField)
+        
+        // TODO: Add the items to the moremenu
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.more, style: .Plain, target: self, action: #selector(CommentsViewController.didTapMore(_:)))
+        
+        let tapOnParentGestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsWebViewController.didTapOnParent(_:)))
+        tapOnParentGestureRecog.delegate = self
+        view.addGestureRecognizer(tapOnParentGestureRecog)
+    }
+    
+    func didTapDismiss(sender: UIBarButtonItem) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func didTapMore(sender: UIBarButtonItem) {
+        // TODO: Present custom more menu
+        // TODO: Solve the circle of News -> Comments -> News -> ...
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    // Called whenever the superview was tapped
+    func didTapOnParent(send: UITapGestureRecognizer) {
+        if moremenu.shown {
+            moremenu.dismiss()
+        }
+    }
+}
 
-class HNewsCommentsViewController: UITableViewController {
+class CommentsTableViewController: UITableViewController {
     
     private let generator = Generator<Comment>()
     private let downloader = Downloader<Comment>(APIEndpoint.Comments)
@@ -8,7 +74,6 @@ class HNewsCommentsViewController: UITableViewController {
     var news: News? {
         didSet {
             guard let news = news else { return }
-            title = news.title
             
             // Begin to load the comments of the News.
             generator.reset()
@@ -32,31 +97,13 @@ class HNewsCommentsViewController: UITableViewController {
         tableView.estimatedRowHeight = 160
         tableView.allowsSelection = false
         tableView.separatorStyle = .None
-        
-        let attribs: [String : AnyObject] = [
-            NSForegroundColorAttributeName : Colors.peach]
-        navigationController?.navigationBar.titleTextAttributes = attribs
-        
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            // Add a dismiss button to the webview on a iPad
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: #selector(HNewsCommentsViewController.didTapDismiss(_:)))
-        }
-    }
-    
-    func didTapDismiss(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    @IBAction func onMore(sender: UIBarButtonItem) {
-        // TODO: Present custom more menu
-        // TODO: Solve the circle of News -> Comments -> News -> ...
     }
 }
 
 // MARK: - UITableViewDatasource
-extension HNewsCommentsViewController {
+extension CommentsTableViewController {
     func updateDatasource(comments: [Comment]) {
-        if comments.count == 0 { return } // (?) Fixes the stuttering
+        if comments.count == 0 { return } // Fixes the stuttering at the end
         self.comments += comments
     }
     
@@ -72,8 +119,9 @@ extension HNewsCommentsViewController {
 }
 
 // MARK: - UITableViewDelegate
-extension HNewsCommentsViewController {
+extension CommentsTableViewController {
 
+    // viewForHeaderInSection will not be called without this method impl.
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return HNSectionHeader.height
     }
@@ -99,5 +147,28 @@ extension HNewsCommentsViewController {
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? HNewsCommentTableViewCell else { return }
         cell.didUnselectCell(tableView)
+    }
+}
+
+class CommentTextField: UIView {
+    
+    private let submitBtn = UIButton()
+    private let textField = UITextField()
+    
+    override func didMoveToSuperview() {
+        guard let superview = superview else { return }
+        
+        addSubview(submitBtn)
+        submitBtn.snp_makeConstraints { (make) in
+            make.right.top.equalTo(0)
+            make.size.equalTo(20)
+        }
+        
+        addSubview(textField)
+        textField.snp_makeConstraints { (make) in
+            make.left.equalTo(superview.snp_left)
+            make.right.equalTo(submitBtn.snp_left)
+            make.bottom.top.equalTo(0)
+        }
     }
 }
