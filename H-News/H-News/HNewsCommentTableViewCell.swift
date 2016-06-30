@@ -71,6 +71,7 @@ class HNewsCommentTableViewCell: UITableViewCell {
             commentLabel.text = comment.text
             dateLabel.text = HNewsCommentTableViewCell.dateCompsFormatter.stringFromTimeInterval(-comment.date.timeIntervalSinceNow)
             indentationLevel = comment.offset
+            indentationWidth = 15.0
             setNeedsDisplay() // Renders the cell before it comes into sight
         }
     }
@@ -79,9 +80,7 @@ class HNewsCommentTableViewCell: UITableViewCell {
         super.layoutSubviews()
         contentView.snp_updateConstraints { (make) in
             make.leftMargin.equalTo(Int(indentationWidth) * indentationLevel)
-            make.rightMargin.equalTo(-Int(indentationWidth) * indentationLevel)
         }
-        setNeedsDisplay()
     }
     
     func didSelectCell(tableView: UITableView) {
