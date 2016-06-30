@@ -68,7 +68,7 @@ class HNewsSettingsViewController: UITableViewController {
     private var sections: [Section] = []
         
     override func viewDidLoad() {
-        title = "Preferences"
+        tableView.separatorStyle = .None
         
         sections = [
             Section(title: "Account", rows:
@@ -94,7 +94,7 @@ class HNewsSettingsViewController: UITableViewController {
                 Row(title: "Dark theme", selected: true, selectable: true, action: { () in
                     Settings.theme = .Dark
                 }),
-                Row(title: "Automatic selection", selected: false, selectable: true, action: { () in
+                Row(title: "Automatic selection based on screen brightness", selected: false, selectable: true, action: { () in
                     Settings.theme = .Automatic
                 })]),
             Section(title: "About", rows:
@@ -129,13 +129,13 @@ class HNewsSettingsViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         let row = sections[indexPath.section].rows[indexPath.row]
-        cell.textLabel!.text = row.title
-        cell.textLabel?.textColor = Colors.lightGray
+        cell.textLabel?.text = row.title
+        cell.textLabel?.textColor = Colors.white
         cell.backgroundColor = Colors.gray
         cell.accessoryType = .DisclosureIndicator
         // Set selection color theme
         let view = UIView()
-        view.backgroundColor = UIColor.orangeColor()
+        view.backgroundColor = Colors.peach
         cell.selectedBackgroundView = view
         if row.selectable {
             cell.selectionStyle = .None
