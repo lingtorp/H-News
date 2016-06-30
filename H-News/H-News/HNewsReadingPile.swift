@@ -74,21 +74,6 @@ class HNewsReadingPile {
         return news
     }
     
-    /// Saves the html binary data to the News in the Realm
-    func save(html: NSData, newsID: Int) {
-        guard let news = realm?.objects(NewsClass).filter("id = %@", newsID).first else { return }
-        do {
-            try realm?.write {
-                news.html = html
-            }
-        } catch _ {}
-    }
-    
-    /// Returns the HTML data for the News
-    func html(news: News) -> NSData? {
-        return realm?.objects(NewsClass).filter("id = %@", news.id).first?.html
-    }
-    
     /// Returns the number of News objects in the Realm
     func newsCount() -> Int? {
         return realm?.objects(NewsClass).count
