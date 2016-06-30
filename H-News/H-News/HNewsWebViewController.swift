@@ -15,15 +15,7 @@ class HNewsWebViewController: UIViewController, UIGestureRecognizerDelegate {
             loadWebViewWith(url)
         }
     }
-    
-    /// The data to load
-    var data: NSData? {
-        didSet {
-            guard let data = data else { return }
-            loadWebViewWith(data)
-        }
-    }
-    
+        
     /// The Story/item/entry related to this webview
     var item: News?
     
@@ -40,7 +32,7 @@ class HNewsWebViewController: UIViewController, UIGestureRecognizerDelegate {
         view.addSubview(moremenu)
         let item0 = HNewsMoreMenuItem(title: "Comments", image: Icons.comments) { () in
             self.moremenu.dismiss()
-            let commentVC = HNewsCommentsViewController()
+            let commentVC = CommentsViewController()
             commentVC.news = self.item
             self.navigationController?.pushViewController(commentVC, animated: true)
         }
@@ -50,7 +42,7 @@ class HNewsWebViewController: UIViewController, UIGestureRecognizerDelegate {
             // TODO: Add visual cue that the item was upvoted successfully or not
         }
         
-        let item2 = HNewsMoreMenuItem(title: "Save", image: Icons.readingList) { () in
+        let item2 = HNewsMoreMenuItem(title: "Save", image: Icons.save) { () in
             self.moremenu.dismiss()
             guard let item = self.item else { return }
             HNewsReadingPile()?.addNews(item)
@@ -76,6 +68,10 @@ class HNewsWebViewController: UIViewController, UIGestureRecognizerDelegate {
         let tapOnParentGestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsWebViewController.didTapOnParent(_:)))
         tapOnParentGestureRecog.delegate = self
         webView.addGestureRecognizer(tapOnParentGestureRecog)
+        
+        if #available(iOS 9.0, *) {
+            webView.allowsLinkPreview = true
+        }
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -91,11 +87,6 @@ class HNewsWebViewController: UIViewController, UIGestureRecognizerDelegate {
     
     deinit {
         webView.removeObserver(self, forKeyPath: "title")
-    }
-    
-    private func loadWebViewWith(data: NSData) {
-        guard let html = NSString(data: data, encoding: NSASCIIStringEncoding) as? String else { return }
-        webView.loadHTMLString(html, baseURL: nil)
     }
     
     private func loadWebViewWith(url: NSURL) {
