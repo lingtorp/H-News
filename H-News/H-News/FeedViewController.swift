@@ -1,6 +1,16 @@
 import UIKit
 import SafariServices
 
+extension FeedViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        
+    }
+    
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        return nil
+    }
+}
+
 class FeedViewController: UITableViewController {
     
     private var stories: [News] = [] {
@@ -12,7 +22,7 @@ class FeedViewController: UITableViewController {
     var generator: Generator?   = Generator<News>()
     var downloader: Downloader? = Downloader<News>(.Top)
     
-    override func viewDidLoad() {        
+    override func viewDidLoad() {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
         tableView.separatorStyle = .None
@@ -25,8 +35,12 @@ class FeedViewController: UITableViewController {
         }
         
         refreshControl = UIRefreshControl()
-        refreshControl?.tintColor = Colors.white
+        refreshControl?.tintColor = Colors.lightGray
         refreshControl?.addTarget(self, action: #selector(FeedViewController.didRefreshFeed(_:)), forControlEvents: .ValueChanged)
+        
+        if #available(iOS 9.0, *) {
+            registerForPreviewingWithDelegate(self, sourceView: tableView)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -77,21 +91,11 @@ extension FeedViewController {
                 guard let cell = cell as? HNewsTableViewCell else { return }
                 guard let news = cell.story as? News         else { return }
                 HNewsReadingPile()?.addNews(news)
-                Dispatcher.async { self.downloadArticle(news.url, newsID: news.id) }
                 self.stories = self.stories.filter { $0.id == news.id ? false : true }
                 self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
         })
         
         return cell
-    }
-    
-    private func downloadArticle(url: NSURL, newsID: Int) {
-        let request = NSMutableURLRequest(URL: url)
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, err) -> Void in
-            guard let data = data else { return }
-            HNewsReadingPile()?.save(data, newsID: newsID)
-        }
-        task.resume()
     }
 }
 
@@ -109,8 +113,13 @@ extension FeedViewController {
             if #available(iOS 9.0, *) {
                 let safariVC = SFSafariViewController(URL: news.url)
                 safariVC.view.tintColor = Colors.peach
-                navigationController?.navigationBarHidden = true
-                navigationController?.pushViewController(safariVC, animated: true)
+                if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+                    let navContr = UINavigationController(rootViewController: safariVC)
+                    splitViewController?.presentViewController(navContr, animated: true, completion: nil)
+                } else {
+                    navigationController?.navigationBar.hidden = true
+                    navigationController?.pushViewController(safariVC, animated: true)
+                }
             } else {
                 // Fallback on WKWebView with .Webview case
                 fallthrough
@@ -132,7 +141,7 @@ extension FeedViewController {
 /// MARK: - Custom tap cell handling for comments
 extension FeedViewController {
     func showCommentsFor(news: News) {
-        let commentsVC = HNewsCommentsViewController()
+        let commentsVC = CommentsViewController()
         commentsVC.news = news
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             let navContr = UINavigationController(rootViewController: commentsVC)
