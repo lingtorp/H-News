@@ -13,7 +13,7 @@ struct Icons {
     static let more = UIImage(named: "more")!
     
     /// Application wide used icon for the detail/reading list
-    static let readingList = UIImage(named: "reading_list_icon")!
+    static let save = UIImage(named: "save")!
     
     /// Application wide used icon for trashing/deleting things
     static let trash = UIImage(named: "UIButtonBarTrash")!
