@@ -11,6 +11,7 @@ class DetailViewController: UITableViewController {
     override func viewDidLoad() {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
+        tableView.separatorStyle = .None
         
         // Observe Realm Notifications
         notiToken = HNewsReadingPile()?.realm?.addNotificationBlock { notification, realm in
@@ -125,7 +126,7 @@ extension DetailViewController {
 /// MARK: - Custom tap cell handling for comments
 extension DetailViewController {
     func showCommentsFor(news: News) {
-        let commentsVC = HNewsCommentsViewController()
+        let commentsVC = CommentsViewController()
         commentsVC.news = news
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             let navContr = UINavigationController(rootViewController: commentsVC)
