@@ -95,9 +95,9 @@ extension DetailViewController {
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return "Unread"
+            return "Unread - \(HNewsReadingPile()?.fetchAllNews(read: false).count ?? 0)"
         case 1:
-            return "Archived"
+            return "Archived - \(HNewsReadingPile()?.fetchAllNews(read: true).count ?? 0)"
         default: return ""
         }
     }
