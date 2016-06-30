@@ -108,17 +108,15 @@ extension DetailViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? HNewsTableViewCell else { return }
         guard let news = cell.story as? News else { return }
-        if let downloadedHTML = HNewsReadingPile()?.html(news) {
-            HNewsReadingPile()?.markNewsAsRead(news)
-            let webViewVC = HNewsWebViewController()
-            webViewVC.data = downloadedHTML // TODO: Downloaded data not working
-            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-                // Present webviews modally on iPads
-                let navContr = UINavigationController(rootViewController: webViewVC)
-                splitViewController?.presentViewController(navContr, animated: true, completion: nil)
-            } else {
-                navigationController?.pushViewController(webViewVC, animated: true)
-            }
+        HNewsReadingPile()?.markNewsAsRead(news)
+        let webViewVC = HNewsWebViewController()
+        webViewVC.url = news.url
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            // Present webviews modally on iPads
+            let navContr = UINavigationController(rootViewController: webViewVC)
+            splitViewController?.presentViewController(navContr, animated: true, completion: nil)
+        } else {
+            navigationController?.pushViewController(webViewVC, animated: true)
         }
     }
 }
