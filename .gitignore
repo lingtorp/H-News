@@ -3,3 +3,7 @@ H-News/Pods/*
 H-News/H-News.xcworkspace/xcshareddata/H-News.xcscmblueprint
 
 H-News/H-News.xcworkspace/xcuserdata/AlexanderLingtorp.xcuserdatad/UserInterfaceState.xcuserstate
+
+*.xcbkptlist
+
+H-News/H-News.xcworkspace/xcuserdata/AlexanderLingtorp.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
