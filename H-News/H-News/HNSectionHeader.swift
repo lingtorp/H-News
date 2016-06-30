@@ -33,9 +33,11 @@ class HNSectionHeader: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
         
         title.font = Fonts.title
+        title.numberOfLines = 2
         addSubview(title)
         title.snp_makeConstraints { (make) in
-            make.left.top.equalTo(0).offset(8)
+            make.left.top.equalTo(8)
+            make.right.equalTo(-8)
         }
         
         numComments.font = Fonts.light
