@@ -27,14 +27,22 @@ class MasterViewController: UIViewController {
         view.addSubview(feedSwitchView)
         
         // Install the feed view controllers
-        installFeedViewController(currentFeedViewController)
+        addChildViewController(currentFeedViewController)
+        view.addSubview(currentFeedViewController.view)
+        currentFeedViewController.didMoveToParentViewController(self)
+        currentFeedViewController.view.snp_makeConstraints { (make) in
+            make.bottom.equalTo(self.feedSwitchView.snp_top)
+            make.right.left.top.centerX.equalTo(0)
+        }
+        currentFeedViewController.didMoveToParentViewController(self)
+        feedViewControllers.append(currentFeedViewController)
         feedViewControllers.append(newVC)
         feedViewControllers.append(askVC)
         feedViewControllers.append(showVC)
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             // Reading list / Detail
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.readingList, style: .Plain, target: self, action: #selector(MasterViewController.didTapDetail))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Saved", style: .Plain, target: self, action: #selector(MasterViewController.didTapDetail))
         }
         
         // Settings
@@ -43,24 +51,14 @@ class MasterViewController: UIViewController {
         view.bringSubviewToFront(feedSwitchView)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        navigationController?.navigationBar.hidden = false
+    }
+    
     /// The currently shown feed viewcontroller
     var currentFeedViewController = FeedViewController()
     
     var feedViewControllers: [FeedViewController] = []
-    
-    func installFeedViewController(viewController: FeedViewController) {
-        addChildViewController(viewController)
-        view.addSubview(viewController.view)
-        viewController.didMoveToParentViewController(self)
-        // Add first view controller as the selected one
-        currentFeedViewController = viewController
-        viewController.view.snp_makeConstraints { (make) in
-            make.top.equalTo(self.feedSwitchView.snp_bottom)
-            make.right.left.bottom.centerX.equalTo(0)
-        }
-        viewController.didMoveToParentViewController(self)
-        feedViewControllers.append(viewController)
-    }
     
     func selectViewController(toViewController: FeedViewController) {
         feedSwitchView.userInteractionEnabled = false
@@ -82,8 +80,8 @@ class MasterViewController: UIViewController {
             toViewController.view.alpha = 1
             
             toViewController.view.snp_makeConstraints { (make) in
-                make.top.equalTo(self.feedSwitchView.snp_bottom)
-                make.right.left.bottom.centerX.equalTo(0)
+                make.bottom.equalTo(self.feedSwitchView.snp_top)
+                make.right.left.centerX.top.equalTo(0)
             }
         }) { (complete) in
             fromViewController.view.transform = CGAffineTransformIdentity
@@ -176,7 +174,7 @@ class FeedSwitchView: UIView {
         
         self.snp_makeConstraints { (make) in
             make.left.right.centerX.equalTo(0)
-            make.top.equalTo(superview.snp_top)
+            make.bottom.equalTo(superview.snp_bottom)
             make.height.equalTo(superview.snp_height).dividedBy(14)
         }
         
