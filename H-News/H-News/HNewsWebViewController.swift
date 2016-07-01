@@ -1,7 +1,7 @@
 
 import UIKit
-import WebKit
 import SnapKit
+import WebKit
 
 class HNewsWebViewController: UIViewController, UIGestureRecognizerDelegate {
     

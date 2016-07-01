@@ -1,13 +1,44 @@
 import UIKit
 import SafariServices
 
+@available(iOS 9.0, *)
 extension FeedViewController: UIViewControllerPreviewingDelegate {
     func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
-        
+        guard let viewControllerToCommit = viewControllerToCommit as? SafariViewController,
+              let news = viewControllerToCommit.news else { return }
+        navigationController?.navigationBar.hidden = true
+        showViewController(viewControllerToCommit, sender: self)
+        HNewsReadingPile()?.markNewsAsRead(news)
     }
     
     func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        return nil
+        guard let indexPath = tableView.indexPathForRowAtPoint(location),
+            let cell      = tableView.cellForRowAtIndexPath(indexPath) as? HNewsTableViewCell,
+            let news = cell.story as? News else { return nil }
+        previewingContext.sourceRect = cell.frame
+        let safariVC = SafariViewController(URL: news.url)
+        safariVC.news = news
+        safariVC.showCommentsFor = showCommentsFor
+        return safariVC
+    }
+}
+
+@available(iOS 9.0, *)
+class SafariViewController: SFSafariViewController {
+    var news: News?
+    var showCommentsFor: ((news: News) -> ())?
+    
+    override func previewActionItems() -> [UIPreviewActionItem] {
+        let saveAction = UIPreviewAction(title: "Save", style: .Default) { (previewAction, viewController) in
+            guard let news = self.news else { return }
+            HNewsReadingPile()?.addNews(news)
+            Popover(title: "Saved", mode: .Success).present()
+        }
+        let commentsAction = UIPreviewAction(title: "Comments", style: .Default) { (previewAction, viewController) in
+            guard let news = self.news else { return }
+            self.showCommentsFor?(news: news)
+        }
+        return [saveAction, commentsAction]
     }
 }
 
