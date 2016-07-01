@@ -13,7 +13,6 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     private static let dateCompsFormatter = NSDateComponentsFormatter()
     
     private let title         = UILabel()
-    private let commentsCount = UILabel()
     private let score         = UILabel()
     private let url           = UILabel()
     private let author        = UILabel()
@@ -58,12 +57,6 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             make.right.equalTo(0).offset(-8)
         }
         
-        commentsCount.textColor = Colors.peach
-        addSubview(commentsCount)
-        commentsCount.snp_makeConstraints { (make) in
-            make.right.top.equalTo(self.snp_right).offset(8)
-        }
-        
         // Setup NSDateFormatter
         HNewsTableViewCell.dateCompsFormatter.unitsStyle = .Short
         HNewsTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .DropAll
@@ -90,27 +83,27 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     
             // Set selection color theme
             let view = UIView()
-            view.backgroundColor = UIColor.orangeColor()
+            view.backgroundColor = Colors.peach
             selectedBackgroundView = view
-            defaultColor = UIColor.darkGrayColor()
+            defaultColor = Colors.gray
             
-            contentView.backgroundColor = UIColor.darkGrayColor()
-            commentsCount.textColor = Colors.peach
+            contentView.backgroundColor = Colors.gray
             
             title.text         = story.title
-            commentsCount.text = "\(story.comments)"
             author.text        = story.author
             time.text          = HNewsTableViewCell.dateCompsFormatter.stringFromTimeInterval(-story.date.timeIntervalSinceNow)
             
             if story.read {
-                title.textColor = UIColor.grayColor()
+                title.textColor = Colors.lightGray
             } else { // Return to default since UITableView is reusing the cells
                 title.textColor = Colors.white
             }
             
-            if let news = story as? News {
+            switch story {
+            case let news as News:
                 url.text   = news.url.host
                 score.text = "\(news.score)"
+            default: break
             }
             
             setNeedsDisplay()

@@ -22,19 +22,24 @@ class HNSectionHeader: UITableViewHeaderFooterView {
             
             // Setup NSDateFormatter
             let dateCompsFormatter = NSDateComponentsFormatter()
-            dateCompsFormatter.unitsStyle = .Short
+            dateCompsFormatter.unitsStyle = .Abbreviated
             dateCompsFormatter.zeroFormattingBehavior = .DropAll
             dateCompsFormatter.maximumUnitCount = 1
-            date.text = dateCompsFormatter.stringFromTimeInterval(-news.date.timeIntervalSinceNow)
+            date.text = dateCompsFormatter.stringFromTimeInterval(-news.date.timeIntervalSinceNow)! + " ago"
         }
     }
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+        addSubview(author)
+        addSubview(date)
+        addSubview(score)
+        addSubview(numComments)
+        addSubview(title)
         
         title.font = Fonts.title
+        title.textColor = Colors.peach
         title.numberOfLines = 2
-        addSubview(title)
         title.snp_makeConstraints { (make) in
             make.left.top.equalTo(8)
             make.right.equalTo(-8)
@@ -42,7 +47,6 @@ class HNSectionHeader: UITableViewHeaderFooterView {
         
         numComments.font = Fonts.light
         numComments.textColor = Colors.lightGray
-        addSubview(numComments)
         numComments.snp_makeConstraints { (make) in
             make.top.equalTo(title.snp_bottom).offset(8)
             make.left.equalTo(8)
@@ -50,17 +54,23 @@ class HNSectionHeader: UITableViewHeaderFooterView {
         
         score.font = Fonts.light
         score.textColor = Colors.lightGray
-        addSubview(score)
         score.snp_makeConstraints { (make) in
             make.top.equalTo(title.snp_bottom).offset(8)
             make.left.equalTo(numComments.snp_right).offset(8)
         }
         
         author.font = Fonts.light
-        addSubview(author)
+        author.textColor = Colors.lightGray
         author.snp_makeConstraints { (make) in
             make.top.equalTo(title.snp_bottom).offset(8)
             make.left.equalTo(score.snp_right).offset(8)
+        }
+        
+        date.font = Fonts.light
+        date.textColor = Colors.lightGray
+        date.snp_makeConstraints { (make) in
+            make.top.equalTo(title.snp_bottom).offset(8)
+            make.left.equalTo(author.snp_right).offset(8)
         }
     }
     

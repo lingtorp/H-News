@@ -7,7 +7,6 @@ class CommentsViewController: UIViewController, UIGestureRecognizerDelegate {
     var news: News? {
         didSet {
             tableView.news = news
-            title = news?.title
         }
     }
     
@@ -152,23 +151,27 @@ extension CommentsTableViewController {
 
 class CommentTextField: UIView {
     
-    private let submitBtn = UIButton()
+    private let submitBtn = UILabel()
     private let textField = UITextField()
     
     override func didMoveToSuperview() {
         guard let superview = superview else { return }
+        backgroundColor = Colors.lightGray
         
+        submitBtn.textColor = Colors.peach
+        submitBtn.text = "Submit"
         addSubview(submitBtn)
         submitBtn.snp_makeConstraints { (make) in
-            make.right.top.equalTo(0)
-            make.size.equalTo(20)
+            make.top.bottom.equalTo(0)
+            make.right.equalTo(-12)
         }
         
+        textField.placeholder = "Post a comment ..."
         addSubview(textField)
         textField.snp_makeConstraints { (make) in
-            make.left.equalTo(superview.snp_left)
-            make.right.equalTo(submitBtn.snp_left)
-            make.bottom.top.equalTo(0)
+            make.left.top.equalTo(0)
+            make.right.equalTo(submitBtn.snp_left).offset(-8)
         }
+        
     }
 }
