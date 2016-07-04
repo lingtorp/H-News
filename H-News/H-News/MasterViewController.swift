@@ -3,6 +3,7 @@ import UIKit
 class MasterViewController: UIViewController {
     
     private let feedSwitchView = FeedSwitchView()
+    private let addBtn = HNMenuButtonView()
     
     override func viewDidLoad() {
         // Fixes so that the views end up below the navbar not underneth.
@@ -40,6 +41,14 @@ class MasterViewController: UIViewController {
         feedViewControllers.append(askVC)
         feedViewControllers.append(showVC)
         
+        view.addSubview(addBtn)
+        addBtn.snp_makeConstraints { (make) in
+            make.right.equalTo(-16)
+            make.bottom.equalTo(view.snp_bottom).offset(-64)
+            make.size.equalTo(view.snp_width).multipliedBy(0.12)
+        }
+        addBtn.didTapOnButton = didTapPlusButton
+        
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             // Reading list / Detail
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Saved", style: .Plain, target: self, action: #selector(MasterViewController.didTapDetail))
@@ -49,6 +58,7 @@ class MasterViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.settings, style: .Plain, target: self, action: #selector(MasterViewController.didTapSettings))
         
         view.bringSubviewToFront(feedSwitchView)
+        view.bringSubviewToFront(addBtn)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -72,7 +82,7 @@ class MasterViewController: UIViewController {
         
         fromViewController.willMoveToParentViewController(nil)
         addChildViewController(toViewController)
-        view.addSubview(toViewController.view)
+        view.insertSubview(toViewController.view, atIndex: view.subviews.count - 1)
         
         UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.TransitionNone, animations: {
             fromViewController.view.transform = travel
@@ -104,6 +114,18 @@ class MasterViewController: UIViewController {
     
     func didTapDetail() {
         splitViewController?.showDetailViewController(DetailViewController(), sender: self)
+    }
+    
+    func didTapPlusButton(sender: HNMenuButtonView) {
+        // TODO: Add intro animation
+        let postView = HNPostItemView()
+        view.addSubview(postView)
+        postView.snp_makeConstraints { (make) in
+            make.top.equalTo(32)
+            make.bottom.equalTo(-256) // FIXME: Height of current displayed keyboard
+            make.left.equalTo(32)
+            make.right.equalTo(-32)
+        }
     }
 }
 
@@ -234,5 +256,117 @@ class FeedSwitchView: UIView {
             // do the animation
             self.layoutIfNeeded()
         }
+    }
+}
+
+class HNPostItemView: UIView {
+    
+    enum Mode {
+        case Ask, Others
+    }
+    
+    var mode: Mode = .Others
+    
+    private let textLabel   = UILabel()
+    private let titleField  = UITextField()
+    private let secondField = UITextField()
+    private let submitBtn   = UIImageView()
+    private let dismissBtn  = UIImageView()
+    
+    override func didMoveToSuperview() {
+        backgroundColor = Colors.lightGray
+        
+        var secondFieldPlaceholder = ""
+        switch mode {
+        case .Others:
+            textLabel.text = "Submit a link"
+            secondFieldPlaceholder = "link/URL"
+        case .Ask:
+            textLabel.text = "Submit a question"
+        }
+        
+        textLabel.textColor = Colors.peach
+        textLabel.font = Fonts.title
+        addSubview(textLabel)
+        textLabel.snp_makeConstraints { (make) in
+            make.centerX.equalTo(0)
+            make.top.equalTo(8)
+        }
+        
+        let submitTapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(didTapSubmit(_:)))
+        submitBtn.image = Icons.accept.imageWithRenderingMode(.AlwaysTemplate)
+        submitBtn.tintColor = Colors.peach
+        submitBtn.addGestureRecognizer(submitTapGestureRecog)
+        submitBtn.userInteractionEnabled = true
+        addSubview(submitBtn)
+        submitBtn.snp_makeConstraints { (make) in
+            make.right.equalTo(-8)
+            make.top.equalTo(8)
+            make.height.equalTo(textLabel)
+        }
+        
+        let dismissTapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(didTapDismiss(_:)))
+        dismissBtn.image = Icons.dismiss.imageWithRenderingMode(.AlwaysTemplate)
+        dismissBtn.tintColor = Colors.peach
+        dismissBtn.addGestureRecognizer(dismissTapGestureRecog)
+        dismissBtn.userInteractionEnabled = true
+        addSubview(dismissBtn)
+        dismissBtn.snp_makeConstraints { (make) in
+            make.left.equalTo(8)
+            make.top.equalTo(8)
+            make.height.equalTo(textLabel)
+        }
+        
+        let titleAttribs: [String : AnyObject] = [
+            NSForegroundColorAttributeName : Colors.lightGray,
+            NSFontAttributeName : Fonts.title
+            ]
+        let titlePlaceholder = NSAttributedString(string: "Title", attributes: titleAttribs)
+        titleField.attributedPlaceholder = titlePlaceholder
+        titleField.backgroundColor = Colors.gray
+        titleField.textColor = Colors.lightGray
+        addSubview(titleField)
+        titleField.snp_makeConstraints { (make) in
+            make.left.equalTo(8)
+            make.right.equalTo(-8)
+            make.top.equalTo(textLabel.snp_bottom).offset(8)
+        }
+        
+        let secondPlaceholder = NSAttributedString(string: secondFieldPlaceholder, attributes: titleAttribs)
+        secondField.attributedPlaceholder = secondPlaceholder
+        secondField.backgroundColor = Colors.gray
+        secondField.textColor = Colors.lightGray
+        addSubview(secondField)
+        secondField.snp_makeConstraints { (make) in
+            make.left.equalTo(8)
+            make.right.equalTo(-8)
+            make.top.equalTo(titleField.snp_bottom).offset(16)
+        }
+    }
+    
+    func performShakeAnimation() {
+        // TODO: Implement a shake animation to signal a failed action
+    }
+    
+    // FIXME: Animations not working quite ...
+    func didTapDismiss(sender: UITapGestureRecognizer) {
+        guard let superview = superview else { return }
+        self.snp_updateConstraints { (make) in
+            make.top.equalTo(superview.snp_bottom)
+        }
+        UIView.animateWithDuration(0.2) { self.layoutIfNeeded() }
+    }
+    
+    func didTapSubmit(sender: UITapGestureRecognizer) {
+        guard Settings.loggedIn else {
+            Popover(.LoginRequired).present()
+            performShakeAnimation()
+            return
+        }
+        guard let superview = superview else { return }
+        self.snp_updateConstraints { (make) in
+            make.bottom.equalTo(superview.snp_top)
+        }
+        UIView.animateWithDuration(0.2) { self.layoutIfNeeded() }
     }
 }

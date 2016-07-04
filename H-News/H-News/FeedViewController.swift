@@ -110,9 +110,7 @@ extension FeedViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCellWithIdentifier(HNewsTableViewCell.ID) as? HNewsTableViewCell else { return UITableViewCell() }
-        guard let news = stories[indexPath.row] as? News else { return UITableViewCell() }
-        
-        cell.story = news
+        cell.story = stories[indexPath.row]
         cell.secondTrigger = 0.5
         cell.showCommentsFor = showCommentsFor
         
@@ -133,7 +131,7 @@ extension FeedViewController {
 // MARK: - UITableViewDelegate
 extension FeedViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let news = stories[indexPath.row] as? News else { return }
+        let news = stories[indexPath.row]
         guard let updatedNews = HNewsReadingPile()?.markNewsAsRead(news) else { return }
         stories[indexPath.row] = updatedNews
         

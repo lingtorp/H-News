@@ -1,8 +1,8 @@
 class CommentsViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private let tableView = CommentsTableViewController()
-    private let textField = CommentTextField()
     private let moremenu  = HNewsMoreMenuView()
+    private let addBtn    = HNMenuButtonView()
     
     var news: News? {
         didSet {
@@ -26,13 +26,13 @@ class CommentsViewController: UIViewController, UIGestureRecognizerDelegate {
             make.right.left.top.bottom.equalTo(0)
         }
         
-        view.addSubview(textField)
-        textField.snp_makeConstraints { (make) in
-            make.left.right.bottom.equalTo(0)
-            make.height.equalTo(view.snp_height).multipliedBy(0.1)
+        view.addSubview(addBtn)
+        addBtn.snp_makeConstraints { (make) in
+            make.right.equalTo(-16)
+            make.bottom.equalTo(view.snp_bottom).offset(-64)
+            make.size.equalTo(view.snp_width).multipliedBy(0.12)
         }
-        
-        view.bringSubviewToFront(textField)
+        addBtn.didTapOnButton = didTapPlusButton
         
         // TODO: Add the items to the moremenu
         
@@ -62,6 +62,18 @@ class CommentsViewController: UIViewController, UIGestureRecognizerDelegate {
             moremenu.dismiss()
         }
     }
+    
+    func didTapPlusButton(sender: HNMenuButtonView) {
+        // TODO: Add intro animation
+        let commentView = HNCommentView()
+        view.addSubview(commentView)
+        commentView.snp_makeConstraints { (make) in
+            make.top.equalTo(32)
+            make.bottom.equalTo(-256) // FIXME: Height of current displayed keyboard
+            make.left.equalTo(32)
+            make.right.equalTo(-32)
+        }
+    }
 }
 
 class CommentsTableViewController: UITableViewController {
@@ -73,7 +85,6 @@ class CommentsTableViewController: UITableViewController {
     var news: News? {
         didSet {
             guard let news = news else { return }
-            
             // Begin to load the comments of the News.
             generator.reset()
             downloader.reset()
@@ -85,6 +96,7 @@ class CommentsTableViewController: UITableViewController {
     private var comments: [Comment] = [] {
         didSet {
             tableView.reloadData()
+            comments.count == 0 ? showNoContentView(true) : showNoContentView(false)
         }
     }
 
@@ -96,6 +108,18 @@ class CommentsTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 160
         tableView.allowsSelection = false
         tableView.separatorStyle = .None
+        view.addSubview(noContentView)
+        noContentView.text = "PEEEENIS"
+        noContentView.textColor = Colors.peach
+        noContentView.snp_makeConstraints { (make) in
+            make.right.bottom.equalTo(-8)
+        }
+    }
+    
+    private var noContentView = UILabel()
+    
+    private func showNoContentView(show: Bool) {
+        show ? print("Showing!") : print("Hiding!")
     }
 }
 
@@ -119,7 +143,6 @@ extension CommentsTableViewController {
 
 // MARK: - UITableViewDelegate
 extension CommentsTableViewController {
-
     // viewForHeaderInSection will not be called without this method impl.
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return HNSectionHeader.height
@@ -133,8 +156,7 @@ extension CommentsTableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCellWithIdentifier(HNewsCommentTableViewCell.cellID) as? HNewsCommentTableViewCell else { return UITableViewCell() }
-        guard let comment = comments[indexPath.row] as? Comment else { return UITableViewCell() }
-        cell.comment = comment
+        cell.comment = comments[indexPath.row]
         return cell
     }
     
@@ -149,29 +171,85 @@ extension CommentsTableViewController {
     }
 }
 
-class CommentTextField: UIView {
+class HNCommentView: UIView {
     
-    private let submitBtn = UILabel()
-    private let textField = UITextField()
+    private let textLabel  = UILabel()
+    private let submitBtn  = UIImageView()
+    private let dismissBtn = UIImageView()
+    private let textField  = UITextView()
     
     override func didMoveToSuperview() {
-        guard let superview = superview else { return }
         backgroundColor = Colors.lightGray
         
-        submitBtn.textColor = Colors.peach
-        submitBtn.text = "Submit"
+        textLabel.textColor = Colors.peach
+        textLabel.font = Fonts.title
+        textLabel.text = "Submit a comment"
+        addSubview(textLabel)
+        textLabel.snp_makeConstraints { (make) in
+            make.centerX.equalTo(0)
+            make.top.equalTo(8)
+        }
+        
+        let submitTapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(didTapSubmit(_:)))
+        submitBtn.image = Icons.accept.imageWithRenderingMode(.AlwaysTemplate)
+        submitBtn.tintColor = Colors.peach
+        submitBtn.addGestureRecognizer(submitTapGestureRecog)
+        submitBtn.userInteractionEnabled = true
         addSubview(submitBtn)
         submitBtn.snp_makeConstraints { (make) in
-            make.top.bottom.equalTo(0)
-            make.right.equalTo(-12)
+            make.right.equalTo(-8)
+            make.top.equalTo(8)
+            make.height.equalTo(textLabel)
         }
         
-        textField.placeholder = "Post a comment ..."
+        let dismissTapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(didTapDismiss(_:)))
+        dismissBtn.image = Icons.dismiss.imageWithRenderingMode(.AlwaysTemplate)
+        dismissBtn.tintColor = Colors.peach
+        dismissBtn.addGestureRecognizer(dismissTapGestureRecog)
+        dismissBtn.userInteractionEnabled = true
+        addSubview(dismissBtn)
+        dismissBtn.snp_makeConstraints { (make) in
+            make.left.equalTo(8)
+            make.top.equalTo(8)
+            make.height.equalTo(textLabel)
+        }
+        
+        textField.font = Fonts.title
+        textField.backgroundColor = Colors.gray
+        textField.textColor = Colors.lightGray
+        textField.dataDetectorTypes = .All
         addSubview(textField)
         textField.snp_makeConstraints { (make) in
-            make.left.top.equalTo(0)
-            make.right.equalTo(submitBtn.snp_left).offset(-8)
+            make.left.equalTo(8)
+            make.right.equalTo(-8)
+            make.top.equalTo(textLabel.snp_bottom).offset(8)
+            make.bottom.equalTo(-8)
         }
-        
+    }
+    
+    func performShakeAnimation() {
+        // TODO: Implement a shake animation to signal a failed action
+    }
+    
+    // FIXME: Animations not working quite ...
+    func didTapDismiss(sender: UITapGestureRecognizer) {
+        guard let superview = superview else { return }
+        self.snp_updateConstraints { (make) in
+            make.top.equalTo(superview.snp_bottom)
+        }
+        UIView.animateWithDuration(0.2) { self.layoutIfNeeded() }
+    }
+    
+    func didTapSubmit(sender: UITapGestureRecognizer) {
+        guard Settings.loggedIn else {
+            Popover(.LoginRequired).present()
+            performShakeAnimation()
+            return
+        }
+        guard let superview = superview else { return }
+        self.snp_updateConstraints { (make) in
+            make.bottom.equalTo(superview.snp_top)
+        }
+        UIView.animateWithDuration(0.2) { self.layoutIfNeeded() }
     }
 }

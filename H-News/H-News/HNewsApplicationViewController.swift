@@ -1,3 +1,0 @@
-class HNewsApplicationViewController: UIViewController {
-    
-}

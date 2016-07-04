@@ -78,10 +78,10 @@ class LoginViewController: UIViewController {
         activityIndicator.color = Colors.peach
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicator)
         activityIndicator.startAnimating()
-        Login.login(username, password: password) { (success) in
+        API.login(username, password: password) { (result) in
             activityIndicator.stopAnimating()
             self.navigationItem.rightBarButtonItem = oldBarButton
-            if success {
+            if result == .Success {
                 Popover(title: "Logged in", mode: .Success).present()
                 self.dismissViewControllerAnimated(true, completion: nil)
             } else {

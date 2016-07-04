@@ -98,16 +98,12 @@ class HNewsSettingsViewController: UITableViewController {
                     Settings.theme = .Automatic
                 })]),
             Section(title: "About", rows:
-                [Row(title: "Developer", selected: false, selectable: false, action: { () in
-                    let developerVC = HNewsDeveloperViewController()
+                [Row(title: "Donate", selected: false, selectable: false, action: { () in
+                    let developerVC = HNDonateViewController()
                     let navcontr = UINavigationController(rootViewController: developerVC)
                     self.presentViewController(navcontr, animated: true, completion: nil)
-                }),
-                Row(title: "App", selected: false, selectable: false, action: { () in
-                    let appVC = HNewsApplicationViewController()
-                    let navcontr = UINavigationController(rootViewController: appVC)
-                    self.presentViewController(navcontr, animated: true, completion: nil)
-                })])
+                })
+            ])
         ]
 
         // Close button

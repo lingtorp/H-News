@@ -27,6 +27,10 @@ class Popover {
         }
     }
     
+    convenience init(_ mode: Mode) {
+        self.init(title: "Login required", mode: .LoginRequired)
+    }
+    
     func present() {
         CRToastManager.showNotificationWithOptions(options, completionBlock: nil)
     }

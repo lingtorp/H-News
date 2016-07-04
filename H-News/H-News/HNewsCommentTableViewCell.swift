@@ -8,6 +8,7 @@ import MCSwipeTableViewCell
 
 class HNewsCommentTableViewCell: UITableViewCell {
     
+    private static let dataDetector = try! NSDataDetector(types: NSTextCheckingType.Link.rawValue)
     private static let dateCompsFormatter = NSDateComponentsFormatter()
     static let cellID = "HNewsCommentTableViewCell"
     
@@ -72,6 +73,9 @@ class HNewsCommentTableViewCell: UITableViewCell {
             dateLabel.text = HNewsCommentTableViewCell.dateCompsFormatter.stringFromTimeInterval(-comment.date.timeIntervalSinceNow)
             indentationLevel = comment.offset
             indentationWidth = 15.0
+        HNewsCommentTableViewCell.dataDetector.enumerateMatchesInString(comment.text, options: [], range: NSMakeRange(0, comment.text.characters.count))    { (result, _, _) in
+                print(result?.URL?.absoluteString)
+            }
             setNeedsDisplay() // Renders the cell before it comes into sight
         }
     }
