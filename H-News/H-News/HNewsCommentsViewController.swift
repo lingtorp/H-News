@@ -63,15 +63,25 @@ class CommentsViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func didTapPlusButton(sender: HNMenuButtonView) {
-        // TODO: Add intro animation
-        let commentView = HNCommentView()
-        view.addSubview(commentView)
-        commentView.snp_makeConstraints { (make) in
-            make.top.equalTo(32)
-            make.bottom.equalTo(-256) // FIXME: Height of current displayed keyboard
-            make.left.equalTo(32)
-            make.right.equalTo(-32)
+    private weak var commentView: HNCommentView?
+    
+    func didTapPlusButton(sender: HNMenuButtonView, selected: Bool) {
+        if selected {
+            guard let commentView = commentView else { return }
+            Animations.fadeOut(commentView) {
+                commentView.removeFromSuperview()
+            }
+        } else {
+            let newCommentView = HNCommentView()
+            view.addSubview(newCommentView)
+            newCommentView.snp_makeConstraints { (make) in
+                make.top.equalTo(32)
+                make.bottom.equalTo(-256) // FIXME: Height of current displayed keyboard
+                make.left.equalTo(32)
+                make.right.equalTo(-32)
+            }
+            Animations.fadeIn(newCommentView)
+            commentView = newCommentView
         }
     }
 }
@@ -109,7 +119,7 @@ class CommentsTableViewController: UITableViewController {
         tableView.allowsSelection = false
         tableView.separatorStyle = .None
         view.addSubview(noContentView)
-        noContentView.text = "PEEEENIS"
+        noContentView.text = "No content to show."
         noContentView.textColor = Colors.peach
         noContentView.snp_makeConstraints { (make) in
             make.right.bottom.equalTo(-8)
@@ -218,6 +228,7 @@ class HNCommentView: UIView {
         textField.backgroundColor = Colors.gray
         textField.textColor = Colors.lightGray
         textField.dataDetectorTypes = .All
+        textField.becomeFirstResponder()
         addSubview(textField)
         textField.snp_makeConstraints { (make) in
             make.left.equalTo(8)
@@ -227,29 +238,20 @@ class HNCommentView: UIView {
         }
     }
     
-    func performShakeAnimation() {
-        // TODO: Implement a shake animation to signal a failed action
-    }
-    
-    // FIXME: Animations not working quite ...
     func didTapDismiss(sender: UITapGestureRecognizer) {
-        guard let superview = superview else { return }
-        self.snp_updateConstraints { (make) in
-            make.top.equalTo(superview.snp_bottom)
+        Animations.fadeOut(self) {
+            self.removeFromSuperview()
         }
-        UIView.animateWithDuration(0.2) { self.layoutIfNeeded() }
     }
     
     func didTapSubmit(sender: UITapGestureRecognizer) {
         guard Settings.loggedIn else {
             Popover(.LoginRequired).present()
-            performShakeAnimation()
+            Animations.shake(self)
             return
         }
-        guard let superview = superview else { return }
-        self.snp_updateConstraints { (make) in
-            make.bottom.equalTo(superview.snp_top)
+        Animations.fadeOut(self) {
+            self.removeFromSuperview()
         }
-        UIView.animateWithDuration(0.2) { self.layoutIfNeeded() }
     }
 }
