@@ -97,7 +97,7 @@ extension FeedViewController {
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == tableView.dataSource!.tableView(tableView, numberOfRowsInSection: 1) - 5 {
-            Dispatcher.async { self.generator?.next(15, self.downloader?.fetchNextBatch, onFinish: self.updateDatasource) }
+            Dispatcher.async { self.generator?.next(20, self.downloader?.fetchNextBatch, onFinish: self.updateDatasource) }
         }
     }
 }
