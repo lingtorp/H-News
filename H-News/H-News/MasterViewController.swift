@@ -116,15 +116,25 @@ class MasterViewController: UIViewController {
         splitViewController?.showDetailViewController(DetailViewController(), sender: self)
     }
     
-    func didTapPlusButton(sender: HNMenuButtonView) {
-        // TODO: Add intro animation
-        let postView = HNPostItemView()
-        view.addSubview(postView)
-        postView.snp_makeConstraints { (make) in
-            make.top.equalTo(32)
-            make.bottom.equalTo(-256) // FIXME: Height of current displayed keyboard
-            make.left.equalTo(32)
-            make.right.equalTo(-32)
+    private weak var postView: HNPostItemView?
+    
+    func didTapPlusButton(sender: HNMenuButtonView, selected: Bool) {
+        if selected {
+            guard let postView = postView else { return }
+            Animations.fadeOut(postView) {
+                postView.removeFromSuperview()
+            }
+        } else {
+            let newPostView = HNPostItemView()
+            view.addSubview(newPostView)
+            newPostView.snp_makeConstraints { (make) in
+                make.top.equalTo(32)
+                make.bottom.equalTo(-512) // FIXME: Height of current displayed keyboard
+                make.left.equalTo(32)
+                make.right.equalTo(-32)
+            }
+            Animations.fadeIn(newPostView)
+            postView = newPostView
         }
     }
 }
@@ -274,7 +284,7 @@ class HNPostItemView: UIView {
     private let dismissBtn  = UIImageView()
     
     override func didMoveToSuperview() {
-        backgroundColor = Colors.lightGray
+        layer.backgroundColor = Colors.lightGray.CGColor
         
         var secondFieldPlaceholder = ""
         switch mode {
@@ -318,24 +328,28 @@ class HNPostItemView: UIView {
         }
         
         let titleAttribs: [String : AnyObject] = [
-            NSForegroundColorAttributeName : Colors.lightGray,
+            NSForegroundColorAttributeName : Colors.gray,
             NSFontAttributeName : Fonts.title
             ]
         let titlePlaceholder = NSAttributedString(string: "Title", attributes: titleAttribs)
         titleField.attributedPlaceholder = titlePlaceholder
-        titleField.backgroundColor = Colors.gray
-        titleField.textColor = Colors.lightGray
+        titleField.textColor = Colors.gray
+        titleField.textAlignment = .Center
+        titleField.clearButtonMode = .Always
+        titleField.autocorrectionType = .No
         addSubview(titleField)
         titleField.snp_makeConstraints { (make) in
             make.left.equalTo(8)
             make.right.equalTo(-8)
-            make.top.equalTo(textLabel.snp_bottom).offset(8)
+            make.top.equalTo(textLabel.snp_bottom).offset(16)
         }
         
         let secondPlaceholder = NSAttributedString(string: secondFieldPlaceholder, attributes: titleAttribs)
         secondField.attributedPlaceholder = secondPlaceholder
-        secondField.backgroundColor = Colors.gray
-        secondField.textColor = Colors.lightGray
+        secondField.textColor = Colors.gray
+        secondField.textAlignment = .Center
+        secondField.clearButtonMode = .Always
+        secondField.autocorrectionType = .No
         addSubview(secondField)
         secondField.snp_makeConstraints { (make) in
             make.left.equalTo(8)
@@ -344,29 +358,20 @@ class HNPostItemView: UIView {
         }
     }
     
-    func performShakeAnimation() {
-        // TODO: Implement a shake animation to signal a failed action
-    }
-    
-    // FIXME: Animations not working quite ...
     func didTapDismiss(sender: UITapGestureRecognizer) {
-        guard let superview = superview else { return }
-        self.snp_updateConstraints { (make) in
-            make.top.equalTo(superview.snp_bottom)
+        Animations.fadeOut(self) {
+            self.removeFromSuperview()
         }
-        UIView.animateWithDuration(0.2) { self.layoutIfNeeded() }
     }
     
     func didTapSubmit(sender: UITapGestureRecognizer) {
         guard Settings.loggedIn else {
             Popover(.LoginRequired).present()
-            performShakeAnimation()
+            Animations.shake(self)
             return
         }
-        guard let superview = superview else { return }
-        self.snp_updateConstraints { (make) in
-            make.bottom.equalTo(superview.snp_top)
+        Animations.fadeOut(self) {
+            self.removeFromSuperview()
         }
-        UIView.animateWithDuration(0.2) { self.layoutIfNeeded() }
     }
 }
