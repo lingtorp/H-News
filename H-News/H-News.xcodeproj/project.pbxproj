@@ -26,6 +26,7 @@
 		94B28D331C16EF3A00D7666A /* HNewsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B28D321C16EF3A00D7666A /* HNewsSettingsViewController.swift */; };
 		94BEC0811BFA4C0200668D2E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94BEC0801BFA4C0200668D2E /* Images.xcassets */; };
 		94C64E2C1D2A6E9300CA2135 /* HNMenuButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C64E2B1D2A6E9300CA2135 /* HNMenuButtonView.swift */; };
+		94C64E2E1D2BD7AB00CA2135 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C64E2D1D2BD7AB00CA2135 /* Animations.swift */; };
 		94DCD8CB1C4784DE00001739 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DCD8CA1C4784DE00001739 /* API.swift */; };
 		94E8B4611C99443E007FB239 /* Popover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E8B4601C99443E007FB239 /* Popover.swift */; };
 		94E8B4631C9948B3007FB239 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E8B4621C9948B3007FB239 /* Fonts.swift */; };
@@ -60,6 +61,7 @@
 		94B28D321C16EF3A00D7666A /* HNewsSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNewsSettingsViewController.swift; sourceTree = "<group>"; };
 		94BEC0801BFA4C0200668D2E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		94C64E2B1D2A6E9300CA2135 /* HNMenuButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNMenuButtonView.swift; sourceTree = "<group>"; };
+		94C64E2D1D2BD7AB00CA2135 /* Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		94DCD8CA1C4784DE00001739 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		94E8B4601C99443E007FB239 /* Popover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popover.swift; sourceTree = "<group>"; };
 		94E8B4621C9948B3007FB239 /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				9406EE901B66A7AC005A814F /* Hacker News Feed */,
 				9406EE9D1B692D54005A814F /* Reading List */,
 				9406EE681B66A37B005A814F /* Supporting Files */,
+				94C64E2D1D2BD7AB00CA2135 /* Animations.swift */,
 			);
 			path = "H-News";
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				9406EE6F1B66A37B005A814F /* DetailViewController.swift in Sources */,
 				949B0C401C802F9D00FBE684 /* Colors.swift in Sources */,
 				94E8B4671C9975F4007FB239 /* HNDonateViewController.swift in Sources */,
+				94C64E2E1D2BD7AB00CA2135 /* Animations.swift in Sources */,
 				9406EE6D1B66A37B005A814F /* FeedViewController.swift in Sources */,
 				9406EE981B68DCC0005A814F /* HNewsTableViewCell.swift in Sources */,
 				94A5B4F31C4CFEC600D92EDE /* HNewsMoreMenu.swift in Sources */,
