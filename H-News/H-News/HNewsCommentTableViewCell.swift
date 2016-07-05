@@ -1,11 +1,5 @@
-
-// TODO: Add a button for submitting a new comment on the relevant News ...
-// TODO: When doubled tapped the cell shall expand and reveal a textfield in which you can reply to the comment, et al
-// TODO: Add a shortcut to scroll back to top.
-// TODO: The view shall present button at the bottom when clicked
+// TODO: When tapped the cell shall expand and reveal a textfield in which you can reply to the comment, et al
 // TODO: Show an indicator that the comment can be expanded
-import MCSwipeTableViewCell
-
 class HNewsCommentTableViewCell: UITableViewCell {
     
     private static let dataDetector = try! NSDataDetector(types: NSTextCheckingType.Link.rawValue)
@@ -58,25 +52,44 @@ class HNewsCommentTableViewCell: UITableViewCell {
         let doubletapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsCommentTableViewCell.didDoubleTapOnComment))
         doubletapGestureRecog.numberOfTapsRequired = 2
         addGestureRecognizer(doubletapGestureRecog)
+        
+        let longpressGestureRecog = UILongPressGestureRecognizer(target: self, action: #selector(HNewsCommentTableViewCell.didLongPressOnComment(_:)))
+        addGestureRecognizer(longpressGestureRecog)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+    required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
     
     var comment: Comment? {
         didSet {
             guard let comment = comment else { return }
+            identityURLsIn(comment.text) { (result, urls) in
+                self.commentLabel.attributedText = result
+                self.urlsInComment = urls
+            }
+            commentLabel.text = comment.text // Add initial text for sizing purposes
             author.text = comment.author
             dateLabel.text? += " ago"
-            commentLabel.text = comment.text
             dateLabel.text = HNewsCommentTableViewCell.dateCompsFormatter.stringFromTimeInterval(-comment.date.timeIntervalSinceNow)
             indentationLevel = comment.offset
             indentationWidth = 15.0
-        HNewsCommentTableViewCell.dataDetector.enumerateMatchesInString(comment.text, options: [], range: NSMakeRange(0, comment.text.characters.count))    { (result, _, _) in
-                print(result?.URL?.absoluteString)
-            }
             setNeedsDisplay() // Renders the cell before it comes into sight
+        }
+    }
+    
+    private func identityURLsIn(string: String, completed: (result: NSAttributedString, urls: [String]) -> ()) {
+        Dispatcher.async {
+            var urls: [String] = []
+            let URLattributes: [String : AnyObject] = [
+                NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue
+            ]
+            let attributedString = NSMutableAttributedString(string: string)
+            HNewsCommentTableViewCell.dataDetector.enumerateMatchesInString(string, options: [], range: NSMakeRange(0, string.characters.count))    { (result, _, _) in
+                guard let url = result?.URL else { return }
+                let urlRange = attributedString.mutableString.rangeOfString(url.absoluteString)
+                attributedString.addAttributes(URLattributes, range: urlRange)
+                urls.append(url.absoluteString)
+            }
+            Dispatcher.main({ completed(result: attributedString, urls: urls) })
         }
     }
     
@@ -93,6 +106,23 @@ class HNewsCommentTableViewCell: UITableViewCell {
     
     func didUnselectCell(tableView: UITableView) {
         
+    }
+    
+    private var urlsInComment: [String] = []
+    
+    func didLongPressOnComment(sender: UILongPressGestureRecognizer) {
+        guard urlsInComment.count > 0 else { return }
+        let alertContr = UIAlertController(title: "URLs", message: "Open a link in Safari", preferredStyle: .ActionSheet)
+        for url in urlsInComment {
+            let action = UIAlertAction(title: url, style: .Default, handler: { (action) in
+                guard let URL = NSURL(string: url) else { return }
+                UIApplication.sharedApplication().openURL(URL)
+            })
+            alertContr.addAction(action)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        alertContr.addAction(cancelAction)
+        UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alertContr, animated: true, completion: nil)
     }
     
     private var textExpanded = false
