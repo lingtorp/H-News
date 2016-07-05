@@ -3,9 +3,9 @@ class HNMenuButtonView: UIView {
     class PlusButton: UIButton {
         
         override func drawRect(rect: CGRect) {
-            let path = UIBezierPath(ovalInRect: rect)
+            let circle = UIBezierPath(ovalInRect: rect)
             Colors.lightGray.setFill()
-            path.fill()
+            circle.fill()
             
             //set up the width and height variables
             //for the horizontal stroke
@@ -49,33 +49,30 @@ class HNMenuButtonView: UIView {
     }
     
     private let plusBtn = PlusButton()
-    var didTapOnButton: ((sender: HNMenuButtonView) -> Void)?
+    var didTapOnButton: ((sender: HNMenuButtonView, selected: Bool) -> Void)?
     
     override func didMoveToSuperview() {
         addSubview(plusBtn)
-        
         plusBtn.snp_makeConstraints { (make) in
             make.left.right.bottom.top.equalTo(0)
         }
-        UIView.animateWithDuration(0.1) { self.plusBtn.layoutIfNeeded() }
+        Animations.fadeIn(self)
         
         let tapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(didTapView(_:)))
         plusBtn.addGestureRecognizer(tapGestureRecog)
     }
     
+    private var selected = false
+    
     func didTapView(sender: UIGestureRecognizer) {
-        // Poplike animation
-        self.plusBtn.snp_updateConstraints { (make) in
-            make.left.top.equalTo(-8)
-            make.right.bottom.equalTo(8)
+        if selected {
+            Animations.pop(self)
+            Animations.rotate(self, toDegrees: 0)
+        } else {
+            Animations.pop(self)
+            Animations.rotate(self, toDegrees: -45.0)
         }
-        UIView.animateWithDuration(0.2, animations: {
-            self.plusBtn.layoutIfNeeded()
-        }) { (completed) in
-            self.plusBtn.snp_updateConstraints { (make) in
-                make.left.top.right.bottom.equalTo(0)
-            }
-        }
-        didTapOnButton?(sender: self)
+        didTapOnButton?(sender: self, selected: selected)
+        selected = !selected
     }
 }
