@@ -13,11 +13,11 @@ class MasterViewController: UIViewController {
         
         let topVC = currentFeedViewController
         let newVC = FeedViewController()
-        newVC.downloader = Downloader<News>(.Top)
+        newVC.downloader = Downloader<News>(.Newest)
         let askVC = FeedViewController()
-        askVC.downloader = Downloader<News>(.Top)
+        askVC.downloader = Downloader<News>(.Ask)
         let showVC = FeedViewController()
-        showVC.downloader = Downloader<News>(.Top)
+        showVC.downloader = Downloader<News>(.Show)
         
         // Feed switcher view
         feedSwitchView.delegate = self
