@@ -1,6 +1,6 @@
-// TODO: When tapped the cell shall expand and reveal a textfield in which you can reply to the comment, et al
-// TODO: Show an indicator that the comment can be expanded
-class HNewsCommentTableViewCell: UITableViewCell {
+import MCSwipeTableViewCell
+
+class HNewsCommentTableViewCell: MCSwipeTableViewCell {
     
     private static let dataDetector = try! NSDataDetector(types: NSTextCheckingType.Link.rawValue)
     private static let dateCompsFormatter = NSDateComponentsFormatter()
@@ -100,14 +100,6 @@ class HNewsCommentTableViewCell: UITableViewCell {
         }
     }
     
-    func didSelectCell(tableView: UITableView) {
-        
-    }
-    
-    func didUnselectCell(tableView: UITableView) {
-        
-    }
-    
     private var urlsInComment: [String] = []
     
     func didLongPressOnComment(sender: UILongPressGestureRecognizer) {
@@ -138,5 +130,22 @@ class HNewsCommentTableViewCell: UITableViewCell {
         guard let tableView = superview?.superview as? UITableView else { return }
         tableView.beginUpdates()
         tableView.endUpdates()
+    }
+}
+
+class TableViewCellMenu: UIView {
+    
+    private let buttons = [UIButton(), UIButton()]
+    
+    override func didMoveToSuperview() {
+        for button in buttons {
+            button.titleLabel?.text = "I AM A BUTTON"
+            addSubview(button)
+            button.snp_makeConstraints(closure: { (make) in
+                make.left.top.equalTo(0)
+                make.size.equalTo(20)
+                make.bottom.equalTo(0)
+            })
+        }
     }
 }
