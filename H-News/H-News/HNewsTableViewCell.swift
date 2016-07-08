@@ -1,4 +1,3 @@
-
 import UIKit
 import MCSwipeTableViewCell
 
@@ -53,6 +52,7 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
         time.font = Fonts.light
         addSubview(time)
         time.snp_makeConstraints { (make) in
+            make.top.greaterThanOrEqualTo(score.snp_bottom).offset(-4)
             make.bottom.equalTo(0).offset(-8)
             make.right.equalTo(0).offset(-8)
         }
@@ -65,6 +65,14 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
         let gestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsTableViewCell.didClickOnComment(_:)))
         title.userInteractionEnabled = true
         title.addGestureRecognizer(gestureRecog)
+        
+        // Set selection color theme
+        let view = UIView()
+        view.backgroundColor = Colors.peach
+        selectedBackgroundView = view
+        defaultColor = Colors.gray
+        
+        contentView.backgroundColor = Colors.gray
         
         // do the initial layout
         layoutIfNeeded()
@@ -80,18 +88,9 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     var story: Story? {
         didSet {
             guard let story = story else { return }
-    
-            // Set selection color theme
-            let view = UIView()
-            view.backgroundColor = Colors.peach
-            selectedBackgroundView = view
-            defaultColor = Colors.gray
-            
-            contentView.backgroundColor = Colors.gray
-            
-            title.text         = story.title
-            author.text        = story.author
-            time.text          = HNewsTableViewCell.dateCompsFormatter.stringFromTimeInterval(-story.date.timeIntervalSinceNow)
+            title.text  = story.title
+            author.text = story.author
+            time.text   = HNewsTableViewCell.dateCompsFormatter.stringFromTimeInterval(-story.date.timeIntervalSinceNow)
             
             if story.read {
                 title.textColor = Colors.lightGray
@@ -102,7 +101,11 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             switch story {
             case let news as News:
                 url.text   = news.url.host
-                score.text = "\(news.score)"
+                if news.score > 0 {
+                    score.text = "\(news.score)"
+                } else {
+                    score.hidden = true
+                }
             default: break
             }
             
