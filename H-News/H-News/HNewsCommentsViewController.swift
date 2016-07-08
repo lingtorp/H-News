@@ -51,7 +51,7 @@ class CommentsViewController: UIViewController, UIGestureRecognizerDelegate {
         // TODO: Present custom more menu
         // TODO: Solve the circle of News -> Comments -> News -> ...
     }
-    
+
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
@@ -116,8 +116,8 @@ class CommentsTableViewController: UITableViewController {
         tableView.registerClass(HNewsCommentTableViewCell.self, forCellReuseIdentifier: HNewsCommentTableViewCell.cellID)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160
-        tableView.allowsSelection = false
         tableView.separatorStyle = .None
+        tableView.allowsSelection = false
         view.addSubview(noContentView)
         noContentView.text = "No content to show."
         noContentView.textColor = Colors.peach
@@ -168,16 +168,6 @@ extension CommentsTableViewController {
         guard let cell = tableView.dequeueReusableCellWithIdentifier(HNewsCommentTableViewCell.cellID) as? HNewsCommentTableViewCell else { return UITableViewCell() }
         cell.comment = comments[indexPath.row]
         return cell
-    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? HNewsCommentTableViewCell else { return }
-        cell.didSelectCell(tableView)
-    }
-    
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? HNewsCommentTableViewCell else { return }
-        cell.didUnselectCell(tableView)
     }
 }
 
