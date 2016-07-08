@@ -1,4 +1,3 @@
-
 import Alamofire
 
 extension Dictionary {
@@ -83,11 +82,11 @@ extension Comment: Downloadable {
 
 /// The API endpoint from which a Downloader fetches data
 enum APIEndpoint: String {
-    case Top      = "https://h-news.herokuapp.com/v1/news"
-    case Comments = "https://h-news.herokuapp.com/v1/comments"
+    case Top      = "https://h-news.herokuapp.com/v1/top"
     case Show     = "https://h-news.herokuapp.com/v1/show"
-    case New      = "https://h-news.herokuapp.com/v1/new"
+    case Newest   = "https://h-news.herokuapp.com/v1/newest"
     case Ask      = "https://h-news.herokuapp.com/v1/ask"
+    case Comments = "https://h-news.herokuapp.com/v1/comments"
 }
 
 class Downloader<T: Downloadable>: DownloaderType {
