@@ -370,6 +370,26 @@ class HNPostItemView: UIView {
             Animations.shake(self)
             return
         }
+        guard let url = NSURL(string: secondField.text ?? "") else {
+
+            return
+        }
+        guard let title = titleField.text else {
+            
+            return
+        }
+        API.submit(title, url: url.absoluteString) { (result) in
+            switch result {
+            case .Success:
+                break
+            case .Failed:
+                break
+            case .NoInternet:
+                // TODO: Save information and post in the background later?
+                break
+            default: break
+            }
+        }
         Animations.fadeOut(self) {
             self.removeFromSuperview()
         }
