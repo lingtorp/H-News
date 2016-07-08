@@ -68,6 +68,7 @@ class FeedViewController: UITableViewController {
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = Colors.lightGray
         refreshControl?.addTarget(self, action: #selector(FeedViewController.didRefreshFeed(_:)), forControlEvents: .ValueChanged)
+        updateRefreshControlTitle()
         
         if #available(iOS 9.0, *) {
             registerForPreviewingWithDelegate(self, sourceView: tableView)
@@ -80,19 +81,31 @@ class FeedViewController: UITableViewController {
         tableView.deselectRowAtIndexPath(indexPathForSelectedRow, animated: true)
     }
     
+    private var lastFetchedDate = NSDate()
+    
+    func updateRefreshControlTitle() {
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .LongStyle
+        formatter.timeStyle = .MediumStyle
+        let dateString = formatter.stringFromDate(lastFetchedDate)
+        refreshControl?.attributedTitle = NSAttributedString(string: dateString)
+        lastFetchedDate = NSDate()
+    }
+    
     func didRefreshFeed(sender: UIRefreshControl) {
         generator?.reset()
         downloader?.reset()
         stories.removeAll()
         generator?.next(25, downloader?.fetchNextBatch, onFinish: updateDatasource)
-    }    
+        updateRefreshControlTitle()
+    }
 }
 
 // MARK: - Paging
 extension FeedViewController {
     private func updateDatasource(items: [News]) {
-        stories += items
         refreshControl?.endRefreshing()
+        stories += items
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
