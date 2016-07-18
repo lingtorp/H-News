@@ -22,11 +22,11 @@ protocol DownloaderType {
 
 /// Something that adopts this protocol is able to convert from JSON to itself and thus makes it 'downloadable'
 protocol Downloadable {
-    static func parseJSON(json: [String:AnyObject]) -> Self?
+    static func parseJSON(json: [String:AnyObject], resource: Resource) -> Self?
 }
 
 extension Ask: Downloadable {
-    static func parseJSON(json: [String:AnyObject]) -> Ask? {
+    static func parseJSON(json: [String:AnyObject], resource: Resource) -> Ask? {
         guard let id     = json["id"]     as? Int    else { return nil }
         guard let title  = json["title"]  as? String else { return nil }
         guard let author = json["author"] as? String else { return nil }
@@ -45,7 +45,7 @@ extension Ask: Downloadable {
 }
 
 extension News: Downloadable {
-    static func parseJSON(json: [String:AnyObject]) -> News? {
+    static func parseJSON(json: [String:AnyObject], resource: Resource) -> News? {
         guard let id     = json["id"]     as? Int    else { return nil }
         guard let title  = json["title"]  as? String else { return nil }
         guard let author = json["author"] as? String else { return nil }
@@ -65,7 +65,7 @@ extension News: Downloadable {
 }
 
 extension Comment: Downloadable {
-    static func parseJSON(json: [String : AnyObject]) -> Comment? {
+    static func parseJSON(json: [String : AnyObject], resource: Resource) -> Comment? {
         guard let id       = json["id"]      as? Int    else { return nil }
         guard let offset   = json["offset"]  as? Int    else { return nil }
         guard let author   = json["author"]  as? String else { return nil }
@@ -80,13 +80,38 @@ extension Comment: Downloadable {
     }
 }
 
-/// The API endpoint from which a Downloader fetches data
-enum APIEndpoint: String {
+/// URLs to the API on Heroku server
+private enum ServerURL: String {
     case Top      = "https://h-news.herokuapp.com/v1/top"
     case Show     = "https://h-news.herokuapp.com/v1/show"
     case Newest   = "https://h-news.herokuapp.com/v1/newest"
     case Ask      = "https://h-news.herokuapp.com/v1/ask"
     case Comments = "https://h-news.herokuapp.com/v1/comments"
+}
+
+private enum WebsiteURL: String {
+    case Top      = "https://news.ycombinator.com/news"
+    case Show     = "https://news.ycombinator.com/show"
+    case Newest   = "https://news.ycombinator.com/newest"
+    case Ask      = "https://news.ycombinator.com/ask"
+    case Comments = "https://news.ycombinator.com/item?id=12105286"
+}
+
+enum Resource {
+    case Top, Show, Newest, Ask, Comments
+    
+    var primaryURL: String {
+        switch self {
+        default:
+            return ""
+        }
+    }
+    
+    enum Response {
+        var fromURL: String {
+            return ""
+        }
+    }
 }
 
 class Downloader<T: Downloadable>: DownloaderType {
@@ -106,13 +131,14 @@ class Downloader<T: Downloadable>: DownloaderType {
     }
     
     /// The API endpoint to fetch Downloadables from
-    private let apiendpoint: APIEndpoint
+    private let resource: Resource
     /// Extra URL parameters to send for every request to API
     var extraParams: [String:AnyObject]
     
-    init(_ apiendpoint: APIEndpoint, params: [String:AnyObject]? = nil) {
-        self.apiendpoint = apiendpoint
+    init(_ resource: Resource, params: [String:AnyObject]? = nil) {
+        self.resource = resource
         self.extraParams = params ?? [:]
+        // TODO: Check if server is available or not..
     }
     
     func fetchNextBatch(offset: Int, batchSize: Int, onCompletion: (result: [Element]) -> Void) {
@@ -123,7 +149,7 @@ class Downloader<T: Downloadable>: DownloaderType {
     private func nextAPIBatch(offset: Int, batchSize: Int, onCompletion: (result: [Element]) -> Void) {
         let stdparams: [String:AnyObject] = ["from" : offset + 1, "to" : offset + batchSize]
         let params = extraParams.union(stdparams)
-        Alamofire.request(.GET, apiendpoint.rawValue, parameters: params)
+        Alamofire.request(.GET, resource.primaryURL, parameters: params)
             .responseJSON { (response) -> Void in
                 if let json = response.result.value as? JSONDictionary {
                     onCompletion(result: self.parseJSONArray(json))
@@ -139,7 +165,7 @@ class Downloader<T: Downloadable>: DownloaderType {
         guard let values = json["values"] as? JSONArray else { return [] }
         var elements: [Element] = []
         for value in values {
-            if let element = Element.parseJSON(value) {
+            if let element = Element.parseJSON(value, resource: resource) {
                 elements.append(element)
             }
         }
