@@ -8,6 +8,7 @@ target 'H-News' do
   pod 'SnapKit', '~> 0.15.0'
   pod 'CRToast', '~> 0.0.7'
   pod 'BEMCheckBox'
+  pod 'Kanna', '~> 1.1.0'
 
   # You need to add both “Realm” & “RealmSwift”
 	pod 'Realm', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'swift-2.0'

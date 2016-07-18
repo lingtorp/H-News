@@ -2,6 +2,7 @@ PODS:
   - Alamofire (3.3.1)
   - BEMCheckBox (1.2.1)
   - CRToast (0.0.9)
+  - Kanna (1.1.0)
   - MCSwipeTableViewCell (2.1.4)
   - Realm (0.99.1):
     - Realm/Headers (= 0.99.1)
@@ -14,6 +15,7 @@ DEPENDENCIES:
   - Alamofire (~> 3.0)
   - BEMCheckBox
   - CRToast (~> 0.0.7)
+  - Kanna (~> 1.1.0)
   - MCSwipeTableViewCell (~> 2.1.4)
   - Realm (from `https://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
   - RealmSwift (from `https://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
@@ -39,11 +41,12 @@ SPEC CHECKSUMS:
   Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
   BEMCheckBox: 264b8b72aa92adbfefa265cc58a0cdb86b207b9f
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
+  Kanna: 355ed0193e5d8caf4fd996856b5bc98d586c11b6
   MCSwipeTableViewCell: 1b303e16c3a26b1982f3a68386e9b8c5fc8344c3
   Realm: 522a0cc8e1f8755ee56d7dc16ca0fc380d045766
   RealmSwift: 1d9c4299ef5dbf575c5da09fc706ed726327cfa0
   SnapKit: 4962eed2ee18e48cbd2b2292fffc57efe7235f87
 
-PODFILE CHECKSUM: 995e3a9e67d4435a64d8f59b7c9974380d16e7b7
+PODFILE CHECKSUM: 530425dd0f800720c65baf243f7b116100a27f6a
 
 COCOAPODS: 1.0.1
