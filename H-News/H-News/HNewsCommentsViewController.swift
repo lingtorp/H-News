@@ -89,7 +89,7 @@ class CommentsViewController: UIViewController, UIGestureRecognizerDelegate {
 class CommentsTableViewController: UITableViewController {
     
     private let generator = Generator<Comment>()
-    private let downloader = Downloader<Comment>(APIEndpoint.Comments)
+    private let downloader = Downloader<Comment>(Resource.Comments)
     
     /// The News to load comments for
     var news: News? {
