@@ -6,8 +6,8 @@ struct HNewsMoreMenuItem {
 
 class HNewsMoreMenuItemView: UIView {
     
-    private let title: UILabel = UILabel()
-    private let icon: UIImageView = UIImageView()
+    fileprivate let title: UILabel = UILabel()
+    fileprivate let icon: UIImageView = UIImageView()
     
     var item: HNewsMoreMenuItem?  {
         didSet {
@@ -17,7 +17,7 @@ class HNewsMoreMenuItemView: UIView {
             // Create title
             addSubview(title)
             title.text = item.title
-            title.textAlignment = .Center
+            title.textAlignment = .center
             title.textColor = Colors.gray
             title.snp_makeConstraints { (make) -> Void in
                 make.bottom.equalTo(-16)
@@ -25,7 +25,7 @@ class HNewsMoreMenuItemView: UIView {
             }
             
             // Create image - with tintcolor shining through (.AlwaysTemplate)
-            icon.image = item.image.imageWithRenderingMode(.AlwaysTemplate)
+            icon.image = item.image.withRenderingMode(.alwaysTemplate)
             addSubview(icon)
             icon.tintColor = Colors.gray
             icon.snp_makeConstraints { (make) -> Void in
@@ -39,13 +39,13 @@ class HNewsMoreMenuItemView: UIView {
     }
     
     /// Call the item's callback
-    func didTapOnItem(sender: UITapGestureRecognizer) {
+    func didTapOnItem(_ sender: UITapGestureRecognizer) {
         guard let item = item else { return }
         // Animate highlight
-        UIView.animateWithDuration(0.1, delay: 0, options: .CurveEaseIn, animations: {
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
                 self.icon.tintColor = Colors.white
             }) { (finished) in
-                UIView.animateWithDuration(0.1, delay: 0, options: .CurveEaseOut, animations: {
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
                     self.icon.tintColor = Colors.gray
                     }, completion: { (finished) in
                         item.callback()
@@ -57,9 +57,9 @@ class HNewsMoreMenuItemView: UIView {
 /// MoreMenu main class.
 class HNewsMoreMenuView: UIView {
     
-    private let animationDuration: NSTimeInterval = 0.2
+    fileprivate let animationDuration: TimeInterval = 0.2
     
-    private let itemviews: [HNewsMoreMenuItemView] = [
+    fileprivate let itemviews: [HNewsMoreMenuItemView] = [
         HNewsMoreMenuItemView(), HNewsMoreMenuItemView(),
         HNewsMoreMenuItemView(), HNewsMoreMenuItemView()
     ]
@@ -85,10 +85,10 @@ class HNewsMoreMenuView: UIView {
         updateConstraints()
         // do the initial layout
         layoutIfNeeded()
-        UIView.animateWithDuration(animationDuration) {
+        UIView.animate(withDuration: animationDuration) {
             guard let superview = self.superview else { return }
             // make animatable changes
-            self.snp_updateConstraints(closure: { (make) in
+            self.snp_updateConstraints({ (make) in
                 make.bottom.equalTo(superview.snp_bottom).offset(superview.frame.height / 3)
             })
             // do the animation
@@ -105,10 +105,10 @@ class HNewsMoreMenuView: UIView {
         updateConstraints()
         // do the initial layout
         layoutIfNeeded()
-        UIView.animateWithDuration(animationDuration) {
+        UIView.animate(withDuration: animationDuration) {
             guard let superview = self.superview else { return }
             // make animatable changes
-            self.snp_updateConstraints(closure: { (make) in
+            self.snp_updateConstraints({ (make) in
                 make.bottom.equalTo(superview.snp_bottom).offset(0)
             })
             // do the animation

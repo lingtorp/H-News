@@ -2,22 +2,22 @@ import BEMCheckBox
 
 class LoginViewController: UIViewController {
 
-    private let usernameField: UITextField = UITextField()
-    private let passwordField: UITextField = UITextField()
-    private let keepUserloggedInCheckbox = BEMCheckBox(frame: CGRectZero)
+    fileprivate let usernameField: UITextField = UITextField()
+    fileprivate let passwordField: UITextField = UITextField()
+    fileprivate let keepUserloggedInCheckbox = BEMCheckBox(frame: CGRect.zero)
     
     override func viewDidLoad() {
         title = "Login"
         
-        view.backgroundColor = UIColor.darkGrayColor()
+        view.backgroundColor = UIColor.darkGray
         
         // Setup interface
         usernameField.placeholder = "Username"
         usernameField.textColor = Colors.lightGray
         usernameField.tintColor = Colors.peach
-        usernameField.textAlignment = .Center
-        usernameField.autocorrectionType = .No
-        usernameField.clearButtonMode = .Always
+        usernameField.textAlignment = .center
+        usernameField.autocorrectionType = .no
+        usernameField.clearButtonMode = .always
         view.addSubview(usernameField)
         usernameField.snp_makeConstraints { (make) in
             make.centerX.equalTo(0)
@@ -28,9 +28,9 @@ class LoginViewController: UIViewController {
         
         passwordField.placeholder = "Password"
         passwordField.textColor = Colors.lightGray
-        passwordField.textAlignment = .Center
+        passwordField.textAlignment = .center
         passwordField.tintColor = Colors.peach
-        passwordField.secureTextEntry = true
+        passwordField.isSecureTextEntry = true
         view.addSubview(passwordField)
         passwordField.snp_makeConstraints { (make) in
             make.top.equalTo(usernameField.snp_bottom).offset(20)
@@ -49,7 +49,7 @@ class LoginViewController: UIViewController {
         let keepUserloggedInLabel = UILabel()
         keepUserloggedInLabel.text = "Stay logged in"
         keepUserloggedInLabel.textColor = Colors.lightGray
-        keepUserloggedInLabel.font = UIFont.italicSystemFontOfSize(12)
+        keepUserloggedInLabel.font = UIFont.italicSystemFont(ofSize: 12)
         view.addSubview(keepUserloggedInLabel)
         keepUserloggedInLabel.snp_makeConstraints { (make) in
             make.right.equalTo(keepUserloggedInCheckbox.snp_left).offset(-10)
@@ -57,14 +57,14 @@ class LoginViewController: UIViewController {
         }
         
         // Close button
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: #selector(LoginViewController.didTapClose))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .plain, target: self, action: #selector(LoginViewController.didTapClose))
         
         // Login button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.accept, style: .Plain, target: self, action: #selector(LoginViewController.didTapLogin))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.accept, style: .plain, target: self, action: #selector(LoginViewController.didTapLogin))
     }
     
     func didTapClose() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     func didTapLogin() {
@@ -74,7 +74,7 @@ class LoginViewController: UIViewController {
         Settings.stayloggedin = keepUserloggedInCheckbox.on
         
         let oldBarButton = navigationItem.rightBarButtonItem
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         activityIndicator.color = Colors.peach
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicator)
         activityIndicator.startAnimating()
@@ -82,10 +82,10 @@ class LoginViewController: UIViewController {
             activityIndicator.stopAnimating()
             self.navigationItem.rightBarButtonItem = oldBarButton
             if success {
-                Popover(title: "Logged in", mode: .Success).present()
-                self.dismissViewControllerAnimated(true, completion: nil)
+                Popover(title: "Logged in", mode: .success).present()
+                self.dismiss(animated: true, completion: nil)
             } else {
-                Popover(title: "Something happened..", mode: .NoInternet).present()
+                Popover(title: "Something happened..", mode: .noInternet).present()
             }
         }
     }

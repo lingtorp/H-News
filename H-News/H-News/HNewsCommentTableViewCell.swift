@@ -7,12 +7,12 @@ import MCSwipeTableViewCell
 
 class HNewsCommentTableViewCell: UITableViewCell {
     
-    private static let dateCompsFormatter = NSDateComponentsFormatter()
+    fileprivate static let dateCompsFormatter = DateComponentsFormatter()
     static let cellID = "HNewsCommentTableViewCell"
     
-    private let author = UILabel()
-    private let dateLabel = UILabel()
-    private let commentLabel = UILabel()
+    fileprivate let author = UILabel()
+    fileprivate let dateLabel = UILabel()
+    fileprivate let commentLabel = UILabel()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,9 +41,9 @@ class HNewsCommentTableViewCell: UITableViewCell {
             make.top.equalTo(dateLabel.snp_bottom).offset(8)
         }
         
-        // Setup NSDateFormatter
-        HNewsCommentTableViewCell.dateCompsFormatter.unitsStyle = .Short
-        HNewsCommentTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .DropAll
+        // Setup DateFormatter
+        HNewsCommentTableViewCell.dateCompsFormatter.unitsStyle = .short
+        HNewsCommentTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .dropAll
         HNewsCommentTableViewCell.dateCompsFormatter.maximumUnitCount = 1
     }
     
@@ -57,7 +57,7 @@ class HNewsCommentTableViewCell: UITableViewCell {
             author.text = comment.author
             dateLabel.text? += " ago"
             commentLabel.text = comment.text
-            dateLabel.text = HNewsCommentTableViewCell.dateCompsFormatter.stringFromTimeInterval(-comment.date.timeIntervalSinceNow)
+            dateLabel.text = HNewsCommentTableViewCell.dateCompsFormatter.string(from: -comment.date.timeIntervalSinceNow)
             
             let doubletapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsCommentTableViewCell.didDoubleTapOnComment))
             doubletapGestureRecog.numberOfTapsRequired = 2
@@ -67,19 +67,19 @@ class HNewsCommentTableViewCell: UITableViewCell {
         }
     }
     
-    func didSelectCell(tableView: UITableView) {
+    func didSelectCell(_ tableView: UITableView) {
         
     }
     
-    func didUnselectCell(tableView: UITableView) {
+    func didUnselectCell(_ tableView: UITableView) {
         
     }
     
-    private var textExpanded = false
+    fileprivate var textExpanded = false
     
     func didDoubleTapOnComment() {
         let lines = textExpanded ? 3 : 0
-        UIView.animateWithDuration(0.75) { () -> Void in
+        UIView.animate(withDuration: 0.75) { () -> Void in
             self.commentLabel.numberOfLines = lines
             self.contentView.layoutIfNeeded()
         }

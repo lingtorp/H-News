@@ -4,9 +4,9 @@ import RealmSwift
 
 class DetailViewController: UITableViewController {
     
-    private var notiToken: NotificationToken?
-    private var news: [News] = HNewsReadingPile()?.fetchAllNews(read: false) ?? []
-    private var archivednews = HNewsReadingPile()?.fetchAllNews(read: true) ?? []
+    fileprivate var notiToken: NotificationToken?
+    fileprivate var news: [News] = HNewsReadingPile()?.fetchAllNews(read: false) ?? []
+    fileprivate var archivednews = HNewsReadingPile()?.fetchAllNews(read: true) ?? []
     
     override func viewDidLoad() {
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -15,44 +15,44 @@ class DetailViewController: UITableViewController {
         // Observe Realm Notifications
         notiToken = HNewsReadingPile()?.realm?.addNotificationBlock { notification, realm in
             self.news = HNewsReadingPile()?.fetchAllNews(read: false) ?? []
-            self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
             self.archivednews = HNewsReadingPile()?.fetchAllNews(read: true) ?? []
-            self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Automatic)
+            self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
         }
-        tableView.registerNib(UINib(nibName: "HNewsTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: HNewsTableViewCell.cellID) // TODO: Register class
+        tableView.register(UINib(nibName: "HNewsTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: HNewsTableViewCell.cellID) // TODO: Register class
         
         // Trash items
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.trash, style: .Plain, target: self, action: #selector(DetailViewController.didPressTrash))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.trash, style: .plain, target: self, action: #selector(DetailViewController.didPressTrash))
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let indexPathForSelectedRow = tableView.indexPathForSelectedRow else { return }
-        tableView.deselectRowAtIndexPath(indexPathForSelectedRow, animated: true)
+        tableView.deselectRow(at: indexPathForSelectedRow, animated: true)
     }
     
     func didPressTrash() {
         let alert = UIAlertController()
-        alert.addAction(UIAlertAction(title: "Unread", style: .Destructive, handler: { (UIAlertAction) -> Void in
+        alert.addAction(UIAlertAction(title: "Unread", style: .destructive, handler: { (UIAlertAction) -> Void in
             HNewsReadingPile()?.removeAllNews(read: false)
         }))
-        alert.addAction(UIAlertAction(title: "Archived", style: .Destructive, handler: { (UIAlertAction) -> Void in
+        alert.addAction(UIAlertAction(title: "Archived", style: .destructive, handler: { (UIAlertAction) -> Void in
             HNewsReadingPile()?.removeAllNews(read: true)
         }))
-        alert.addAction(UIAlertAction(title: "Unread + Archived", style: .Destructive, handler: { (UIAlertAction) -> Void in
+        alert.addAction(UIAlertAction(title: "Unread + Archived", style: .destructive, handler: { (UIAlertAction) -> Void in
             HNewsReadingPile()?.removeAllNews()
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (UIAlertAction) -> Void in
-            alert.dismissViewControllerAnimated(true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) -> Void in
+            alert.dismiss(animated: true, completion: nil)
         }))
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 }
 
 // MARK: - UITableViewDatasource
 extension DetailViewController {
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(HNewsTableViewCell.cellID) as? HNewsTableViewCell else { return UITableViewCell() }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HNewsTableViewCell.cellID) as? HNewsTableViewCell else { return UITableViewCell() }
         
         switch indexPath.section {
         case 0:
@@ -66,7 +66,7 @@ extension DetailViewController {
         cell.showCommentsFor = showCommentsFor
         
         // Remove from Reading Pile gesture
-        cell.setSwipeGestureWithView(HNewsTableViewCell.trashImage, color: UIColor.darkGrayColor(), mode: .Exit, state: .State1,
+        cell.setSwipeGestureWith(HNewsTableViewCell.trashImage, color: UIColor.darkGray, mode: .exit, state: .state1,
             completionBlock: { (cell, state, mode) -> Void in
                 guard let cell = cell as? HNewsTableViewCell else { return }
                 guard let news = cell.story as? News         else { return }
@@ -76,7 +76,7 @@ extension DetailViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return news.count
@@ -86,11 +86,11 @@ extension DetailViewController {
         }
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
             return "Unread"
@@ -103,17 +103,17 @@ extension DetailViewController {
 
 // MARK: - UITableViewDelegate
 extension DetailViewController {
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? HNewsTableViewCell else { return }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? HNewsTableViewCell else { return }
         guard let news = cell.story as? News else { return }
         if let downloadedHTML = HNewsReadingPile()?.html(news) {
             HNewsReadingPile()?.markNewsAsRead(news)
             let webViewVC = HNewsWebViewController()
             webViewVC.data = downloadedHTML // TODO: Downloaded data not working
-            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            if UIDevice.current.userInterfaceIdiom == .pad {
                 // Present webviews modally on iPads
                 let navContr = UINavigationController(rootViewController: webViewVC)
-                splitViewController?.presentViewController(navContr, animated: true, completion: nil)
+                splitViewController?.present(navContr, animated: true, completion: nil)
             } else {
                 navigationController?.pushViewController(webViewVC, animated: true)
             }
@@ -123,12 +123,12 @@ extension DetailViewController {
 
 /// MARK: - Custom tap cell handling for comments
 extension DetailViewController {
-    func showCommentsFor(news: News) {
+    func showCommentsFor(_ news: News) {
         let commentsVC = HNewsCommentsViewController()
         commentsVC.news = news
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             let navContr = UINavigationController(rootViewController: commentsVC)
-            splitViewController?.presentViewController(navContr, animated: true, completion: nil)
+            splitViewController?.present(navContr, animated: true, completion: nil)
         } else {
             navigationController?.pushViewController(commentsVC, animated: true)
         }

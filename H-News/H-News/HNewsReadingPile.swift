@@ -16,7 +16,7 @@ class HNewsReadingPile {
     }
     
     /// Checks if a Story with id exists
-    func existsStory(id: Int) -> Bool {
+    func existsStory(_ id: Int) -> Bool {
         var flag = false
         realm?.objects(NewsClass).forEach {
             if $0.id == id { flag = true; return }
@@ -25,7 +25,7 @@ class HNewsReadingPile {
     }
     
     /// Removes the NewsClass in Realm with the passed id
-    func removeNews(id: Int) {
+    func removeNews(_ id: Int) {
         if let newsToBeRemoved = realm?.objects(NewsClass).filter("id = %@", id) {
             do {
                 try realm?.write {
@@ -36,7 +36,7 @@ class HNewsReadingPile {
     }
     
     /// Removes read/unread News from the Reading Pile
-    func removeAllNews(read read: Bool) {
+    func removeAllNews(read: Bool) {
         do {
             try realm?.write {
                 guard let news = realm?.objects(NewsClass).filter("read = %@", read) else { return }
@@ -55,7 +55,7 @@ class HNewsReadingPile {
     }
     
     /// Add a News if it does not exist or update it if it does in the pile
-    func addNews(news: News) {
+    func addNews(_ news: News) {
         let newsClass = NewsClass(news: news)
         do {
             try realm?.write {
@@ -65,7 +65,7 @@ class HNewsReadingPile {
     }
 
     /// Fetches all News read or unread from the pile
-    func fetchAllNews(read read: Bool) -> [News] {
+    func fetchAllNews(read: Bool) -> [News] {
         guard let objects = realm?.objects(NewsClass).filter("read = %@", read) else { return [] }
         var news: [News] = []
         for object in objects {
@@ -75,7 +75,7 @@ class HNewsReadingPile {
     }
     
     /// Saves the html binary data to the News in the Realm
-    func save(html: NSData, newsID: Int) {
+    func save(_ html: Data, newsID: Int) {
         guard let news = realm?.objects(NewsClass).filter("id = %@", newsID).first else { return }
         do {
             try realm?.write {
@@ -85,8 +85,8 @@ class HNewsReadingPile {
     }
     
     /// Returns the HTML data for the News
-    func html(news: News) -> NSData? {
-        return realm?.objects(NewsClass).filter("id = %@", news.id).first?.html
+    func html(_ news: News) -> Data? {
+        return realm?.objects(NewsClass).filter("id = %@", news.id).first?.html as! Data
     }
     
     /// Returns the number of News objects in the Realm
@@ -95,7 +95,7 @@ class HNewsReadingPile {
     }
     
     /// Marks a specific News as read, returns a updated News. 
-    func markNewsAsRead(news: News) -> News? {
+    func markNewsAsRead(_ news: News) -> News? {
         addNews(news) // Updates the rest of the values
         guard let news = realm?.objects(NewsClass).filter("id = %@", news.id).first else { return nil }
         do {
@@ -108,30 +108,30 @@ class HNewsReadingPile {
     }
     
     /// Checks if the Story has been read before.
-    func isStoryRead(id: Int) -> Bool {
+    func isStoryRead(_ id: Int) -> Bool {
         guard let story = realm?.objects(NewsClass).filter("id = %@", id).first else { return false }
         return story.read
     }
 }
 
 class StoryClass: Object {
-    dynamic var id    : Int    = 0
-    dynamic var title : String = ""
-    dynamic var url   : String = ""
-    dynamic var author: String = ""
-    dynamic var score : Int    = 0
-    dynamic var date  : NSDate = NSDate()
-    dynamic var comments : Int = 0
+    dynamic var id      : Int    = 0
+    dynamic var title   : String = ""
+    dynamic var url     : String = ""
+    dynamic var author  : String = ""
+    dynamic var score   : Int    = 0
+    dynamic var date    : Date = Date()
+    dynamic var comments: Int = 0
     
     /// Indicates whether the Story has been read/viewed
-    dynamic var read  : Bool   = false
+    dynamic var read: Bool   = false
     
     override class func primaryKey() -> String { return "id" }
 }
 
 class NewsClass: StoryClass {
     /// The downloaded html for the news story, length 0 == nil
-    dynamic var html  : NSData = NSData()
+    dynamic var html: Data = Data()
     
     required convenience init(news: News) {
         self.init()
@@ -145,6 +145,6 @@ class NewsClass: StoryClass {
     }
     
     func convertToNews() -> News {
-        return News(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, url: NSURL(string: url)!)
+        return News(id: id, title: title, author: author, date: date, read: read, score: score, comments: comments, url: URL(string: url)!)
     }
 }

@@ -3,26 +3,25 @@
 protocol GeneratorType {
     associatedtype Element
     associatedtype FetchNextBatch
-    mutating func next(batchSize: Int, _ fetchNextBatch: FetchNextBatch?, onFinish: ([Element] -> Void)?)
+    mutating func next(_ batchSize: Int, _ fetchNextBatch: FetchNextBatch?, onFinish: (([Element]) -> Void)?)
     /// Resets the Generators' position in the datastream. Starts from the beginning again.
     func reset()
 }
 
 class Generator<T>: GeneratorType {
-    
     typealias Element = T
-    typealias FetchNextBatch = (offset: Int, batchSize: Int, onCompletion: (result: [Element]) -> Void) -> Void
+    typealias FetchNextBatch = (_ offset: Int, _ batchSize: Int, _ onCompletion: @escaping (_ result: [Element]) -> Void) -> Void
     
-    private var batchSize: Int
-    private var offset   : Int
+    fileprivate var batchSize: Int
+    fileprivate var offset   : Int
     
     init(offset: Int = 0, batchSize: Int = 25) {
         self.offset = offset
         self.batchSize = batchSize
     }
     
-    func next(batchSize: Int, _ fetchNextBatch: FetchNextBatch?, onFinish: ([Element] -> Void)?) {
-        fetchNextBatch?(offset: offset, batchSize: batchSize) { [unowned self] (items) in
+    func next(_ batchSize: Int, _ fetchNextBatch: FetchNextBatch?, onFinish: (([Element]) -> Void)?) {
+        fetchNextBatch?(offset, batchSize) { [unowned self] (items) in
             self.offset += items.count
             Dispatcher.main { onFinish?(items) }
         }

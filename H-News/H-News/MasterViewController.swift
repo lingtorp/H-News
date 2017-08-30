@@ -2,11 +2,11 @@ import UIKit
 
 class MasterViewController: UIViewController {
     
-    private let feedSwitchView = FeedSwitchView()
+    fileprivate let feedSwitchView = FeedSwitchView()
     
     override func viewDidLoad() {
         // Fixes so that the views end up below the navbar not underneth.
-        navigationController?.navigationBar.translucent = false
+        navigationController?.navigationBar.isTranslucent = false
         definesPresentationContext = true
         
         let topVC = currentFeedViewController
@@ -19,10 +19,10 @@ class MasterViewController: UIViewController {
         
         // Feed switcher view
         feedSwitchView.delegate = self
-        feedSwitchView.feeds = [Feed(name: "TOP", selected: true, type: .Top, viewController: topVC),
-                                Feed(name: "NEW", selected: false, type: .New, viewController: newVC),
-                                Feed(name: "ASK", selected: false, type: .Ask, viewController: askVC),
-                                Feed(name: "SHOW", selected: false, type: .Show, viewController: showVC)]
+        feedSwitchView.feeds = [Feed(name: "TOP", selected: true, type: .top, viewController: topVC),
+                                Feed(name: "NEW", selected: false, type: .new, viewController: newVC),
+                                Feed(name: "ASK", selected: false, type: .ask, viewController: askVC),
+                                Feed(name: "SHOW", selected: false, type: .show, viewController: showVC)]
         view.addSubview(feedSwitchView)
         
         // Install the feed view controllers
@@ -31,15 +31,15 @@ class MasterViewController: UIViewController {
         installFeedViewController(askVC)
         installFeedViewController(showVC)
         
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+        if UIDevice.current.userInterfaceIdiom == .phone {
             // Reading list / Detail
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.readingList, style: .Plain, target: self, action: #selector(MasterViewController.didTapDetail))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.readingList, style: .plain, target: self, action: #selector(MasterViewController.didTapDetail))
         }
         
         // Settings
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.settings, style: .Plain, target: self, action: #selector(MasterViewController.didTapSettings))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.settings, style: .plain, target: self, action: #selector(MasterViewController.didTapSettings))
         
-        view.bringSubviewToFront(feedSwitchView)
+        view.bringSubview(toFront: feedSwitchView)
     }
     
     /// The currently shown feed viewcontroller
@@ -47,10 +47,10 @@ class MasterViewController: UIViewController {
     
     var feedViewControllers: [FeedViewController] = []
     
-    func installFeedViewController(viewController: FeedViewController) {
+    func installFeedViewController(_ viewController: FeedViewController) {
         addChildViewController(viewController)
         view.addSubview(viewController.view)
-        viewController.didMoveToParentViewController(self)
+        viewController.didMove(toParentViewController: self)
         if feedViewControllers.count == 0 {
             // Add first view controller as the selected one
             currentFeedViewController = viewController
@@ -67,19 +67,19 @@ class MasterViewController: UIViewController {
         feedViewControllers.append(viewController)
     }
     
-    func selectViewController(viewController: FeedViewController) {
+    func selectViewController(_ viewController: FeedViewController) {
         let toViewController = viewController
         let fromViewController = currentFeedViewController
         
-        let goingRight = feedViewControllers.indexOf(toViewController) ?? 0 < feedViewControllers.indexOf(fromViewController) ?? 0
+        let goingRight = feedViewControllers.index(of: toViewController) ?? 0 < feedViewControllers.index(of: fromViewController) ?? 0
         let travelDistance = view.bounds.width
-        let travel = CGAffineTransformMakeTranslation(goingRight ? -travelDistance : travelDistance, 0)
+        let travel = CGAffineTransform(translationX: goingRight ? -travelDistance : travelDistance, y: 0)
         toViewController.view.alpha = 0
-        toViewController.view.transform = CGAffineTransformInvert(travel)
+        toViewController.view.transform = travel.inverted()
         
-        UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.TransitionNone, animations: { 
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.5, options: UIViewAnimationOptions(), animations: { 
             fromViewController.view.transform = travel
-            toViewController.view.transform = CGAffineTransformIdentity
+            toViewController.view.transform = CGAffineTransform.identity
             toViewController.view.alpha = 1
             
             toViewController.view.snp_makeConstraints { (make) in
@@ -90,7 +90,7 @@ class MasterViewController: UIViewController {
             }
 
             }) { (complete) in
-                fromViewController.view.transform = CGAffineTransformIdentity
+                fromViewController.view.transform = CGAffineTransform.identity
         }
         currentFeedViewController = toViewController
     }
@@ -99,7 +99,7 @@ class MasterViewController: UIViewController {
         let settingsVC = HNewsSettingsViewController()
         navigationController?.setNavigationBarHidden(true, animated: true)
         let navContr = UINavigationController(rootViewController: settingsVC)
-        presentViewController(navContr, animated: true) { 
+        present(navContr, animated: true) { 
             self.navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
@@ -110,7 +110,7 @@ class MasterViewController: UIViewController {
 }
 
 extension MasterViewController: FeedSwitchDelegate {
-    func didSelect(view: FeedSwitchView, feed: Feed) {
+    func didSelect(_ view: FeedSwitchView, feed: Feed) {
         selectViewController(feed.viewController)
     }
 }
@@ -122,20 +122,20 @@ struct Feed {
     let type: FeedType
     let viewController: FeedViewController
     
-    enum FeedType { case Show, Ask, New, Top }
+    enum FeedType { case show, ask, new, top }
 }
 
 protocol FeedSwitchDelegate {
-    func didSelect(view: FeedSwitchView, feed: Feed)
+    func didSelect(_ view: FeedSwitchView, feed: Feed)
 }
 
 /// FeedSwitchView represent a tabbar like view which switches feeds.
 /// Need to add this as a subview, after setting it's properties.
 class FeedSwitchView: UIView {
     
-    private class FeedItemView: UIControl {
+    fileprivate class FeedItemView: UIControl {
         
-        private let title: UILabel = UILabel()
+        fileprivate let title: UILabel = UILabel()
         
         var feed: Feed? {
             didSet {
@@ -143,7 +143,7 @@ class FeedSwitchView: UIView {
                 tag = feed.name.hashValue
                 
                 title.text = feed.name
-                title.textAlignment = .Center
+                title.textAlignment = .center
                 title.textColor = Colors.gray
                 addSubview(title)
                 title.snp_makeConstraints { (make) in
@@ -154,7 +154,7 @@ class FeedSwitchView: UIView {
             }
         }
         
-        @objc func didTapFeed(sender: UITapGestureRecognizer) {
+        @objc func didTapFeed(_ sender: UITapGestureRecognizer) {
             guard let feed = feed else { return }
             guard !feed.selected else { return }
             guard let parent = superview as? FeedSwitchView else { return }
@@ -163,7 +163,7 @@ class FeedSwitchView: UIView {
         }
     }
     
-    private let selector: UIView = UIView()
+    fileprivate let selector: UIView = UIView()
     
     var feeds: [Feed]?
     
@@ -189,7 +189,7 @@ class FeedSwitchView: UIView {
             addSubview(feedTitle)
             feedTitle.feed = feed
             let rightPadding = superview.frame.width / CGFloat(feeds.count + 1)
-            feedTitle.snp_makeConstraints(closure: { (make) in
+            feedTitle.snp_makeConstraints({ (make) in
                 make.width.equalTo(rightPadding)
                 make.height.equalTo(rightPadding / 2)
                 make.centerX.equalTo(rightViewConstraint).offset(-rightPadding)
@@ -211,7 +211,7 @@ class FeedSwitchView: UIView {
         }
     }
     
-    private func selected(selectedFeed: Feed) {
+    fileprivate func selected(_ selectedFeed: Feed) {
         delegate?.didSelect(self, feed: selectedFeed)
         guard let feeds = feeds else { return }
         for feed in feeds {
@@ -226,10 +226,10 @@ class FeedSwitchView: UIView {
         }
     }
     
-    private func selectorAnimateTo(selectedView: FeedItemView) {
-        UIView.animateWithDuration(0.2) {
+    fileprivate func selectorAnimateTo(_ selectedView: FeedItemView) {
+        UIView.animate(withDuration: 0.2, animations: {
             // make animatable changes
-            self.selector.snp_remakeConstraints(closure: { (make) in
+            self.selector.snp_remakeConstraints({ (make) in
                 make.height.equalTo(2)
                 make.width.equalTo(self.snp_width).dividedBy(16)
                 make.top.equalTo(selectedView.snp_baseline).offset(-4)
@@ -237,6 +237,6 @@ class FeedSwitchView: UIView {
             })
             // do the animation
             self.layoutIfNeeded()
-        }
+        }) 
     }
 }

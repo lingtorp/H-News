@@ -14,14 +14,14 @@ struct Colors {
     static let hackerNews = UIColor(red: 255/255, green: 127/255, blue: 0/255, alpha: 1)
     
     /// Default background color
-    static let gray = UIColor.darkGrayColor()
+    static let gray = UIColor.darkGray
     
     /// Signals a success
-    static let success = UIColor.greenColor()
+    static let success = UIColor.green
     
     /// Signals a failure
-    static let failure = UIColor.redColor()
+    static let failure = UIColor.red
     
     /// Used for texts and UI elements which will appear on the default bg color
-    static let lightGray = UIColor.grayColor()
+    static let lightGray = UIColor.gray
 }

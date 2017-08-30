@@ -6,8 +6,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     var window: UIWindow?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        window = UIWindow(frame: UIScreen.main.bounds)
         
         let masterVC = MasterViewController()
         let masterNav = UINavigationController(rootViewController: masterVC)
@@ -23,8 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         /// Global appearance
         UINavigationBar.appearance().tintColor = Colors.peach
-        UINavigationBar.appearance().barTintColor = UIColor.darkGrayColor()
-        UITableView.appearance().backgroundColor = UIColor.darkGrayColor()
+        UINavigationBar.appearance().barTintColor = UIColor.darkGray
+        UITableView.appearance().backgroundColor = UIColor.darkGray
         
         // Checkbox default appearance
         BEMCheckBox.appearance().onTintColor = Colors.peach
@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     }
 
     // MARK: - Split view
-    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController: UIViewController, ontoPrimaryViewController primaryViewController: UIViewController) -> Bool {
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         if let secondaryAsNavController = secondaryViewController as? UINavigationController {
             if let _ = secondaryAsNavController.topViewController as? DetailViewController {
                 // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.

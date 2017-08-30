@@ -5,12 +5,12 @@ import SnapKit
 
 class HNewsWebViewController: UIViewController {
     
-    private let moremenu = HNewsMoreMenuView()
-    private let webView = WKWebView()
-    private let activitySpinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+    fileprivate let moremenu = HNewsMoreMenuView()
+    fileprivate let webView = WKWebView()
+    fileprivate let activitySpinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
     /// The url to load
-    var url: NSURL? {
+    var url: URL? {
         didSet {
             guard let url = url else { return }
             loadWebViewWith(url)
@@ -18,7 +18,7 @@ class HNewsWebViewController: UIViewController {
     }
     
     /// The data to load
-    var data: NSData? {
+    var data: Data? {
         didSet {
             guard let data = data else { return }
             loadWebViewWith(data)
@@ -30,12 +30,12 @@ class HNewsWebViewController: UIViewController {
     
     override func viewDidLoad() {
         webView.frame = view.bounds
-        webView.addObserver(self, forKeyPath: "loading", options: .New, context: nil)
-        webView.addObserver(self, forKeyPath: "title", options: .New, context: nil)
+        webView.addObserver(self, forKeyPath: "loading", options: .new, context: nil)
+        webView.addObserver(self, forKeyPath: "title", options: .new, context: nil)
         view.addSubview(webView)
         
         view.addSubview(activitySpinner)
-        view.bringSubviewToFront(activitySpinner)
+        view.bringSubview(toFront: activitySpinner)
         activitySpinner.color = Colors.hackerNews
         activitySpinner.startAnimating()
         activitySpinner.snp_makeConstraints { (make) -> Void in
@@ -59,22 +59,22 @@ class HNewsWebViewController: UIViewController {
             self.moremenu.dismiss()
             guard let item = self.item else { return }
             HNewsReadingPile()?.addNews(item)
-            Popover(title: "Saved", mode: .Success).present()
+            Popover(title: "Saved", mode: .success).present()
         }
         let item3 = HNewsMoreMenuItem(title: "Share", image: Icons.comments) { () in
             self.moremenu.dismiss()
             guard let url = self.url else { return }
             let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
             shareSheet.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem!
-            self.presentViewController(shareSheet, animated: true, completion: nil)
+            self.present(shareSheet, animated: true, completion: nil)
         }
         moremenu.items = [item0, item1, item2, item3]
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.more, style: .Plain, target: self, action: #selector(HNewsWebViewController.didTapMore(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Icons.more, style: .plain, target: self, action: #selector(HNewsWebViewController.didTapMore(_:)))
         
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             // Add a dismiss button to the webview on a iPad
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .Plain, target: self, action: #selector(HNewsWebViewController.didTapDismiss(_:)))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icons.dismiss, style: .plain, target: self, action: #selector(HNewsWebViewController.didTapDismiss(_:)))
         }
     }
     
@@ -83,35 +83,35 @@ class HNewsWebViewController: UIViewController {
         webView.removeObserver(self, forKeyPath: "title")
     }
     
-    private func loadWebViewWith(data: NSData) {
-        guard let html = NSString(data: data, encoding: NSASCIIStringEncoding) as? String else { return }
+    fileprivate func loadWebViewWith(_ data: Data) {
+        guard let html = NSString(data: data, encoding: String.Encoding.ascii.rawValue) as? String else { return }
         webView.loadHTMLString(html, baseURL: nil)
     }
     
-    private func loadWebViewWith(url: NSURL) {
-        webView.loadRequest(NSURLRequest(URL: url))
+    fileprivate func loadWebViewWith(_ url: URL) {
+        webView.load(URLRequest(url: url))
     }
     
-    func didTapMore(sender: UIBarButtonItem) {
+    func didTapMore(_ sender: UIBarButtonItem) {
         if moremenu.shown { moremenu.dismiss() } else { moremenu.show() }
     }
     
-    func didTapDismiss(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func didTapDismiss(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - WKWebView KVO
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let _ = object as? WKWebView else {return}
         guard let keyPath = keyPath else {return}
         guard let change = change else {return}
         switch keyPath {
             case "loading":
-                if let _ = change[NSKeyValueChangeNewKey] as? Bool {
+                if let _ = change[NSKeyValueChangeKey.newKey] as? Bool {
                     activitySpinner.stopAnimating()
                 }
             case "title":
-                if let newTitle = change[NSKeyValueChangeNewKey] as? String {
+                if let newTitle = change[NSKeyValueChangeKey.newKey] as? String {
                     title = newTitle
                 }
             default: break

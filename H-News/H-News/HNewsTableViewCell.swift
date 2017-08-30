@@ -10,7 +10,7 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     static let readingPileImage = UIImageView(image: UIImage(named: "reading_list_icon"))
     static let upvoteImage      = UIImageView(image: UIImage(named: "upvote_arrow"))
     
-    private static let dateCompsFormatter = NSDateComponentsFormatter()
+    fileprivate static let dateCompsFormatter = DateComponentsFormatter()
     
     @IBOutlet var title: UILabel!
     @IBOutlet var commentsCount: UILabel!
@@ -20,7 +20,7 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     @IBOutlet var time: UILabel!
     
     // Callback property called when the user clicks to see the comments for a News item
-    var showCommentsFor: ((news: News) -> ())?
+    var showCommentsFor: ((_ news: News) -> ())?
     
     var story: Story? {
         didSet {
@@ -28,25 +28,25 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     
             // Set selection color theme
             let view = UIView()
-            view.backgroundColor = UIColor.orangeColor()
+            view.backgroundColor = UIColor.orange
             selectedBackgroundView = view
-            defaultColor = UIColor.darkGrayColor()
+            defaultColor = UIColor.darkGray
             
-            contentView.backgroundColor = UIColor.darkGrayColor()
+            contentView.backgroundColor = UIColor.darkGray
             commentsCount.textColor = Colors.peach
             
-            // Setup NSDateFormatter
-            HNewsTableViewCell.dateCompsFormatter.unitsStyle = .Short
-            HNewsTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .DropAll
+            // Setup DateFormatter
+            HNewsTableViewCell.dateCompsFormatter.unitsStyle = .short
+            HNewsTableViewCell.dateCompsFormatter.zeroFormattingBehavior = .dropAll
             HNewsTableViewCell.dateCompsFormatter.maximumUnitCount = 1
 
             title.text         = story.title
             commentsCount.text = "\(story.comments)"
             author.text        = story.author
-            time.text          = HNewsTableViewCell.dateCompsFormatter.stringFromTimeInterval(-story.date.timeIntervalSinceNow)
+            time.text          = HNewsTableViewCell.dateCompsFormatter.string(from: -story.date.timeIntervalSinceNow)
             
             if story.read {
-                title.textColor = UIColor.grayColor()
+                title.textColor = UIColor.gray
             } else { // Return to default since UITableView is reusing the cells
                 title.textColor = Colors.white
             }
@@ -57,7 +57,7 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             }
             
             let gestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsTableViewCell.didClickOnComment(_:)))
-            title.userInteractionEnabled = true
+            title.isUserInteractionEnabled = true
             title.addGestureRecognizer(gestureRecog)
 
             setNeedsDisplay()
@@ -65,10 +65,10 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
     }
     
     /// Tap gesture callback
-    func didClickOnComment(sender: AnyObject) {
+    func didClickOnComment(_ sender: AnyObject) {
         guard let news = story as? News else { return }
         if let callback = showCommentsFor {
-            callback(news: news)
+            callback(news)
         }
     }
 }

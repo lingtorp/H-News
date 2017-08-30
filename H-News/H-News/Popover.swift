@@ -3,31 +3,31 @@ import CRToast
 class Popover {
     
     enum Mode {
-        case Success, NoInternet, LoginRequired
+        case success, noInternet, loginRequired
     }
     
-    private var options: [NSObject : AnyObject]
+    fileprivate var options: [AnyHashable: Any]
     
     init(title: String, mode: Mode) {
         options = [
-            kCRToastTextAlignmentKey : NSInteger(NSTextAlignment.Center.rawValue),
+            kCRToastTextAlignmentKey : NSInteger(NSTextAlignment.center.rawValue),
             kCRToastTextKey : title,
-            kCRToastAnimationInTypeKey : NSInteger(CRToastAnimationType.Gravity.rawValue),
-            kCRToastAnimationOutTypeKey : NSInteger(CRToastAnimationType.Gravity.rawValue)
+            kCRToastAnimationInTypeKey : NSInteger(CRToastAnimationType.gravity.rawValue),
+            kCRToastAnimationOutTypeKey : NSInteger(CRToastAnimationType.gravity.rawValue)
         ]
 
         switch mode {
-        case .Success:
+        case .success:
             options[kCRToastBackgroundColorKey] = Colors.success
-        case .NoInternet:
+        case .noInternet:
             options[kCRToastBackgroundColorKey] = Colors.failure
-        case .LoginRequired:
+        case .loginRequired:
             options[kCRToastBackgroundColorKey] = Colors.failure
             // TODO: Add login required title, make clickable to login popover
         }
     }
     
     func present() {
-        CRToastManager.showNotificationWithOptions(options, completionBlock: nil)
+        CRToastManager.showNotification(options: options, completionBlock: nil)
     }
 }
