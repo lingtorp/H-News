@@ -3,8 +3,6 @@
 // TODO: When doubled tapped the cell shall expand and reveal a textfield in which you can reply to the comment, et al
 // TODO: Add a shortcut to scroll back to top.
 // TODO: The view shall present button at the bottom when clicked
-import MCSwipeTableViewCell
-
 class HNewsCommentTableViewCell: UITableViewCell {
     
     fileprivate static let dateCompsFormatter = DateComponentsFormatter()

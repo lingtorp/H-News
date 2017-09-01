@@ -1,8 +1,7 @@
 
 import UIKit
-import MCSwipeTableViewCell
 
-class HNewsTableViewCell: MCSwipeTableViewCell {
+class HNewsTableViewCell: UITableViewCell {
     
     static let cellID = "Cell"
     
@@ -30,7 +29,6 @@ class HNewsTableViewCell: MCSwipeTableViewCell {
             let view = UIView()
             view.backgroundColor = UIColor.orange
             selectedBackgroundView = view
-            defaultColor = UIColor.darkGray
             
             contentView.backgroundColor = UIColor.darkGray
             commentsCount.textColor = Colors.peach

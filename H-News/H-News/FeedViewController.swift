@@ -9,8 +9,8 @@ class FeedViewController: UITableViewController {
         }
     }
     
-    var generator: Generator?   = Generator<News>()
-    var downloader: Downloader? = Downloader<News>(.Top)
+    var generator : Generator? = Generator<News>()
+    var downloader: Scraper?   = Scraper<News>()
     
     override func viewDidLoad() {        
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -67,7 +67,6 @@ extension FeedViewController {
         guard let news = stories[indexPath.row] as? News else { return UITableViewCell() }
         
         cell.story = news
-        cell.secondTrigger = 0.5
         cell.showCommentsFor = showCommentsFor
         
         // TODO: (UITableViewRowAction iOS 8.0) Add to Reading Pile gesture

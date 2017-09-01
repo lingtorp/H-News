@@ -62,16 +62,18 @@ extension DetailViewController {
         default: break
         }
         
-        cell.secondTrigger = 0.5
         cell.showCommentsFor = showCommentsFor
         
         // Remove from Reading Pile gesture
+        
+        /*
         cell.setSwipeGestureWith(HNewsTableViewCell.trashImage, color: UIColor.darkGray, mode: .exit, state: .state1,
             completionBlock: { (cell, state, mode) -> Void in
                 guard let cell = cell as? HNewsTableViewCell else { return }
                 guard let news = cell.story as? News         else { return }
                 HNewsReadingPile()?.removeNews(news.id)
         })
+         */
         
         return cell
     }

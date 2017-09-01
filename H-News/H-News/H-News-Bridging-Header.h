@@ -5,5 +5,4 @@
 /**
  *  Import CocoaPods written in Obj-C
  */
-#import <MCSwipeTableViewCell/MCSwipeTableViewCell.h>
 #import <BEMCheckBox/BEMCheckBox.h>

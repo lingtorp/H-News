@@ -3,14 +3,10 @@ platform :ios, '10.0'
 use_frameworks!
 
 target 'H-News' do
-  pod 'MCSwipeTableViewCell'
   pod 'Alamofire'
   pod 'SnapKit'
   pod 'CRToast'
   pod 'BEMCheckBox'
   pod 'RealmSwift'
-end
-
-target 'H-NewsTests' do
-  # pod "SwiftMock"
+  pod 'Kanna', '~> 2.1.0'
 end
