@@ -20,7 +20,7 @@ class Settings {
     }
     
     /// Browser opened
-    static var browser: Browser = .webview
+    static var browser: Browser = .safariInApp
     
     /// Overall theme in the application
     enum Theme {

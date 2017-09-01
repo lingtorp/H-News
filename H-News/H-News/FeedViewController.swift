@@ -93,14 +93,15 @@ extension FeedViewController {
         case .safari:
             UIApplication.shared.open(news.url, options: [:], completionHandler: nil)
         case .safariInApp:
-            if #available(iOS 9.0, *) {
-                let safariVC = SFSafariViewController(url: news.url)
-                safariVC.view.tintColor = Colors.peach
-                navigationController?.isNavigationBarHidden = true
-                navigationController?.pushViewController(safariVC, animated: true)
+            let safariVC = SFSafariViewController(url: news.url)
+            safariVC.preferredBarTintColor = Colors.gray
+            safariVC.preferredControlTintColor = Colors.peach
+            navigationController?.isNavigationBarHidden = true
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                let navContr = UINavigationController(rootViewController: safariVC)
+                splitViewController?.present(navContr, animated: true)
             } else {
-                // Fallback on WKWebView with .Webview case
-                fallthrough
+                navigationController?.pushViewController(safariVC, animated: true)
             }
         case .webview:
             let webViewVC = HNewsWebViewController()
@@ -108,7 +109,7 @@ extension FeedViewController {
             webViewVC.item = news
             if UIDevice.current.userInterfaceIdiom == .pad {
                 let navContr = UINavigationController(rootViewController: webViewVC)
-                splitViewController?.present(navContr, animated: true, completion: nil)
+                splitViewController?.present(navContr, animated: true)
             } else {
                 navigationController?.pushViewController(webViewVC, animated: true)
             }

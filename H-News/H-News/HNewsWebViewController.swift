@@ -38,7 +38,7 @@ class HNewsWebViewController: UIViewController {
         view.bringSubview(toFront: activitySpinner)
         activitySpinner.color = Colors.hackerNews
         activitySpinner.startAnimating()
-        activitySpinner.snp_makeConstraints { (make) -> Void in
+        activitySpinner.snp.makeConstraints { (make) -> Void in
             make.center.equalTo(0)
             make.size.equalTo(25)
         }
@@ -84,7 +84,7 @@ class HNewsWebViewController: UIViewController {
     }
     
     fileprivate func loadWebViewWith(_ data: Data) {
-        guard let html = NSString(data: data, encoding: String.Encoding.ascii.rawValue) as? String else { return }
+        guard let html = NSString(data: data, encoding: String.Encoding.ascii.rawValue) as String? else { return }
         webView.loadHTMLString(html, baseURL: nil)
     }
     

@@ -46,7 +46,7 @@ class Scraper<T: Convertable>: ScraperType {
         Alamofire.request(url).responseString { (data: DataResponse<String>) in
             if let html = data.value {
                 if let doc = HTML(html: html, encoding: .utf8) {
-                    // Search for nodes by CSS
+                    // Search for nodes by CSS selectors
                     for title in doc.css("tr.athing .title a") {
                         var json: [String:String] = [:]
                         json["title"] = title.text ?? "HELLO1"

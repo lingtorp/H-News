@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
         usernameField.autocorrectionType = .no
         usernameField.clearButtonMode = .always
         view.addSubview(usernameField)
-        usernameField.snp_makeConstraints { (make) in
+        usernameField.snp.makeConstraints { (make) in
             make.centerX.equalTo(0)
             make.top.equalTo(100)
             make.right.equalTo(-20)
@@ -32,16 +32,16 @@ class LoginViewController: UIViewController {
         passwordField.tintColor = Colors.peach
         passwordField.isSecureTextEntry = true
         view.addSubview(passwordField)
-        passwordField.snp_makeConstraints { (make) in
-            make.top.equalTo(usernameField.snp_bottom).offset(20)
+        passwordField.snp.makeConstraints { (make) in
+            make.top.equalTo(usernameField.snp.bottom).offset(20)
             make.centerX.equalTo(0)
             make.right.equalTo(-20)
             make.left.equalTo(20)
         }
         
         view.addSubview(keepUserloggedInCheckbox)
-        keepUserloggedInCheckbox.snp_makeConstraints { (make) in
-            make.top.equalTo(passwordField.snp_bottom).offset(20)
+        keepUserloggedInCheckbox.snp.makeConstraints { (make) in
+            make.top.equalTo(passwordField.snp.bottom).offset(20)
             make.right.equalTo(-20)
             make.size.equalTo(25)
         }
@@ -51,9 +51,9 @@ class LoginViewController: UIViewController {
         keepUserloggedInLabel.textColor = Colors.lightGray
         keepUserloggedInLabel.font = UIFont.italicSystemFont(ofSize: 12)
         view.addSubview(keepUserloggedInLabel)
-        keepUserloggedInLabel.snp_makeConstraints { (make) in
-            make.right.equalTo(keepUserloggedInCheckbox.snp_left).offset(-10)
-            make.centerY.equalTo(keepUserloggedInCheckbox.snp_centerY)
+        keepUserloggedInLabel.snp.makeConstraints { (make) in
+            make.right.equalTo(keepUserloggedInCheckbox.snp.left).offset(-10)
+            make.centerY.equalTo(keepUserloggedInCheckbox.snp.centerY)
         }
         
         // Close button

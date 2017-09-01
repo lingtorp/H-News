@@ -19,7 +19,7 @@ class HNewsMoreMenuItemView: UIView {
             title.text = item.title
             title.textAlignment = .center
             title.textColor = Colors.gray
-            title.snp_makeConstraints { (make) -> Void in
+            title.snp.makeConstraints { (make) -> Void in
                 make.bottom.equalTo(-16)
                 make.right.left.equalTo(0)
             }
@@ -28,9 +28,9 @@ class HNewsMoreMenuItemView: UIView {
             icon.image = item.image.withRenderingMode(.alwaysTemplate)
             addSubview(icon)
             icon.tintColor = Colors.gray
-            icon.snp_makeConstraints { (make) -> Void in
+            icon.snp.makeConstraints { (make) -> Void in
                 make.centerX.equalTo(0)
-                make.bottom.equalTo(title.snp_top).offset(-6)
+                make.bottom.equalTo(title.snp.top).offset(-6)
             }
             
             let tapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(HNewsMoreMenuItemView.didTapOnItem(_:)))
@@ -88,8 +88,8 @@ class HNewsMoreMenuView: UIView {
         UIView.animate(withDuration: animationDuration) {
             guard let superview = self.superview else { return }
             // make animatable changes
-            self.snp_updateConstraints({ (make) in
-                make.bottom.equalTo(superview.snp_bottom).offset(superview.frame.height / 3)
+            self.snp.updateConstraints({ (make) in
+                make.bottom.equalTo(superview.snp.bottom).offset(superview.frame.height / 3)
             })
             // do the animation
             self.layoutIfNeeded()
@@ -108,8 +108,8 @@ class HNewsMoreMenuView: UIView {
         UIView.animate(withDuration: animationDuration) {
             guard let superview = self.superview else { return }
             // make animatable changes
-            self.snp_updateConstraints({ (make) in
-                make.bottom.equalTo(superview.snp_bottom).offset(0)
+            self.snp.updateConstraints({ (make) in
+                make.bottom.equalTo(superview.snp.bottom).offset(0)
             })
             // do the animation
             self.layoutIfNeeded()
@@ -122,42 +122,42 @@ class HNewsMoreMenuView: UIView {
         
         /// Setup the more menu view
         // Hide the view under the superview, animate up when shown
-        self.snp_makeConstraints { (make) in
+        self.snp.makeConstraints { (make) in
             make.left.right.equalTo(0)
-            make.height.equalTo(superview.snp_height).dividedBy(3)
-            make.bottom.equalTo(superview.snp_bottom).offset(superview.frame.height / 3)
+            make.height.equalTo(superview.snp.height).dividedBy(3)
+            make.bottom.equalTo(superview.snp.bottom).offset(superview.frame.height / 3)
         }
 
         // Setup menu item grid ...
         let lowerleftitem = itemviews[0]
         addSubview(lowerleftitem)
-        lowerleftitem.snp_makeConstraints { (make) in
-            make.width.equalTo(self.snp_width).dividedBy(2)
-            make.height.equalTo(self.snp_height).dividedBy(2)
+        lowerleftitem.snp.makeConstraints { (make) in
+            make.width.equalTo(self.snp.width).dividedBy(2)
+            make.height.equalTo(self.snp.height).dividedBy(2)
             make.bottom.left.equalTo(0)
         }
         
         let lowerrightitem = itemviews[1]
         addSubview(lowerrightitem)
-        lowerrightitem.snp_makeConstraints { (make) in
-            make.width.equalTo(self.snp_width).dividedBy(2)
-            make.height.equalTo(self.snp_height).dividedBy(2)
+        lowerrightitem.snp.makeConstraints { (make) in
+            make.width.equalTo(self.snp.width).dividedBy(2)
+            make.height.equalTo(self.snp.height).dividedBy(2)
             make.bottom.right.equalTo(0)
         }
         
         let upperleftitem = itemviews[2]
         addSubview(upperleftitem)
-        upperleftitem.snp_makeConstraints { (make) in
-            make.width.equalTo(self.snp_width).dividedBy(2)
-            make.height.equalTo(self.snp_height).dividedBy(2)
+        upperleftitem.snp.makeConstraints { (make) in
+            make.width.equalTo(self.snp.width).dividedBy(2)
+            make.height.equalTo(self.snp.height).dividedBy(2)
             make.top.left.equalTo(0)
         }
 
         let upperrightitem = itemviews[3]
         addSubview(upperrightitem)
-        upperrightitem.snp_makeConstraints { (make) in
-            make.width.equalTo(self.snp_width).dividedBy(2)
-            make.height.equalTo(self.snp_height).dividedBy(2)
+        upperrightitem.snp.makeConstraints { (make) in
+            make.width.equalTo(self.snp.width).dividedBy(2)
+            make.height.equalTo(self.snp.height).dividedBy(2)
             make.top.right.equalTo(0)
         }
     }
