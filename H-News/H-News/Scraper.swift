@@ -17,7 +17,8 @@ protocol Convertable {
 extension News: Convertable {
     static func create(json: JSON) -> News {
         let title = json["title"] ?? "SOMETHING ELSE" as String
-        let news = News(id: 0, title: title, author: "", date: Date(), read: false, score: 0, comments: 0, url: URL(string: "https://google.se")!)
+        let link  = json["link"] ?? "https://www.google.se" as String
+        let news = News(id: 0, title: title, author: "", date: Date(), read: false, score: 0, comments: 0, url: URL(string: link)!)
         return news
     }
 }
@@ -47,7 +48,9 @@ class Scraper<T: Convertable>: ScraperType {
                 if let doc = HTML(html: html, encoding: .utf8) {
                     // Search for nodes by CSS
                     for title in doc.css("tr.athing .title a") {
-                        let json: [String:String] = ["title" : title.text ?? "HELLO"]
+                        var json: [String:String] = [:]
+                        json["title"] = title.text ?? "HELLO1"
+                        json["link"]  = title["href"] ?? "https://www.google.se"
                         self.buffer.append(Element.create(json: json))
                         print(title.text)
                     }
