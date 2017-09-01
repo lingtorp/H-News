@@ -104,7 +104,7 @@ extension FeedViewController {
         
         switch Settings.browser {
         case .safari:
-            UIApplication.shared.openURL(news.url)
+            UIApplication.shared.open(news.url, options: [:], completionHandler: nil)
         case .safariInApp:
             if #available(iOS 9.0, *) {
                 let safariVC = SFSafariViewController(url: news.url)

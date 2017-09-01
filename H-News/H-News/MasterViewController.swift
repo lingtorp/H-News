@@ -54,11 +54,11 @@ class MasterViewController: UIViewController {
             selectViewController(viewController)
         } else {
             let previousViewController = feedViewControllers[feedViewControllers.count - 1]
-            viewController.view.snp_makeConstraints { (make) in
-                make.top.equalTo(self.feedSwitchView.snp_bottom)
+            viewController.view.snp.makeConstraints { (make) in
+                make.top.equalTo(self.feedSwitchView.snp.bottom)
                 make.centerY.equalTo(0)
-                make.left.equalTo(previousViewController.view.snp_right)
-                make.bottom.equalTo(self.view.snp_bottom)
+                make.left.equalTo(previousViewController.view.snp.right)
+                make.bottom.equalTo(self.view.snp.bottom)
             }
         }
         feedViewControllers.append(viewController)
@@ -79,11 +79,11 @@ class MasterViewController: UIViewController {
             toViewController.view.transform = CGAffineTransform.identity
             toViewController.view.alpha = 1
             
-            toViewController.view.snp_makeConstraints { (make) in
-                make.top.equalTo(self.feedSwitchView.snp_bottom)
+            toViewController.view.snp.makeConstraints { (make) in
+                make.top.equalTo(self.feedSwitchView.snp.bottom)
                 make.centerX.equalTo(0)
                 make.right.left.equalTo(0)
-                make.bottom.equalTo(self.view.snp_bottom)
+                make.bottom.equalTo(self.view.snp.bottom)
             }
 
             }) { (complete) in
@@ -143,7 +143,7 @@ class FeedSwitchView: UIView {
                 title.textAlignment = .center
                 title.textColor = Colors.gray
                 addSubview(title)
-                title.snp_makeConstraints { (make) in
+                title.snp.makeConstraints { (make) in
                     make.center.equalTo(0)
                 }
                 let tapGestureRecog = UITapGestureRecognizer(target: self, action: #selector(FeedSwitchView.FeedItemView.didTapFeed(_:)))
@@ -172,27 +172,27 @@ class FeedSwitchView: UIView {
         
         backgroundColor = Colors.lightGray
         
-        self.snp_makeConstraints { (make) in
+        self.snp.makeConstraints { (make) in
             make.left.right.equalTo(0)
             make.centerX.equalTo(0)
-            make.top.equalTo(superview.snp_top)
-            make.height.equalTo(superview.snp_height).dividedBy(14)
+            make.top.equalTo(superview.snp.top)
+            make.height.equalTo(superview.snp.height).dividedBy(14)
         }
         
         // Setup feed items
-        var rightViewConstraint = superview.snp_right
+        var rightViewConstraint = superview.snp.right
         for feed in feeds {
             let feedTitle = FeedItemView()
             addSubview(feedTitle)
             feedTitle.feed = feed
             let rightPadding = superview.frame.width / CGFloat(feeds.count + 1)
-            feedTitle.snp_makeConstraints({ (make) in
+            feedTitle.snp.makeConstraints({ (make) in
                 make.width.equalTo(rightPadding)
                 make.height.equalTo(rightPadding / 2)
                 make.centerX.equalTo(rightViewConstraint).offset(-rightPadding)
                 make.centerY.equalTo(0)
             })
-            rightViewConstraint = feedTitle.snp_centerX
+            rightViewConstraint = feedTitle.snp.centerX
         }
         
         guard let selectedFeed = feeds.filter({ (feed) -> Bool in feed.selected }).first else { return }
@@ -200,11 +200,11 @@ class FeedSwitchView: UIView {
         // Setup selector
         selector.backgroundColor = Colors.gray
         addSubview(selector)
-        selector.snp_makeConstraints { (make) in
+        selector.snp.makeConstraints { (make) in
             make.height.equalTo(2)
-            make.width.equalTo(superview.snp_width).dividedBy(16)
-            make.top.equalTo(selectedView.snp_baseline).offset(-4)
-            make.centerX.equalTo(selectedView.snp_centerX)
+            make.width.equalTo(superview.snp.width).dividedBy(16)
+            make.top.equalTo(selectedView.snp.lastBaseline).offset(-4)
+            make.centerX.equalTo(selectedView.snp.centerX)
         }
     }
     
@@ -226,11 +226,11 @@ class FeedSwitchView: UIView {
     fileprivate func selectorAnimateTo(_ selectedView: FeedItemView) {
         UIView.animate(withDuration: 0.2, animations: {
             // make animatable changes
-            self.selector.snp_remakeConstraints({ (make) in
+            self.selector.snp.remakeConstraints({ (make) in
                 make.height.equalTo(2)
-                make.width.equalTo(self.snp_width).dividedBy(16)
-                make.top.equalTo(selectedView.snp_baseline).offset(-4)
-                make.centerX.equalTo(selectedView.snp_centerX)
+                make.width.equalTo(self.snp.width).dividedBy(16)
+                make.top.equalTo(selectedView.snp.lastBaseline).offset(-4)
+                make.centerX.equalTo(selectedView.snp.centerX)
             })
             // do the animation
             self.layoutIfNeeded()

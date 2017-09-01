@@ -23,20 +23,20 @@ class HNewsCommentTableViewCell: UITableViewCell {
         commentLabel.font = Fonts.light
         
         addSubview(author)
-        author.snp_makeConstraints { (make) in
+        author.snp.makeConstraints { (make) in
             make.left.bottom.equalTo(0).inset(8)
         }
         
         addSubview(dateLabel)
-        dateLabel.snp_makeConstraints { (make) in
+        dateLabel.snp.makeConstraints { (make) in
             make.right.top.equalTo(0).inset(8)
         }
         
         addSubview(commentLabel)
-        commentLabel.snp_makeConstraints { (make) in
+        dateLabel.snp.makeConstraints { (make) in
             make.right.left.equalTo(0).inset(8)
-            make.bottom.equalTo(author.snp_top).offset(-8)
-            make.top.equalTo(dateLabel.snp_bottom).offset(8)
+            make.bottom.equalTo(author.snp.top).offset(-8)
+            make.top.equalTo(dateLabel.snp.bottom).offset(8)
         }
         
         // Setup DateFormatter
