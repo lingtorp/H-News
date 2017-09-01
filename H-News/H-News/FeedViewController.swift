@@ -69,19 +69,6 @@ extension FeedViewController {
         cell.story = news
         cell.showCommentsFor = showCommentsFor
         
-        // TODO: (UITableViewRowAction iOS 8.0) Add to Reading Pile gesture
-        /*
-        cell.setSwipeGestureWithView(HNewsTableViewCell.readingPileImage, color: UIColor.darkGray, mode: .exit, state: MCSwipeTableViewCellState, state: .state1,
-            completionBlock: { (cell, state, mode) -> Void in
-                guard let cell = cell as? HNewsTableViewCell else { return }
-                guard let news = cell.story as? News         else { return }
-                HNewsReadingPile()?.addNews(news)
-                Dispatcher.async { self.downloadArticle(news.url, newsID: news.id) }
-                self.stories = self.stories.filter { $0.id == news.id ? false : true }
-                self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
-        })
-         */
-        
         return cell
     }
     
